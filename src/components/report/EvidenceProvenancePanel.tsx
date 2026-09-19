@@ -10,6 +10,7 @@ import {
   HelpCircle as QuestionIcon
 } from 'lucide-react';
 import { InspectedEvidenceAttribute, EvidenceState } from '../../types/landing';
+import { getEvidenceStatePresentationLabel } from '../../data/telemetrySelectors';
 
 interface EvidenceProvenancePanelProps {
   attribute: InspectedEvidenceAttribute;
@@ -21,34 +22,35 @@ export const EvidenceProvenancePanel: React.FC<EvidenceProvenancePanelProps> = (
   onOpenStateModal
 }) => {
   const getStateBadge = (state: EvidenceState) => {
+    const label = getEvidenceStatePresentationLabel(state, 'merchant');
     switch (state) {
       case 'MERCHANT_VERIFIED':
         return {
-          label: 'MERCHANT VERIFIED',
+          label,
           classes: 'bg-emerald-50 text-emerald-800 border-emerald-200',
           icon: <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
         };
       case 'OBSERVED':
         return {
-          label: 'OBSERVED',
+          label,
           classes: 'bg-blue-50 text-blue-800 border-blue-200',
           icon: <Eye className="w-3.5 h-3.5 text-blue-600" />
         };
       case 'DERIVED':
         return {
-          label: 'DERIVED',
+          label,
           classes: 'bg-purple-50 text-purple-800 border-purple-200',
           icon: <Sparkles className="w-3.5 h-3.5 text-purple-600" />
         };
       case 'CONFLICT':
         return {
-          label: 'CONFLICT',
+          label,
           classes: 'bg-amber-50 text-amber-800 border-amber-300',
           icon: <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
         };
       case 'MISSING':
         return {
-          label: 'MISSING',
+          label,
           classes: 'bg-rose-50 text-rose-800 border-rose-200',
           icon: <HelpCircle className="w-3.5 h-3.5 text-rose-600" />
         };

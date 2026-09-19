@@ -1,11 +1,12 @@
 import { CanonicalProductPreview } from '../types/landing';
+import { CANONICAL_PRODUCT_ID } from './canonicalCatalog';
 
 export const sampleCanonicalProduct: CanonicalProductPreview = {
-  id: 'prod_aero_pulse_01',
+  id: CANONICAL_PRODUCT_ID,
   brand: 'AeroPulse Athletics',
   name: 'VaporStride Carbon Elite',
   category: 'Running Shoes / Road Racing',
-  canonicalId: 'AIX-PROD-8942-ROAD',
+  canonicalId: CANONICAL_PRODUCT_ID,
   gtin: '00849201948172',
   mpn: 'AP-VSE-BLK-10',
   heroImage: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop',
@@ -475,7 +476,7 @@ export const sampleTimelineEvents: IntelligenceTimelineEvent[] = [
     title: 'Specification observed',
     timestamp: '2026-09-14 16:33 UTC',
     type: 'specification',
-    description: 'Extracted weight (320g), 8mm drop, 39mm stack height, and carbon composite propulsion plate.',
+    description: 'Extracted weight (204g / 7.2 oz), 8mm drop, 39mm stack height, and carbon composite propulsion plate.',
     source: 'Technical Specifications Table'
   },
   {

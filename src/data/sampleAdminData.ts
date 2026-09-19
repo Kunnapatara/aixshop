@@ -358,7 +358,7 @@ export const sourceAuthorityTiers = [
 export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   {
     id: 'EVD-9841',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'Heel-to-Toe Drop',
     value: '8 mm',
@@ -381,7 +381,7 @@ export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   },
   {
     id: 'EVD-9842',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'Product Weight (Men US 9)',
     value: '198 g',
@@ -403,7 +403,7 @@ export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   },
   {
     id: 'EVD-9843',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'Cushioning Classification',
     value: 'Maximum Responsive',
@@ -425,7 +425,7 @@ export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   },
   {
     id: 'EVD-9844',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'GTIN-13 Barcode',
     value: '0840128491024 vs 0840128491099',
@@ -448,7 +448,7 @@ export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   },
   {
     id: 'EVD-9845',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'Merchant Return Policy Window',
     value: 'Missing / Unspecified in Feed',
@@ -470,8 +470,8 @@ export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   },
   {
     id: 'EVD-9846',
-    productId: 'PROD-002',
-    productName: 'AeroPulse TrailBlazer Ultra Peak',
+    productId: 'aix-prod-849201948450',
+    productName: 'AeroPulse Horizon Trail Hydro',
     attribute: 'Waterproofing Membrane',
     value: 'eVent Bio-based 20k mm',
     sourceId: 'SRC-SHOPIFY-01',
@@ -490,8 +490,8 @@ export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   },
   {
     id: 'EVD-9847',
-    productId: 'PROD-002',
-    productName: 'AeroPulse TrailBlazer Ultra Peak',
+    productId: 'aix-prod-849201948450',
+    productName: 'AeroPulse Horizon Trail Hydro',
     attribute: 'Lug Depth Specification',
     value: '5 mm vs 6.5 mm',
     sourceId: 'SRC-SCHEMA-03',
@@ -511,7 +511,7 @@ export const sampleAdminEvidenceRecords: AdminEvidenceRecord[] = [
   },
   {
     id: 'EVD-9848',
-    productId: 'PROD-003',
+    productId: 'aix-prod-849201948731',
     productName: 'AeroPulse AeroVent Seamless Singlet',
     attribute: 'Fabric Composition',
     value: '84% Recycled Poly / 16% Elastane',
@@ -536,7 +536,7 @@ export const sampleAdminConflicts: AdminConflictRecord[] = [
   {
     id: 'CONF-001',
     category: 'GTIN/MPN Conflict',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'GTIN-13 Barcode (Size 10.5 / Neon Frost)',
     sourceA: {
@@ -561,8 +561,8 @@ export const sampleAdminConflicts: AdminConflictRecord[] = [
   {
     id: 'CONF-002',
     category: 'Product Attribute Conflict',
-    productId: 'PROD-002',
-    productName: 'AeroPulse TrailBlazer Ultra Peak',
+    productId: 'aix-prod-849201948450',
+    productName: 'AeroPulse Horizon Trail Hydro',
     attribute: 'Outsole Lug Depth',
     sourceA: {
       name: 'Official Shopify Product Spec',
@@ -586,7 +586,7 @@ export const sampleAdminConflicts: AdminConflictRecord[] = [
   {
     id: 'CONF-003',
     category: 'Variant Identity Conflict',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'Colorway Name vs Hex Mapping',
     sourceA: {
@@ -611,7 +611,7 @@ export const sampleAdminConflicts: AdminConflictRecord[] = [
   {
     id: 'CONF-004',
     category: 'Offer Price Conflict',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'Current Selling Price (Authorized Channel)',
     sourceA: {
@@ -636,7 +636,7 @@ export const sampleAdminConflicts: AdminConflictRecord[] = [
   {
     id: 'CONF-005',
     category: 'Availability Conflict',
-    productId: 'PROD-004',
+    productId: 'aix-prod-849201948762',
     productName: 'AeroPulse StrataShield Windbreaker',
     attribute: 'Stock Availability (Size L / Black)',
     sourceA: {
@@ -661,7 +661,7 @@ export const sampleAdminConflicts: AdminConflictRecord[] = [
   {
     id: 'CONF-006',
     category: 'Discovery Attribute Conflict',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     attribute: 'Target Buyer Pronation Profile',
     sourceA: {
@@ -826,7 +826,7 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-01',
     title: 'Variant GTIN-13 Barcode Collision (Size 10.5)',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     severity: 'Critical',
     rootCause: 'Google Merchant Feed has legacy barcode payload while Shopify contains updated GS1 barcode.',
@@ -839,8 +839,8 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-02',
     title: 'Outsole Lug Depth Marketing vs Lab Discrepancy',
-    productId: 'PROD-002',
-    productName: 'AeroPulse TrailBlazer Ultra Peak',
+    productId: 'aix-prod-849201948450',
+    productName: 'AeroPulse Horizon Trail Hydro',
     severity: 'High',
     rootCause: 'Brand copy lists 5mm; independent lab measured 6.5mm on perimeter lugs.',
     evidenceState: 'CONFLICT',
@@ -852,7 +852,7 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-03',
     title: 'Missing Structured Return Policy in Feed Payload',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     severity: 'High',
     rootCause: 'Schema.org merchantReturnDays microdata omitted during Shopify feed export.',
@@ -865,7 +865,7 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-04',
     title: 'Fabric Composition Missing Recycled Content Ratio',
-    productId: 'PROD-003',
+    productId: 'aix-prod-849201948731',
     productName: 'AeroPulse AeroVent Seamless Singlet',
     severity: 'Medium',
     rootCause: 'Feed contains generic "Synthetic Blend" instead of full GRS-certified breakdown.',
@@ -878,7 +878,7 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-05',
     title: 'Discontinued Colorway Listed in Partner Cache',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     severity: 'Medium',
     rootCause: 'Fleet Feet feed still serves "Neon Volt" which was retired in Season 2.',
@@ -891,7 +891,7 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-06',
     title: 'Pronation Stability Boundary Ambiguity',
-    productId: 'PROD-001',
+    productId: CANONICAL_PRODUCT_ID,
     productName: 'AeroPulse VaporStride Carbon Elite',
     severity: 'Medium',
     rootCause: 'Marketing copy claims neutral-to-stability; biomechanics dictate strictly neutral.',
@@ -904,7 +904,7 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-07',
     title: 'Weight Unit Disparity (Ounces vs Grams)',
-    productId: 'PROD-004',
+    productId: 'aix-prod-849201948762',
     productName: 'AeroPulse StrataShield Windbreaker',
     severity: 'Low',
     rootCause: 'Syndicated feed exports imperial 5.2 oz while D2C site uses metric 148 g.',
@@ -917,8 +917,8 @@ export const sampleAdminIssues: AdminIssueRecord[] = [
   {
     id: 'ISSUE-08',
     title: 'Product Image Aspect Ratio Warning on GMC',
-    productId: 'PROD-005',
-    productName: 'AeroPulse Hydration Race Vest 8L',
+    productId: 'aix-prod-849201948512',
+    productName: 'AeroPulse HydroVest 10L Pro',
     severity: 'Low',
     rootCause: 'Lifestyle hero image submitted instead of white-background product render.',
     evidenceState: 'OBSERVED',

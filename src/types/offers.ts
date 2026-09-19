@@ -72,7 +72,9 @@ export interface OfferReturns {
 
 export interface CommercialOffer {
   id: string;
-  productId: string;
+  productId: string; // Foreign key: canonicalId for resolved products, or legacy identifier
+  canonicalProductId?: string; // Authoritative canonical product ID when resolved
+  mappingStatus?: 'RESOLVED_CANONICAL' | 'UNRESOLVED_MAPPING';
   productName: string;
   brand: string;
   category: string;
@@ -122,6 +124,9 @@ export interface CommercialOffer {
 
 export interface ProductOfferGroup {
   productId: string;
+  canonicalProductId?: string;
+  mappingStatus?: 'RESOLVED_CANONICAL' | 'UNRESOLVED_MAPPING';
+  isCanonicalProduct?: boolean;
   productName: string;
   brand: string;
   category: string;

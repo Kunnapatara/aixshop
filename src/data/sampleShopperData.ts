@@ -24,7 +24,7 @@ export const sampleShopperProduct: ShopperProductData = {
       id: 'fact-weight',
       name: 'Weight',
       category: 'Specifications',
-      value: '320g (Men US 9)',
+      value: '204g / 7.2 oz (Men US 9)',
       state: 'OBSERVED',
       shopperLabel: 'Observed from source',
       source: 'Manufacturer structured data (JSON-LD Product Microdata)',

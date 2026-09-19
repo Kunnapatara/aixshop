@@ -1,11 +1,7 @@
 // Type definitions for Page 11 — Shopper Product Intelligence Page (AIXSHOP.APP)
+import { EvidenceState } from './landing';
 
-export type ShopperEvidenceState = 
-  | 'OBSERVED' 
-  | 'DERIVED' 
-  | 'MERCHANT_VERIFIED' 
-  | 'MISSING' 
-  | 'CONFLICT';
+export type ShopperEvidenceState = EvidenceState;
 
 export type ShopperEvidenceLabel = 
   | 'Observed from source'

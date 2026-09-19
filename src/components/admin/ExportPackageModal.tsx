@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Download, X, FileJson, FileSpreadsheet, Check, Copy } from 'lucide-react';
 import { sampleAdminEvidenceRecords, sampleAdminConflicts, sampleAdminSources } from '../../data/sampleAdminData';
+import { CANONICAL_PRODUCT_ID } from '../../data/canonicalCatalog';
 
 interface ExportPackageModalProps {
   isOpen: boolean;
@@ -52,11 +53,11 @@ export const ExportPackageModal: React.FC<ExportPackageModalProps> = ({
   const jsonString = JSON.stringify(previewPackage, null, 2);
 
   const csvString = `data_state,evidence_id,product_id,attribute,value,source,state,confidence,authority_level
-REPRESENTATIVE_PREVIEW,EVD-9841,PROD-001,Heel-to-Toe Drop,8 mm,Merchant Ground Truth,MERCHANT_VERIFIED,99,1
-REPRESENTATIVE_PREVIEW,EVD-9842,PROD-001,Product Weight (Men US 9),198 g,Shopify Storefront,OBSERVED,92,2
-REPRESENTATIVE_PREVIEW,EVD-9843,PROD-001,Cushioning Classification,Maximum Responsive,AIXSHOP Derived Engine,DERIVED,84,6
-REPRESENTATIVE_PREVIEW,EVD-9844,PROD-001,GTIN-13 Barcode,Disagreement,Google Merchant Feed,CONFLICT,45,3
-REPRESENTATIVE_PREVIEW,EVD-9845,PROD-001,Merchant Return Policy Window,Missing / Unspecified,Google Merchant Feed,MISSING,10,3`;
+REPRESENTATIVE_PREVIEW,EVD-9841,${CANONICAL_PRODUCT_ID},Heel-to-Toe Drop,8 mm,Merchant Ground Truth,MERCHANT_VERIFIED,99,1
+REPRESENTATIVE_PREVIEW,EVD-9842,${CANONICAL_PRODUCT_ID},Product Weight (Men US 9),198 g,Shopify Storefront,OBSERVED,92,2
+REPRESENTATIVE_PREVIEW,EVD-9843,${CANONICAL_PRODUCT_ID},Cushioning Classification,Maximum Responsive,AIXSHOP Derived Engine,DERIVED,84,6
+REPRESENTATIVE_PREVIEW,EVD-9844,${CANONICAL_PRODUCT_ID},GTIN-13 Barcode,Disagreement,Google Merchant Feed,CONFLICT,45,3
+REPRESENTATIVE_PREVIEW,EVD-9845,${CANONICAL_PRODUCT_ID},Merchant Return Policy Window,Missing / Unspecified,Google Merchant Feed,MISSING,10,3`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(activeFormat === 'json' ? jsonString : csvString);

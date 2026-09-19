@@ -9,7 +9,6 @@ import { ProductIntelligencePreview } from './components/ProductIntelligencePrev
 import { EvidencePrinciplesSection } from './components/EvidencePrinciplesSection';
 import { MerchantWorkflowSection } from './components/MerchantWorkflowSection';
 import { Footer } from './components/Footer';
-import { AnalysisPage } from './components/analysis/AnalysisPage';
 
 export default function App() {
   // Primary Journey State: 'shopper' | 'merchant' | 'admin' | 'landing'

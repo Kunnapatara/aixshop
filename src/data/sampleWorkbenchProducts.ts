@@ -6,8 +6,36 @@ import {
   CANONICAL_PRODUCT_SKU,
   CANONICAL_PRODUCT_NAME
 } from './canonicalCatalog';
+import { sampleCommercialOffers } from './sampleOffersData';
 
-export const sampleWorkbenchProducts: WorkbenchProduct[] = [
+/**
+ * Derives offer summary metrics from the canonical Offer collection
+ * Enforces architectural rule: PRODUCT != OFFER
+ */
+export function deriveProductOfferSummary(productId: string) {
+  const offers = sampleCommercialOffers.filter(
+    o => o.productId === productId ||
+         o.canonicalProductId === productId ||
+         (productId === CANONICAL_PRODUCT_ID && (o.productId === CANONICAL_PRODUCT_ID || o.canonicalProductId === CANONICAL_PRODUCT_ID))
+  );
+  if (offers.length === 0) {
+    return {
+      observedOffersCount: 0,
+      observedPriceMin: null,
+      observedPriceMax: null,
+      currency: 'USD'
+    };
+  }
+  const validPrices = offers.map(o => o.offerPrice).filter(p => typeof p === 'number' && !isNaN(p));
+  return {
+    observedOffersCount: offers.length,
+    observedPriceMin: validPrices.length > 0 ? Math.min(...validPrices) : null,
+    observedPriceMax: validPrices.length > 0 ? Math.max(...validPrices) : null,
+    currency: offers[0]?.currency || 'USD'
+  };
+}
+
+const rawWorkbenchProducts: WorkbenchProduct[] = [
   // 1. PRIMARY MODEL - VaporStride Carbon Elite (Critical / Modeled in P03)
   {
     id: CANONICAL_PRODUCT_ID,
@@ -76,7 +104,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 2. Critical Product - AeroPulse Horizon Trail Hydro
   {
-    id: 'prod-horizon-trail',
+    id: 'aix-prod-849201948450',
     name: 'AeroPulse Horizon Trail Hydro',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
@@ -142,7 +170,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 3. Critical Product - ApexVelocity Spikes Pro
   {
-    id: 'prod-apex-spikes',
+    id: 'aix-prod-849201948499',
     name: 'ApexVelocity Spikes Pro',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -208,7 +236,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 4. Critical Product - AeroPulse HydroVest 10L
   {
-    id: 'prod-hydrovest-10l',
+    id: 'aix-prod-849201948512',
     name: 'AeroPulse HydroVest 10L Pro',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -274,7 +302,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 5. Critical Product - AeroCarbon Road TriSuit
   {
-    id: 'prod-trisuit-aerocarbon',
+    id: 'aix-prod-849201948544',
     name: 'AeroCarbon Road TriSuit Speed',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -340,7 +368,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 6. Needs Attention - ApexStride Pro Marathoner (Conflict on sizing)
   {
-    id: 'prod-apexstride-marathoner',
+    id: 'aix-prod-849201948577',
     name: 'ApexStride Pro Marathoner',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -406,7 +434,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 7. Needs Attention - CloudDrift Daily Trainer v3
   {
-    id: 'prod-clouddrift-v3',
+    id: 'aix-prod-849201948601',
     name: 'CloudDrift Daily Trainer v3',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -472,7 +500,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 8. Needs Attention - AeroKnit Recovery Slide
   {
-    id: 'prod-aeroknit-slide',
+    id: 'aix-prod-849201948634',
     name: 'AeroKnit Recovery Slide Cushion',
     brand: 'AeroPulse Athletics',
     category: 'Training',
@@ -537,7 +565,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 9. Needs Attention - AeroTempo Carbon Half-Zip
   {
-    id: 'prod-tempo-halfzip',
+    id: 'aix-prod-849201948668',
     name: 'AeroTempo Thermal Half-Zip',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -603,7 +631,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 10. Needs Attention - AeroPulse TrailGaiter Pro
   {
-    id: 'prod-trailgaiter-pro',
+    id: 'aix-prod-849201948692',
     name: 'AeroPulse TrailGaiter Low Pro',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -669,7 +697,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 11. Needs Attention - CoreImpact Kettlebell 16kg
   {
-    id: 'prod-coreimpact-kb',
+    id: 'aix-prod-849201948725',
     name: 'CoreImpact Cast Iron Kettlebell 16kg',
     brand: 'AeroPulse Athletics',
     category: 'Training',
@@ -734,7 +762,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 12. Needs Attention - AeroStrobe Running Headlamp 400
   {
-    id: 'prod-aerostrobe-headlamp',
+    id: 'aix-prod-849201948758',
     name: 'AeroStrobe NightVision Headlamp 400',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -800,7 +828,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 13. Needs Attention - AeroSprint Compression Tights
   {
-    id: 'prod-compression-tights',
+    id: 'aix-prod-849201948791',
     name: 'AeroSprint Targeted Compression Tights',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -866,7 +894,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 14. Needs Attention - AeroHydro Insulated Flask 750ml
   {
-    id: 'prod-hydroflask-750',
+    id: 'aix-prod-849201948824',
     name: 'AeroHydro Titanium Double-Wall Flask 750ml',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -931,7 +959,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 15. Strong Product - TempoFlow Everyday Trainer
   {
-    id: 'prod-tempoflow-trainer',
+    id: 'aix-prod-849201948857',
     name: 'AeroPulse TempoFlow Everyday Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -990,7 +1018,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 16. Strong Product - Velocity Carbon Pro Distance
   {
-    id: 'prod-velocity-carbon-pro',
+    id: 'aix-prod-849201948880',
     name: 'AeroPulse Velocity Carbon Pro 5K/10K',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -1049,7 +1077,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 17. Strong Product - AeroPulse TrailCore X Mountain
   {
-    id: 'prod-trailcore-x',
+    id: 'aix-prod-849201948913',
     name: 'AeroPulse TrailCore X Mountain Shoe',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
@@ -1108,7 +1136,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 18. Strong Product - AeroGlide Recovery Mule
   {
-    id: 'prod-aeroglide-mule',
+    id: 'aix-prod-849201948946',
     name: 'AeroGlide Post-Run Recovery Mule',
     brand: 'AeroPulse Athletics',
     category: 'Training',
@@ -1167,7 +1195,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 19. Strong Product - AeroZero Race Singlet
   {
-    id: 'prod-aerozero-singlet',
+    id: 'aix-prod-849201948979',
     name: 'AeroZero Featherweight Race Singlet',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1226,7 +1254,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 20. Strong Product - AeroPulse SpeedSplit 3" Shorts
   {
-    id: 'prod-speedsplit-shorts',
+    id: 'aix-prod-849201949002',
     name: 'AeroPulse SpeedSplit 3" Racing Shorts',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1285,7 +1313,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 21. Strong Product - ApexGrip Chalk Block 8-Pack
   {
-    id: 'prod-apexgrip-chalk',
+    id: 'aix-prod-849201949035',
     name: 'ApexGrip Pure Magnesium Carbonate Chalk',
     brand: 'AeroPulse Athletics',
     category: 'Training',
@@ -1344,7 +1372,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 22. Strong Product - AeroPulse SpeedRope Pro Bearing
   {
-    id: 'prod-speedrope-pro',
+    id: 'aix-prod-849201949068',
     name: 'AeroPulse SpeedRope Dual-Bearing Speed Rope',
     brand: 'AeroPulse Athletics',
     category: 'Training',
@@ -1403,7 +1431,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 23. Strong Product - AeroPulse Foam Roller 36"
   {
-    id: 'prod-foam-roller-36',
+    id: 'aix-prod-849201949091',
     name: 'AeroPulse High-Density EPP Foam Roller 36"',
     brand: 'AeroPulse Athletics',
     category: 'Training',
@@ -1462,7 +1490,7 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
 
   // 24. Strong Product - AeroPulse Race Day Cap
   {
-    id: 'prod-raceday-cap',
+    id: 'aix-prod-849201949124',
     name: 'AeroPulse Ultralight Race Day Perforated Cap',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1519,3 +1547,20 @@ export const sampleWorkbenchProducts: WorkbenchProduct[] = [
     }
   }
 ];
+
+
+/**
+ * Single authoritative Workbench Product universe (24 products)
+ * Dynamically binds derived offer metrics from sampleCommercialOffers
+ * preventing Product/Offer boundary violations.
+ */
+export const sampleWorkbenchProducts: WorkbenchProduct[] = rawWorkbenchProducts.map(product => {
+  const offerSummary = deriveProductOfferSummary(product.id);
+  return {
+    ...product,
+    observedOffersCount: offerSummary.observedOffersCount,
+    observedPriceMin: offerSummary.observedPriceMin,
+    observedPriceMax: offerSummary.observedPriceMax,
+    currency: offerSummary.currency
+  };
+});

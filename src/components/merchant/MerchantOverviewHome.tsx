@@ -15,6 +15,8 @@ import {
   Info
 } from 'lucide-react';
 import { sampleCatalogDimensions, sampleHealthDistribution, sampleRecentEvents } from '../../data/sampleDashboardData';
+import { CANONICAL_SYSTEM_KPIS, CANONICAL_TELEMETRY_FUNNEL } from '../../data/canonicalCatalog';
+import { sampleIssuesMetrics } from '../../data/sampleIssuesData';
 
 interface MerchantOverviewHomeProps {
   onNavigateIssues: () => void;
@@ -102,16 +104,16 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
 
             <div className="space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight">78%</span>
+                <span className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight">{CANONICAL_SYSTEM_KPIS.intelligenceCoveragePct}%</span>
                 <span className="text-xs text-stone-500 font-medium">Goal: 85% Target</span>
               </div>
               <div className="w-full bg-stone-100 rounded-full h-3 overflow-hidden">
-                <div className="bg-[#F97316] h-full rounded-full transition-all" style={{ width: '78%' }}></div>
+                <div className="bg-[#F97316] h-full rounded-full transition-all" style={{ width: `${CANONICAL_SYSTEM_KPIS.intelligenceCoveragePct}%` }}></div>
               </div>
             </div>
 
             <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">
-              <span>194 Attested Evidence Records</span>
+              <span>{CANONICAL_TELEMETRY_FUNNEL.provenanceEvidenceRecords} Attested Evidence Records</span>
               <button 
                 onClick={onNavigateProducts}
                 className="text-orange-600 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
@@ -141,11 +143,11 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
 
             <div className="space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight">79%</span>
-                <span className="text-xs text-stone-500 font-medium">4 Discovery Surfaces</span>
+                <span className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight">{CANONICAL_SYSTEM_KPIS.discoveryReadinessPct}%</span>
+                <span className="text-xs text-stone-500 font-medium">{CANONICAL_SYSTEM_KPIS.discoverySurfacesCount} Discovery Surfaces</span>
               </div>
               <div className="w-full bg-stone-100 rounded-full h-3 overflow-hidden">
-                <div className="bg-emerald-500 h-full rounded-full transition-all" style={{ width: '79%' }}></div>
+                <div className="bg-emerald-500 h-full rounded-full transition-all" style={{ width: `${CANONICAL_SYSTEM_KPIS.discoveryReadinessPct}%` }}></div>
               </div>
             </div>
 
@@ -174,7 +176,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
             <div>
               <span className="text-xs text-stone-500 font-medium block">Monitored Catalog</span>
               <span className="text-2xl font-extrabold text-stone-900 mt-0.5 block group-hover:text-orange-600 transition-colors">
-                24 Products
+                {CANONICAL_SYSTEM_KPIS.totalCatalogProducts} Products
               </span>
               <span className="text-[11px] text-stone-400 mt-0.5 block font-mono">1,976 Pro Headroom</span>
             </div>
@@ -191,9 +193,11 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
             <div>
               <span className="text-xs text-stone-500 font-medium block">Action Needed</span>
               <span className="text-2xl font-extrabold text-rose-600 mt-0.5 block">
-                8 Open Issues
+                {sampleIssuesMetrics.openIssues} Open Issues
               </span>
-              <span className="text-[11px] text-rose-700 mt-0.5 block font-medium">2 Critical · 4 High</span>
+              <span className="text-[11px] text-rose-700 mt-0.5 block font-medium">
+                {sampleIssuesMetrics.criticalIssues} Critical · {sampleIssuesMetrics.evidenceBlocked} Evidence-Blocked
+              </span>
             </div>
             <div className="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600">
               <AlertTriangle className="w-5 h-5" />
@@ -208,7 +212,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
             <div>
               <span className="text-xs text-stone-500 font-medium block">Commercial Reach</span>
               <span className="text-2xl font-extrabold text-stone-900 mt-0.5 block group-hover:text-orange-600 transition-colors">
-                42 Offers
+                {CANONICAL_SYSTEM_KPIS.totalCommercialOffers} Offers
               </span>
               <span className="text-[11px] text-stone-400 mt-0.5 block font-mono">18 Distinct Sellers</span>
             </div>
@@ -256,7 +260,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
               <span>What is happening?</span>
             </div>
             <p className="text-xs text-stone-600 leading-relaxed font-normal">
-              Continuous monitoring ingested 384 raw signals. 42 external retail offers are active with 5 price updates observed in the last 24 hours.
+              Continuous monitoring ingested {CANONICAL_TELEMETRY_FUNNEL.rawObservations} raw signals. {CANONICAL_SYSTEM_KPIS.totalCommercialOffers} external retail offers are active with 5 price updates observed in the last 24 hours.
             </p>
           </div>
 

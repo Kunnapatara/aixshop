@@ -6,6 +6,7 @@ import {
   sampleIssuesData, 
   sampleIssuesMetrics 
 } from '../../data/sampleIssuesData';
+import { deriveIssuesMetrics } from '../../data/telemetrySelectors';
 import { 
   IssueItem, 
   IssuesFilterState, 
@@ -310,40 +311,9 @@ export const IssuesPage: React.FC<IssuesPageProps> = ({
     }));
   };
 
-  // Recompute live summary metrics based on actual state of issues
+  // Recompute live summary metrics based on actual state of issues via canonical selector
   const currentMetrics = useMemo(() => {
-    const openCount = issues.filter(i => i.recoveryState !== 'Resolved').length;
-    const criticalCount = issues.filter(i => i.severity === 'Critical' && i.recoveryState !== 'Resolved').length;
-    const blockedCount = issues.filter(i => i.recoveryState === 'Blocked' || i.evidenceState === 'CONFLICT' || i.evidenceState === 'MISSING').length;
-    const eligibleCount = issues.filter(i => i.recoveryEligibility === 'Eligible' && i.recoveryState !== 'Resolved').length;
-    const merchantCount = issues.filter(i => (i.recoveryEligibility === 'Merchant Required' || i.recoveryState === 'Merchant Verification') && i.recoveryState !== 'Resolved').length;
-    const resolvedCount = issues.filter(i => i.recoveryState === 'Resolved').length;
-
-    const dist: Record<IssueRecoveryState, number> = {
-      Open: 0,
-      Diagnosing: 0,
-      'Recovery Proposed': 0,
-      'Validation Required': 0,
-      'Merchant Verification': 0,
-      Resolved: 0,
-      Blocked: 0
-    };
-
-    issues.forEach(i => {
-      if (dist[i.recoveryState] !== undefined) {
-        dist[i.recoveryState]++;
-      }
-    });
-
-    return {
-      openIssues: openCount,
-      criticalIssues: criticalCount,
-      evidenceBlocked: blockedCount,
-      recoveryEligible: eligibleCount,
-      merchantVerificationRequired: merchantCount,
-      recentlyResolved: resolvedCount,
-      stateDistribution: dist
-    };
+    return deriveIssuesMetrics(issues);
   }, [issues]);
 
   return (

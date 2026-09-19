@@ -10,24 +10,7 @@ import {
   IssueItem,
   IssuesMetricsSummary
 } from '../types/issues';
-
-export const sampleIssuesMetrics: IssuesMetricsSummary = {
-  openIssues: 8,
-  criticalIssues: 3,
-  evidenceBlocked: 4,
-  recoveryEligible: 3,
-  merchantVerificationRequired: 5,
-  recentlyResolved: 4,
-  stateDistribution: {
-    Open: 2,
-    Diagnosing: 1,
-    'Recovery Proposed': 1,
-    'Validation Required': 1,
-    'Merchant Verification': 2,
-    Resolved: 4,
-    Blocked: 1
-  }
-};
+import { deriveIssuesMetrics } from './telemetrySelectors';
 
 export const sampleIssuesData: IssueItem[] = [
   {
@@ -287,9 +270,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-004',
     issueNumber: 'ISS-04',
     title: 'Observed Offer Price Changed',
-    productId: 'prod-004',
-    productName: 'AeroPulse TempoFlow Trainer',
-    productSku: 'AP-TF-004',
+    productId: 'aix-prod-849201948857',
+    productName: 'AeroPulse TempoFlow Everyday Trainer',
+    productSku: 'AP-TFT-015',
     issueType: 'Offer Integrity',
     severity: 'Medium',
     evidenceState: 'OBSERVED',
@@ -366,9 +349,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-005',
     issueNumber: 'ISS-05',
     title: 'Discovery Attribute Coverage Degraded',
-    productId: 'prod-007',
-    productName: 'AeroPulse TrailCore X',
-    productSku: 'AP-TC-007',
+    productId: 'aix-prod-849201948913',
+    productName: 'AeroPulse TrailCore X Mountain Shoe',
+    productSku: 'AP-TCX-017',
     issueType: 'Discovery Readiness',
     severity: 'High',
     evidenceState: 'DERIVED',
@@ -446,9 +429,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-006',
     issueNumber: 'ISS-06',
     title: 'Duplicate Variant SKU Collision',
-    productId: 'prod-002',
-    productName: 'AeroPulse Velocity Carbon Pro',
-    productSku: 'AP-VC-002',
+    productId: 'aix-prod-849201948880',
+    productName: 'AeroPulse Velocity Carbon Pro 5K/10K',
+    productSku: 'AP-VCP-016',
     productVariant: "Men's 9.5 vs Women's 11",
     issueType: 'Variant Identity',
     severity: 'Critical',
@@ -524,9 +507,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-007',
     issueNumber: 'ISS-07',
     title: 'Inconsistent Availability Feed Microdata',
-    productId: 'prod-005',
-    productName: 'AeroPulse Recovery Glide',
-    productSku: 'AP-RG-005',
+    productId: 'aix-prod-849201948634',
+    productName: 'AeroKnit Recovery Slide Cushion',
+    productSku: 'AP-REC-008',
     issueType: 'Availability',
     severity: 'Medium',
     evidenceState: 'CONFLICT',
@@ -600,9 +583,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-008',
     issueNumber: 'ISS-08',
     title: 'Promotional Expiration Schema Mismatch',
-    productId: 'prod-009',
-    productName: 'AeroPulse Carbon Float',
-    productSku: 'AP-CF-009',
+    productId: 'aix-prod-849201948601',
+    productName: 'CloudDrift Daily Trainer v3',
+    productSku: 'AP-CDT-007',
     issueType: 'Promotion',
     severity: 'Low',
     evidenceState: 'OBSERVED',
@@ -752,9 +735,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-010',
     issueNumber: 'ISS-10',
     title: 'Primary Image Aspect Ratio Realigned',
-    productId: 'prod-004',
-    productName: 'AeroPulse TempoFlow Trainer',
-    productSku: 'AP-TF-004',
+    productId: 'aix-prod-849201948857',
+    productName: 'AeroPulse TempoFlow Everyday Trainer',
+    productSku: 'AP-TFT-015',
     issueType: 'Source Drift',
     severity: 'Low',
     evidenceState: 'MERCHANT_VERIFIED',
@@ -822,9 +805,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-011',
     issueNumber: 'ISS-11',
     title: 'Manufacturer Currency Symbol Standardized',
-    productId: 'prod-007',
-    productName: 'AeroPulse TrailCore X',
-    productSku: 'AP-TC-007',
+    productId: 'aix-prod-849201948913',
+    productName: 'AeroPulse TrailCore X Mountain Shoe',
+    productSku: 'AP-TCX-017',
     issueType: 'Offer Integrity',
     severity: 'Low',
     evidenceState: 'MERCHANT_VERIFIED',
@@ -892,9 +875,9 @@ export const sampleIssuesData: IssueItem[] = [
     id: 'iss-012',
     issueNumber: 'ISS-012',
     title: 'Cushioning Drop Millimeter Unit Re-parsed',
-    productId: 'prod-005',
-    productName: 'AeroPulse Recovery Glide',
-    productSku: 'AP-RG-005',
+    productId: 'aix-prod-849201948634',
+    productName: 'AeroKnit Recovery Slide Cushion',
+    productSku: 'AP-REC-008',
     issueType: 'Product Attribute',
     severity: 'Medium',
     evidenceState: 'MERCHANT_VERIFIED',
@@ -959,3 +942,7 @@ export const sampleIssuesData: IssueItem[] = [
     isResolved: true
   }
 ];
+
+// Authoritative live issue metrics selector applied to canonical issue dataset
+export const sampleIssuesMetrics: IssuesMetricsSummary = deriveIssuesMetrics(sampleIssuesData);
+

@@ -163,7 +163,7 @@ export const sampleRepresentativeProducts: RepresentativeProductItem[] = [
     issueDimension: 'Variants & Evidence'
   },
   {
-    id: 'prod-horizon-trail',
+    id: 'aix-prod-849201948450',
     name: 'Horizon Trail Hydro Shoe',
     brand: 'AeroPulse Athletics',
     category: 'Trail Running & Wet Terrain',
@@ -173,13 +173,13 @@ export const sampleRepresentativeProducts: RepresentativeProductItem[] = [
     intelligenceCoverage: 64,
     evidenceState: 'CONFLICT',
     suggestedAction: 'Arbitrate Material Conflict',
-    canonicalId: 'aix-prod-849201948188',
+    canonicalId: 'aix-prod-849201948450',
     isPrimaryExample: false,
     samplePrice: 169.00,
     issueDimension: 'Specifications & Evidence'
   },
   {
-    id: 'prod-apexstride-pro',
+    id: 'aix-prod-849201948577',
     name: 'ApexStride Pro Marathoner',
     brand: 'AeroPulse Athletics',
     category: 'High-Cadence Competition Road',
@@ -189,13 +189,13 @@ export const sampleRepresentativeProducts: RepresentativeProductItem[] = [
     intelligenceCoverage: 76,
     evidenceState: 'MISSING',
     suggestedAction: 'Provide Laboratory Spec Sheet',
-    canonicalId: 'aix-prod-849201948202',
+    canonicalId: 'aix-prod-849201948577',
     isPrimaryExample: false,
     samplePrice: 220.00,
     issueDimension: 'Specifications'
   },
   {
-    id: 'prod-clouddrift-daily',
+    id: 'aix-prod-849201948601',
     name: 'CloudDrift Daily Trainer v3',
     brand: 'AeroPulse Athletics',
     category: 'Neutral Daily Mileage',
@@ -205,13 +205,13 @@ export const sampleRepresentativeProducts: RepresentativeProductItem[] = [
     intelligenceCoverage: 79,
     evidenceState: 'MISSING',
     suggestedAction: 'Attach Return Policy Microdata',
-    canonicalId: 'aix-prod-849201948215',
+    canonicalId: 'aix-prod-849201948601',
     isPrimaryExample: false,
     samplePrice: 139.00,
     issueDimension: 'Offers & Trust'
   },
   {
-    id: 'prod-aeroknit-slide',
+    id: 'aix-prod-849201948634',
     name: 'AeroKnit Recovery Slide',
     brand: 'AeroPulse Athletics',
     category: 'Post-Race Recovery Footwear',
@@ -221,7 +221,7 @@ export const sampleRepresentativeProducts: RepresentativeProductItem[] = [
     intelligenceCoverage: 81,
     evidenceState: 'CONFLICT',
     suggestedAction: 'Standardize Sizing Chart Scheme',
-    canonicalId: 'aix-prod-849201948239',
+    canonicalId: 'aix-prod-849201948634',
     isPrimaryExample: false,
     samplePrice: 59.00,
     issueDimension: 'Variants'

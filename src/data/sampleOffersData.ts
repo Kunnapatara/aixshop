@@ -14,6 +14,8 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-vsc-01',
     productId: CANONICAL_PRODUCT_ID,
+    canonicalProductId: CANONICAL_PRODUCT_ID,
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: CANONICAL_PRODUCT_NAME,
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -108,6 +110,8 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-vsc-02',
     productId: CANONICAL_PRODUCT_ID,
+    canonicalProductId: CANONICAL_PRODUCT_ID,
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: CANONICAL_PRODUCT_NAME,
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -194,6 +198,8 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-vsc-03',
     productId: CANONICAL_PRODUCT_ID,
+    canonicalProductId: CANONICAL_PRODUCT_ID,
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: CANONICAL_PRODUCT_NAME,
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -274,6 +280,8 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-vsc-04',
     productId: CANONICAL_PRODUCT_ID,
+    canonicalProductId: CANONICAL_PRODUCT_ID,
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: CANONICAL_PRODUCT_NAME,
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -336,7 +344,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // ==========================================
   {
     id: 'off-hth-01',
-    productId: 'prod-horizon-trail',
+    productId: 'aix-prod-849201948450',
+    canonicalProductId: 'aix-prod-849201948450',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse Horizon Trail Hydro',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
@@ -383,7 +393,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-hth-02',
-    productId: 'prod-horizon-trail',
+    productId: 'aix-prod-849201948450',
+    canonicalProductId: 'aix-prod-849201948450',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse Horizon Trail Hydro',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
@@ -439,7 +451,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-hth-03',
-    productId: 'prod-horizon-trail',
+    productId: 'aix-prod-849201948450',
+    canonicalProductId: 'aix-prod-849201948450',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse Horizon Trail Hydro',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
@@ -498,7 +512,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // ==========================================
   {
     id: 'off-tfd-01',
-    productId: 'prod-tempoflow',
+    productId: 'aix-prod-849201948857',
+    canonicalProductId: 'aix-prod-849201948857',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'TempoFlow Daily Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -545,7 +561,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-tfd-02',
-    productId: 'prod-tempoflow',
+    productId: 'aix-prod-849201948857',
+    canonicalProductId: 'aix-prod-849201948857',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'TempoFlow Daily Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -601,7 +619,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-tfd-03',
-    productId: 'prod-tempoflow',
+    productId: 'aix-prod-849201948857',
+    canonicalProductId: 'aix-prod-849201948857',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'TempoFlow Daily Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -652,7 +672,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // ==========================================
   {
     id: 'off-tcx-01',
-    productId: 'prod-trailcore',
+    productId: 'aix-prod-849201948913',
+    canonicalProductId: 'aix-prod-849201948913',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'TrailCore X Extreme Rugged',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
@@ -696,7 +718,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-tcx-02',
-    productId: 'prod-trailcore',
+    productId: 'aix-prod-849201948913',
+    canonicalProductId: 'aix-prod-849201948913',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'TrailCore X Extreme Rugged',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
@@ -763,7 +787,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // ==========================================
   {
     id: 'off-vcp-01',
-    productId: 'prod-velocity-pro',
+    productId: 'aix-prod-849201948880',
+    canonicalProductId: 'aix-prod-849201948880',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Velocity Carbon Pro',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -807,7 +833,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-vcp-02',
-    productId: 'prod-velocity-pro',
+    productId: 'aix-prod-849201948880',
+    canonicalProductId: 'aix-prod-849201948880',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Velocity Carbon Pro',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -863,7 +891,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-vcp-03',
-    productId: 'prod-velocity-pro',
+    productId: 'aix-prod-849201948880',
+    canonicalProductId: 'aix-prod-849201948880',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Velocity Carbon Pro',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -917,7 +947,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // ==========================================
   {
     id: 'off-rgs-01',
-    productId: 'prod-recovery-glide',
+    productId: 'aix-prod-849201948634',
+    canonicalProductId: 'aix-prod-849201948634',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Recovery Glide Sandal',
     brand: 'AeroPulse Athletics',
     category: 'Footwear',
@@ -961,7 +993,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-rgs-02',
-    productId: 'prod-recovery-glide',
+    productId: 'aix-prod-849201948634',
+    canonicalProductId: 'aix-prod-849201948634',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Recovery Glide Sandal',
     brand: 'AeroPulse Athletics',
     category: 'Footwear',
@@ -1012,7 +1046,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-rgs-03',
-    productId: 'prod-recovery-glide',
+    productId: 'aix-prod-849201948634',
+    canonicalProductId: 'aix-prod-849201948634',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Recovery Glide Sandal',
     brand: 'AeroPulse Athletics',
     category: 'Footwear',
@@ -1069,6 +1105,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-asp-01',
     productId: 'prod-alpine-shell',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Alpine Shell Pro',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1113,6 +1150,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-asp-02',
     productId: 'prod-alpine-shell',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Alpine Shell Pro',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1169,6 +1207,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-sfc-01',
     productId: 'prod-strataform',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'StrataForm Carbon Road',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -1213,6 +1252,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-sfc-02',
     productId: 'prod-strataform',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'StrataForm Carbon Road',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -1270,7 +1310,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // PRODUCT 9: AeroPulse CloudPace Trainer (2 offers)
   {
     id: 'off-cpt-01',
-    productId: 'prod-cloudpace',
+    productId: 'aix-prod-849201948601',
+    canonicalProductId: 'aix-prod-849201948601',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse CloudPace Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -1305,7 +1347,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-cpt-02',
-    productId: 'prod-cloudpace',
+    productId: 'aix-prod-849201948601',
+    canonicalProductId: 'aix-prod-849201948601',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse CloudPace Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -1343,6 +1387,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-ats-01',
     productId: 'prod-apex-sock',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'ApexGrip Trail Sock 3-Pack',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1378,6 +1423,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-ats-02',
     productId: 'prod-apex-sock',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'ApexGrip Trail Sock 3-Pack',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1423,6 +1469,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-ttb-01',
     productId: 'prod-thermal-beanie',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Thermal Tech Beanie',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1458,6 +1505,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-ttb-02',
     productId: 'prod-thermal-beanie',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Thermal Tech Beanie',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1494,7 +1542,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // PRODUCT 12: EnduroHydrate 500ml Flask (2 offers) - Promotion Example
   {
     id: 'off-ehf-01',
-    productId: 'prod-flask-500',
+    productId: 'aix-prod-849201948824',
+    canonicalProductId: 'aix-prod-849201948824',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'EnduroHydrate 500ml Flask',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1529,7 +1579,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-ehf-02',
-    productId: 'prod-flask-500',
+    productId: 'aix-prod-849201948824',
+    canonicalProductId: 'aix-prod-849201948824',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'EnduroHydrate 500ml Flask',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1573,7 +1625,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // PRODUCT 13: Aerolite Performance Singlet (2 offers)
   {
     id: 'off-aps-01',
-    productId: 'prod-aerolite-singlet',
+    productId: 'aix-prod-849201948979',
+    canonicalProductId: 'aix-prod-849201948979',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Aerolite Performance Singlet',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1608,7 +1662,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-aps-02',
-    productId: 'prod-aerolite-singlet',
+    productId: 'aix-prod-849201948979',
+    canonicalProductId: 'aix-prod-849201948979',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Aerolite Performance Singlet',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1645,7 +1701,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // PRODUCT 14: SprintFlex Compression Tight (2 offers) - Promotion Example
   {
     id: 'off-sct-01',
-    productId: 'prod-sprintflex-tight',
+    productId: 'aix-prod-849201948791',
+    canonicalProductId: 'aix-prod-849201948791',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'SprintFlex Compression Tight',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1680,7 +1738,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-sct-02',
-    productId: 'prod-sprintflex-tight',
+    productId: 'aix-prod-849201948791',
+    canonicalProductId: 'aix-prod-849201948791',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'SprintFlex Compression Tight',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1724,7 +1784,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // PRODUCT 15: AeroPulse Marathon Cap (2 offers) - Missing Return Evidence
   {
     id: 'off-amc-01',
-    productId: 'prod-marathon-cap',
+    productId: 'aix-prod-849201949124',
+    canonicalProductId: 'aix-prod-849201949124',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse Marathon Cap Ultralight',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1759,7 +1821,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-amc-02',
-    productId: 'prod-marathon-cap',
+    productId: 'aix-prod-849201949124',
+    canonicalProductId: 'aix-prod-849201949124',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse Marathon Cap Ultralight',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1805,6 +1869,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-zci-01',
     productId: 'prod-zerog-insole',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'ZeroG Carbon Energy Insole',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1840,6 +1905,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-zci-02',
     productId: 'prod-zerog-insole',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'ZeroG Carbon Energy Insole',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -1884,7 +1950,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   // PRODUCT 17: HyperVent Mesh Race Short (2 offers) - Missing Return Evidence
   {
     id: 'off-hmr-01',
-    productId: 'prod-hypervent-short',
+    productId: 'aix-prod-849201949002',
+    canonicalProductId: 'aix-prod-849201949002',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'HyperVent Mesh Race Short',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1919,7 +1987,9 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   },
   {
     id: 'off-hmr-02',
-    productId: 'prod-hypervent-short',
+    productId: 'aix-prod-849201949002',
+    canonicalProductId: 'aix-prod-849201949002',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'HyperVent Mesh Race Short',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -1965,6 +2035,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-crb-01',
     productId: 'prod-carbon-ball',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Carbon Recovery Massage Ball',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -2000,6 +2071,7 @@ export const sampleCommercialOffers: CommercialOffer[] = [
   {
     id: 'off-crb-02',
     productId: 'prod-carbon-ball',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Carbon Recovery Massage Ball',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -2046,6 +2118,8 @@ export const sampleCommercialOffers: CommercialOffer[] = [
 export const sampleProductOfferGroups: ProductOfferGroup[] = [
   {
     productId: CANONICAL_PRODUCT_ID,
+    canonicalProductId: CANONICAL_PRODUCT_ID,
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: CANONICAL_PRODUCT_NAME,
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -2064,13 +2138,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: true
   },
   {
-    productId: 'prod-horizon-trail',
+    productId: 'aix-prod-849201948450',
+    canonicalProductId: 'aix-prod-849201948450',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse Horizon Trail Hydro',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
     gtin: '0084012398450',
     sku: 'AP-HTH-002',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-horizon-trail'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948450'),
     observedOffersCount: 3,
     lowestPrice: 159.00,
     highestPrice: 175.00,
@@ -2082,13 +2158,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: false
   },
   {
-    productId: 'prod-tempoflow',
+    productId: 'aix-prod-849201948857',
+    canonicalProductId: 'aix-prod-849201948857',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'TempoFlow Daily Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
     gtin: '0084012398511',
     sku: 'AP-TFT-003',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-tempoflow'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948857'),
     observedOffersCount: 3,
     lowestPrice: 139.99,
     highestPrice: 145.00,
@@ -2100,13 +2178,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: false
   },
   {
-    productId: 'prod-trailcore',
+    productId: 'aix-prod-849201948913',
+    canonicalProductId: 'aix-prod-849201948913',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'TrailCore X Extreme Rugged',
     brand: 'AeroPulse Athletics',
     category: 'Outdoor',
     gtin: '0084012398603',
     sku: 'AP-TCX-004',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-trailcore'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948913'),
     observedOffersCount: 2,
     lowestPrice: 175.00,
     highestPrice: 185.00,
@@ -2118,13 +2198,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: true
   },
   {
-    productId: 'prod-velocity-pro',
+    productId: 'aix-prod-849201948880',
+    canonicalProductId: 'aix-prod-849201948880',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Velocity Carbon Pro',
     brand: 'AeroPulse Athletics',
     category: 'Running',
     gtin: '0084012398726',
     sku: 'AP-VCP-005',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-velocity-pro'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948880'),
     observedOffersCount: 3,
     lowestPrice: 215.00,
     highestPrice: 245.00,
@@ -2136,13 +2218,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: true
   },
   {
-    productId: 'prod-recovery-glide',
+    productId: 'aix-prod-849201948634',
+    canonicalProductId: 'aix-prod-849201948634',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Recovery Glide Sandal',
     brand: 'AeroPulse Athletics',
     category: 'Footwear',
     gtin: '0084012398801',
     sku: 'AP-RGS-006',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-recovery-glide'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948634'),
     observedOffersCount: 3,
     lowestPrice: 58.50,
     highestPrice: 72.00,
@@ -2155,6 +2239,7 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
   },
   {
     productId: 'prod-alpine-shell',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Alpine Shell Pro',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -2173,6 +2258,7 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
   },
   {
     productId: 'prod-strataform',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'StrataForm Carbon Road',
     brand: 'AeroPulse Athletics',
     category: 'Running',
@@ -2190,13 +2276,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: false
   },
   {
-    productId: 'prod-cloudpace',
+    productId: 'aix-prod-849201948601',
+    canonicalProductId: 'aix-prod-849201948601',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse CloudPace Trainer',
     brand: 'AeroPulse Athletics',
     category: 'Running',
     gtin: '0084012399113',
     sku: 'AP-CPT-009',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-cloudpace'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948601'),
     observedOffersCount: 2,
     lowestPrice: 130.00,
     highestPrice: 130.00,
@@ -2209,6 +2297,7 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
   },
   {
     productId: 'prod-apex-sock',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'ApexGrip Trail Sock 3-Pack',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -2227,6 +2316,7 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
   },
   {
     productId: 'prod-thermal-beanie',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Thermal Tech Beanie',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
@@ -2244,13 +2334,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: false
   },
   {
-    productId: 'prod-flask-500',
+    productId: 'aix-prod-849201948824',
+    canonicalProductId: 'aix-prod-849201948824',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'EnduroHydrate 500ml Flask',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
     gtin: '0084012399441',
     sku: 'AP-EHF-012',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-flask-500'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948824'),
     observedOffersCount: 2,
     lowestPrice: 18.70,
     highestPrice: 22.00,
@@ -2262,13 +2354,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: true
   },
   {
-    productId: 'prod-aerolite-singlet',
+    productId: 'aix-prod-849201948979',
+    canonicalProductId: 'aix-prod-849201948979',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'Aerolite Performance Singlet',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
     gtin: '0084012399557',
     sku: 'AP-APS-013',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-aerolite-singlet'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948979'),
     observedOffersCount: 2,
     lowestPrice: 52.00,
     highestPrice: 52.00,
@@ -2280,13 +2374,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: false
   },
   {
-    productId: 'prod-sprintflex-tight',
+    productId: 'aix-prod-849201948791',
+    canonicalProductId: 'aix-prod-849201948791',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'SprintFlex Compression Tight',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
     gtin: '0084012399663',
     sku: 'AP-SCT-014',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-sprintflex-tight'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201948791'),
     observedOffersCount: 2,
     lowestPrice: 79.20,
     highestPrice: 88.00,
@@ -2298,13 +2394,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: true
   },
   {
-    productId: 'prod-marathon-cap',
+    productId: 'aix-prod-849201949124',
+    canonicalProductId: 'aix-prod-849201949124',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'AeroPulse Marathon Cap Ultralight',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
     gtin: '0084012399779',
     sku: 'AP-AMC-015',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-marathon-cap'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201949124'),
     observedOffersCount: 2,
     lowestPrice: 30.00,
     highestPrice: 35.00,
@@ -2317,6 +2415,7 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
   },
   {
     productId: 'prod-zerog-insole',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'ZeroG Carbon Energy Insole',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
@@ -2334,13 +2433,15 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
     hasPromotion: false
   },
   {
-    productId: 'prod-hypervent-short',
+    productId: 'aix-prod-849201949002',
+    canonicalProductId: 'aix-prod-849201949002',
+    mappingStatus: 'RESOLVED_CANONICAL',
     productName: 'HyperVent Mesh Race Short',
     brand: 'AeroPulse Athletics',
     category: 'Apparel',
     gtin: '0084012399991',
     sku: 'AP-HMR-017',
-    offers: sampleCommercialOffers.filter(o => o.productId === 'prod-hypervent-short'),
+    offers: sampleCommercialOffers.filter(o => o.productId === 'aix-prod-849201949002'),
     observedOffersCount: 2,
     lowestPrice: 62.00,
     highestPrice: 62.00,
@@ -2353,6 +2454,7 @@ export const sampleProductOfferGroups: ProductOfferGroup[] = [
   },
   {
     productId: 'prod-carbon-ball',
+    mappingStatus: 'UNRESOLVED_MAPPING',
     productName: 'AeroPulse Carbon Recovery Massage Ball',
     brand: 'AeroPulse Athletics',
     category: 'Accessories',
