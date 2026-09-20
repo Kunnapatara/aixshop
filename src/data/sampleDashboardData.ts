@@ -3,6 +3,7 @@ import {
   CANONICAL_PRODUCT_SKU,
   CANONICAL_PRODUCT_NAME
 } from './canonicalCatalog';
+import { sampleIssuesMetrics } from './sampleIssuesData';
 import {
   CatalogSnapshotMetrics,
   PriorityActionItem,
@@ -23,7 +24,7 @@ export const sampleCatalogSnapshot: CatalogSnapshotMetrics = {
   evidenceGapsCount: 17,
   conflictsCount: 6,
   offersObservedCount: 42,
-  productsRequiringAttentionCount: 8
+  productsRequiringAttentionCount: sampleIssuesMetrics.openIssues
 };
 
 export const samplePriorityActions: PriorityActionItem[] = [

@@ -236,7 +236,9 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-stone-600 font-normal">
-              <strong>8 products need attention:</strong> 6 evidence conflicts, 4 missing attributes, and 3 discovery blockers require merchant signoff.
+              <strong>{sampleIssuesMetrics.openIssues} issues need attention:</strong>{' '}
+              {sampleIssuesMetrics.criticalIssues} critical, {sampleIssuesMetrics.evidenceBlocked} evidence-blocked, and{' '}
+              {sampleIssuesMetrics.merchantVerificationRequired} requiring merchant signoff.
             </p>
           </div>
 

@@ -37,6 +37,7 @@ import {
   ExportAnalyticsRecord
 } from '../types/analytics';
 import { sampleIssuesMetrics } from './sampleIssuesData';
+import { sampleMonitoringMetrics } from './sampleMonitoringData';
 
 export const sampleAnalyticsKPIs: AnalyticsSummaryKPIs = {
   productsAnalyzed: 24,
@@ -255,9 +256,9 @@ export const sampleRecoveryPerformance: RecoveryPerformanceMetrics = {
 };
 
 export const sampleChangeDiagnosisConversion: ChangeDiagnosisConversion = {
-  changesDetected: 12,
-  diagnosedAsIssues: 8,
-  remainedInformational: 4,
+  changesDetected: sampleMonitoringMetrics.changesDetected,
+  diagnosedAsIssues: sampleIssuesMetrics.openIssues,
+  remainedInformational: Math.max(0, sampleMonitoringMetrics.changesDetected - sampleIssuesMetrics.openIssues),
   rationale: 'Change ≠ Issue. Routine catalog updates (such as minor price revisions or image hash changes) remain informational unless they break schema validity or introduce factual conflicts.'
 };
 
