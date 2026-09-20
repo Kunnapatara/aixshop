@@ -72,7 +72,9 @@ export const samplePriorityActions: PriorityActionItem[] = [
     whyItMatters: 'Critical comparative attributes (such as midsole stack height, carbon plate geometry, and waterproofing grade) are absent or only present in unparsed marketing prose.',
     recommendedStep: 'Extract and confirm structured technical specifications from laboratory spec sheets or verified product documentation.',
     actionLabel: 'Review Gaps',
-    targetFuturePage: 'Page 10 — Issues & Recovery'
+    targetFuturePage: 'Page 10 — Issues & Recovery',
+    dataState: 'REPRESENTATIVE_PREVIEW',
+    isRepresentativeScenario: true
   },
   {
     id: 'act-04',
@@ -85,7 +87,9 @@ export const samplePriorityActions: PriorityActionItem[] = [
     whyItMatters: 'Missing structured audience tags, terrain classifications, and usage profiles weaken autonomous multi-attribute semantic query retrieval in AI answer engines.',
     recommendedStep: 'Enrich product models with verified buyer use-case context and semantic intent mapping.',
     actionLabel: 'Review Discovery Gaps',
-    targetFuturePage: 'Page 08 — Discovery Intelligence'
+    targetFuturePage: 'Page 08 — Discovery Intelligence',
+    dataState: 'REPRESENTATIVE_PREVIEW',
+    isRepresentativeScenario: true
   }
 ];
 
