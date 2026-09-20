@@ -6,8 +6,10 @@ import {
   CANONICAL_PRODUCT_GTIN,
   CANONICAL_PRODUCT_MPN,
   CANONICAL_PRODUCT_NAME,
-  CANONICAL_TELEMETRY_FUNNEL
+  CANONICAL_TELEMETRY_FUNNEL,
+  CANONICAL_SYSTEM_KPIS
 } from './canonicalCatalog';
+import { sampleIssuesMetrics } from './sampleIssuesData';
 import {
   SystemPipelineStage,
   AdminSourceItem,
@@ -235,20 +237,7 @@ export const samplePipelineStages: SystemPipelineStage[] = [
   }
 ];
 
-// 2. Control-Tower KPI Metrics
-export const sampleControlTowerKPIs = {
-  merchantsObserved: '1 Representative',
-  merchantName: 'AeroPulse Athletics, Inc.',
-  productsInGraph: '24 Canonical',
-  activeSources: '4 Authorized',
-  evidenceRecords: '194 Provenance',
-  openConflicts: '6 Preserved',
-  openIssues: '8 Triage',
-  recoveryWorkflows: '4 Workflows',
-  evidenceBlockedItems: '4 Blocked'
-};
-
-// 3. Source Registry (Admin counterpart to Page 12)
+// 2. Source Registry (Admin counterpart to Page 12)
 export const sampleAdminSources: AdminSourceItem[] = [
   {
     id: 'SRC-SHOPIFY-01',
@@ -307,6 +296,19 @@ export const sampleAdminSources: AdminSourceItem[] = [
     defaultAuthorityLevel: 1 // Merchant Verified / Ground Truth
   }
 ];
+
+// 3. Control-Tower KPI Metrics (derived from canonical catalog & telemetry truth)
+export const sampleControlTowerKPIs = {
+  merchantsObserved: '1 Representative',
+  merchantName: 'AeroPulse Athletics, Inc.',
+  productsInGraph: `${CANONICAL_SYSTEM_KPIS.totalCatalogProducts} Canonical`,
+  activeSources: `${sampleAdminSources.length} Authorized`,
+  evidenceRecords: `${CANONICAL_TELEMETRY_FUNNEL.provenanceEvidenceRecords} Provenance`,
+  openConflicts: `${CANONICAL_SYSTEM_KPIS.totalPreservedConflicts} Preserved`,
+  openIssues: `${sampleIssuesMetrics.openIssues} Triage`,
+  recoveryWorkflows: `${sampleIssuesMetrics.recoveryEligible} Workflows`,
+  evidenceBlockedItems: `${sampleIssuesMetrics.evidenceBlocked} Blocked`
+};
 
 // 4. Source Authority Hierarchy (Contextual)
 export const sourceAuthorityTiers = [
@@ -1164,15 +1166,15 @@ export const sampleDiscoverySurfaces: DiscoverySurfaceIntegrityItem[] = [
   }
 ];
 
-// 12. Data Quality Funnel (Admin View)
+// 12. Data Quality Funnel (Admin View - derived from canonical telemetry)
 export const sampleDataQualityFunnel = [
-  { stage: '1. Ingested Observations', count: '384', note: 'Raw attribute extractions across 4 connectors' },
-  { stage: '2. Normalized Fact Candidates', count: '240', note: 'Standardized into GS1 and SI units' },
-  { stage: '3. Evidence-Backed Facts', count: '194', note: 'Tied to verifiable source provenance' },
-  { stage: '4. Preserved Open Conflicts', count: '6', note: 'Isolated and unmerged to prevent synthetic bias' },
-  { stage: '5. Canonical Product Graph', count: '24', note: 'Unified parent products with 68 child variants' },
-  { stage: '6. Verified Truth Locked', count: '42', note: 'Direct merchant attestations with zero ambiguity' },
-  { stage: '7. Discoverable Representations', count: '24', note: 'Fully structured for multi-surface AI ingestion' }
+  { stage: '1. Ingested Observations', count: `${CANONICAL_TELEMETRY_FUNNEL.rawObservations}`, note: 'Raw attribute extractions across 4 connectors' },
+  { stage: '2. Normalized Fact Candidates', count: `${CANONICAL_TELEMETRY_FUNNEL.normalizedFacts}`, note: 'Standardized into GS1 and SI units' },
+  { stage: '3. Evidence-Backed Facts', count: `${CANONICAL_TELEMETRY_FUNNEL.provenanceEvidenceRecords}`, note: 'Tied to verifiable source provenance' },
+  { stage: '4. Preserved Open Conflicts', count: `${CANONICAL_SYSTEM_KPIS.totalPreservedConflicts}`, note: 'Isolated and unmerged to prevent synthetic bias' },
+  { stage: '5. Canonical Product Graph', count: `${CANONICAL_SYSTEM_KPIS.totalCatalogProducts}`, note: `Unified parent products with ${CANONICAL_SYSTEM_KPIS.totalChildVariants} child variants` },
+  { stage: '6. Verified Truth Locked', count: `${CANONICAL_TELEMETRY_FUNNEL.verifiedLocks}`, note: 'Direct merchant attestations with zero ambiguity' },
+  { stage: '7. Discoverable Representations', count: `${CANONICAL_SYSTEM_KPIS.totalCatalogProducts}`, note: 'Fully structured for multi-surface AI ingestion' }
 ];
 
 // Data Quality Stages for Funnel component

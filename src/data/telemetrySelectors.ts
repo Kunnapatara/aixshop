@@ -9,6 +9,11 @@ import {
 } from '../types/issues';
 import { EvidenceState } from '../types/landing';
 import {
+  MonitoringEvent,
+  MonitoredProductSummary,
+  MonitoringSummaryMetrics
+} from '../types/monitoring';
+import {
   CANONICAL_CATALOG_PRODUCTS,
   CANONICAL_MERCHANT,
   CANONICAL_TELEMETRY_FUNNEL,
@@ -108,3 +113,34 @@ export function getCanonicalCatalogTelemetry() {
     systemKpis: CANONICAL_SYSTEM_KPIS
   };
 }
+
+/**
+ * Derives live monitoring metrics deterministically from monitoring events and monitored product summaries.
+ * Single source of truth for monitoring summary bar and health state distributions.
+ */
+export function deriveMonitoringMetrics(
+  events: MonitoringEvent[],
+  monitoredProducts: MonitoredProductSummary[]
+): MonitoringSummaryMetrics {
+  const highPriorityCount = events.filter(e => e.priority === 'High' || e.priority === 'Critical').length;
+  const evidenceChangesCount = events.filter(e => e.category === 'evidence_integrity').length;
+  const offerChangesCount = events.filter(e => e.category === 'offer_intelligence').length;
+  const discoverySignalsCount = events.filter(e => e.category === 'discovery_readiness').length;
+
+  return {
+    monitoredProducts: monitoredProducts.length,
+    changesDetected: events.length,
+    highPriority: highPriorityCount,
+    evidenceChanges: evidenceChangesCount,
+    offerChanges: offerChangesCount,
+    discoverySignalsChanged: discoverySignalsCount,
+    statusDistribution: {
+      stable: monitoredProducts.filter(p => p.monitoringState === 'stable').length,
+      changed: monitoredProducts.filter(p => p.monitoringState === 'changed').length,
+      needsReview: monitoredProducts.filter(p => p.monitoringState === 'needs_review').length,
+      evidenceConflict: monitoredProducts.filter(p => p.monitoringState === 'conflict').length,
+      staleUnknown: monitoredProducts.filter(p => p.monitoringState === 'stale_unknown').length
+    }
+  };
+}
+

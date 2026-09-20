@@ -14,22 +14,7 @@ import {
   MonitoredProductSummary, 
   MonitoringSummaryMetrics 
 } from '../types/monitoring';
-
-export const sampleMonitoringMetrics: MonitoringSummaryMetrics = {
-  monitoredProducts: 24,
-  changesDetected: 12,
-  highPriority: 4,
-  evidenceChanges: 7,
-  offerChanges: 5,
-  discoverySignalsChanged: 3,
-  statusDistribution: {
-    stable: 20,
-    changed: 1,
-    needsReview: 1,
-    evidenceConflict: 2,
-    staleUnknown: 0
-  }
-};
+import { deriveMonitoringMetrics } from './telemetrySelectors';
 
 export const sampleMonitoringEvents: MonitoringEvent[] = [
   // 1. Price Change (VaporStride Carbon Elite)
@@ -602,3 +587,10 @@ export const sampleMonitoredProducts: MonitoredProductSummary[] = CANONICAL_CATA
     eventsCount: 0
   };
 });
+
+// Authoritative monitoring metrics derived directly from events and monitored products
+export const sampleMonitoringMetrics: MonitoringSummaryMetrics = deriveMonitoringMetrics(
+  sampleMonitoringEvents,
+  sampleMonitoredProducts
+);
+
