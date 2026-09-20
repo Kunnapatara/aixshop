@@ -184,7 +184,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
   switch (issue.issueNumber) {
     case 'ISS-01':
       return {
-        scope: 'OFFER',
+        scope,
         problem: 'Commercial return policy evidence is missing from Schema.org microdata and product page. Downstream AI shopping engines cannot verify return windows or restocking conditions.',
         evidence,
         reason: issue.diagnosticReason || 'Automated crawler observed merchant checkout link but found no authoritative Schema.org MerchantReturnPolicy object or structured return window in PDP DOM. In accordance with zero-hallucination rules, missing terms cannot be fabricated.',
@@ -244,7 +244,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
 
     case 'ISS-02':
       return {
-        scope: 'PRODUCT',
+        scope,
         problem: 'Authoritative barcode conflict detected: GS1 GEPIR registry reports GTIN 00849201948172 while Shopify catalog specifies 00849201948999 for variant AP-VSE-BLK-10.',
         evidence,
         reason: issue.diagnosticReason || 'GS1 GEPIR global registry and Shopify Variant API return different GTIN barcodes for variant AP-VSE-BLK-10. Downstream marketplace and search engines reject or miscategorize products with uncorroborated GTIN identifiers.',
@@ -304,7 +304,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
 
     case 'ISS-03':
       return {
-        scope: 'PRODUCT',
+        scope,
         problem: 'Upper material specification discrepancy: Brand Engineering Spec PDF certifies "AeroWeave Bio-Matrix Carbon-Infused" whereas Wholesale B2B feed describes "Breathable Engineered Knit Poly-Blend".',
         evidence,
         reason: issue.diagnosticReason || 'Wholesale partner feed diluted proprietary textile specification with generic poly-blend description, causing semantic ambiguity in downstream technical comparison engines.',
@@ -364,7 +364,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
 
     case 'ISS-04':
       return {
-        scope: 'OFFER',
+        scope,
         problem: 'Commercial offer price mismatch: Storefront DOM checkout shows $119.00 while Google Merchant Center feed advertises $129.00.',
         evidence,
         reason: issue.diagnosticReason || 'Storefront price markdown was implemented without updating the syndicated Google Shopping XML feed, creating price mismatch penalties and checkout friction.',
@@ -418,7 +418,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
 
     case 'ISS-05':
       return {
-        scope: 'PRODUCT',
+        scope,
         problem: 'Discovery attribute coverage dropped from 94% to 61% following a theme update; essential structured attributes (5mm lug depth, waterproofing) are omitted from JSON-LD.',
         evidence,
         reason: issue.diagnosticReason || 'A theme update replaced structured additionalProperty array with unstructured paragraph text, preventing discovery engines from indexing lug depth and waterproofing.',
@@ -478,7 +478,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
 
     case 'ISS-06':
       return {
-        scope: 'PRODUCT',
+        scope,
         problem: 'Critical SKU collision: Shopify Variant API returns identical SKU "AP-VC-002-95" for Men\'s Size 9.5 and Women\'s Size 11.0.',
         evidence,
         reason: issue.diagnosticReason || 'Duplicate SKU assignment in Shopify inventory database creates critical fulfillment hazard; warehouse pickers and automated 3PL systems cannot disambiguate orders.',
@@ -532,7 +532,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
 
     case 'ISS-07':
       return {
-        scope: 'OFFER',
+        scope,
         problem: 'Commercial availability state mismatch: Storefront DOM displays "In Stock (14 units)" while Schema.org microdata advertises "OutOfStock".',
         evidence,
         reason: issue.diagnosticReason || 'Storefront inventory replenishment occurred but static JSON-LD template cache retained "OutOfStock", suppressing buy box eligibility in search engines.',
@@ -592,7 +592,7 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
 
     case 'ISS-08':
       return {
-        scope: 'OFFER',
+        scope,
         problem: 'Promotional banner displays active discount pricing ($139.00) but Schema.org Offer lacks the required priceValidUntil timestamp.',
         evidence,
         reason: issue.diagnosticReason || 'Google Shopping and AI commerce agents require valid ISO-8601 priceValidUntil date for promotional offers; missing timestamps risk promotional rejection.',

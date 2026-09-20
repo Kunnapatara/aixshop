@@ -245,6 +245,13 @@ export const IssuesQueueTable: React.FC<IssuesQueueTableProps> = ({
                         <span className="font-mono text-[10px] px-1.5 py-0.2 rounded-full bg-orange-50 text-[#F97316] border border-orange-200 font-bold">
                           {issue.issueNumber}
                         </span>
+                        <span className={`font-mono text-[9px] px-1.5 py-0.2 rounded-full font-bold border ${
+                          issue.scope === 'PRODUCT'
+                            ? 'bg-cyan-50 text-cyan-700 border-cyan-200'
+                            : 'bg-amber-50 text-amber-700 border-amber-200'
+                        }`}>
+                          {issue.scope}
+                        </span>
                         <button
                           type="button"
                           onClick={() => onSelectIssue(issue)}

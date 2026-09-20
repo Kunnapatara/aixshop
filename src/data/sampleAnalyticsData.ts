@@ -244,12 +244,12 @@ export const sampleIssueLifecycleDistribution: IssueLifecycleDistribution = {
 };
 
 export const sampleRecoveryPerformance: RecoveryPerformanceMetrics = {
-  issuesDetected: 8,
-  recoveryEligible: 3,
-  evidenceGated: 4,
-  merchantVerificationRequired: 5,
+  issuesDetected: sampleIssuesMetrics.openIssues,
+  recoveryEligible: sampleIssuesMetrics.recoveryEligible,
+  evidenceGated: sampleIssuesMetrics.evidenceBlocked,
+  merchantVerificationRequired: sampleIssuesMetrics.merchantVerificationRequired,
   validationPassed: 2,
-  resolved: 4,
+  resolved: sampleIssuesMetrics.recentlyResolved,
   blocked: 2,
   operationalNotes: 'Recovery performance measures deterministic workflow progression in the intelligence layer. External merchant commerce databases are not altered autonomously.'
 };
@@ -429,7 +429,7 @@ export const sampleDataQualityFunnel: DataQualityFunnelStage[] = [
   { step: 3, label: 'Normalized Facts', count: CANONICAL_TELEMETRY_FUNNEL.normalizedFacts, unit: 'Structured Records', description: 'Schema-conforming properties aligned with GS1 and Schema.org Product specifications.', conversionRateFromPrevious: 62.5 },
   { step: 4, label: 'Evidence Records', count: CANONICAL_TELEMETRY_FUNNEL.provenanceEvidenceRecords, unit: 'Attested Facts', description: 'Provenanced assertions backed by OBSERVED, DERIVED, or MERCHANT_VERIFIED records.', conversionRateFromPrevious: 80.8 },
   { step: 5, label: 'Resolved Products', count: CANONICAL_TELEMETRY_FUNNEL.resolvedProducts, unit: 'Core Products', description: 'Parent product models successfully unified across distributor and direct channels.', conversionRateFromPrevious: 12.4 },
-  { step: 6, label: 'Actionable Issues', count: 8, unit: 'Diagnosed Issues', description: 'Anomalies and evidence gaps flagged for deterministic recovery workflows.', conversionRateFromPrevious: 33.3 },
+  { step: 6, label: 'Actionable Issues', count: sampleIssuesMetrics.openIssues, unit: 'Diagnosed Issues', description: 'Anomalies and evidence gaps flagged for deterministic recovery workflows.', conversionRateFromPrevious: 33.3 },
   { step: 7, label: 'Verified Locks', count: CANONICAL_TELEMETRY_FUNNEL.verifiedLocks, unit: 'Locked Attestations', description: 'Authoritative merchant verifications locking ground truth with zero regressions.', conversionRateFromPrevious: 100 }
 ];
 
