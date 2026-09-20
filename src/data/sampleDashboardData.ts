@@ -27,6 +27,9 @@ export const sampleCatalogSnapshot: CatalogSnapshotMetrics = {
   productsRequiringAttentionCount: sampleIssuesMetrics.openIssues
 };
 
+// Representative preview action items illustrating dashboard workflow recommendations.
+// All items represent static illustrative scenarios (dataState: 'REPRESENTATIVE_PREVIEW') 
+// rather than authoritative live telemetry derived from current catalog state.
 export const samplePriorityActions: PriorityActionItem[] = [
   {
     id: 'act-01',
@@ -39,7 +42,9 @@ export const samplePriorityActions: PriorityActionItem[] = [
     whyItMatters: 'Zero machine-readable return policy attributes detected in structured markup. Search engines and AI commerce agents de-prioritize or penalize checkout confidence when policy terms are absent.',
     recommendedStep: 'Attach authoritative 30-day merchant return policy schema or verify merchant-direct guarantee terms.',
     actionLabel: 'Review Products',
-    targetFuturePage: 'Page 10 — Issues & Recovery'
+    targetFuturePage: 'Page 10 — Issues & Recovery',
+    dataState: 'REPRESENTATIVE_PREVIEW',
+    isRepresentativeScenario: true
   },
   {
     id: 'act-02',
@@ -52,7 +57,9 @@ export const samplePriorityActions: PriorityActionItem[] = [
     whyItMatters: 'Discrepant barcodes between parent model and color/size variant SKUs disrupt Google Merchant Center syndication and cause AI agent identity fragmentation.',
     recommendedStep: 'Arbitrate conflicting GTIN-13/14 identifiers against GS1 authoritative registry or verify merchant packaging barcodes.',
     actionLabel: 'Review Conflicts',
-    targetFuturePage: 'Page 06 — Products Management'
+    targetFuturePage: 'Page 06 — Products Management',
+    dataState: 'REPRESENTATIVE_PREVIEW',
+    isRepresentativeScenario: true
   },
   {
     id: 'act-03',

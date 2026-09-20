@@ -23,6 +23,13 @@ export interface PriorityActionItem {
   recommendedStep: string;
   actionLabel: string;
   targetFuturePage: string;
+  /**
+   * Phase 2.2A Semantic Contract:
+   * Explicitly marks whether this item is an illustrative representative preview scenario
+   * or dynamically derived from the live catalog telemetry pipeline.
+   */
+  dataState?: 'REPRESENTATIVE_PREVIEW' | 'CANONICAL_DERIVED';
+  isRepresentativeScenario?: boolean;
 }
 
 export interface CatalogIntelligenceDimension {
