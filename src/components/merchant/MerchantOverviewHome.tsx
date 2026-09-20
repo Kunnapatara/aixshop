@@ -72,7 +72,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
               onClick={onNavigateIssues}
               className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold shadow-xs hover:shadow transition-all cursor-pointer"
             >
-              <span>Review 8 Issues</span>
+              <span>Review {sampleIssuesMetrics.openIssues} Issues</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

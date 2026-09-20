@@ -26,7 +26,11 @@ import {
   Tag,
   Wrench,
   Compass,
-  DollarSign
+  DollarSign,
+  ShieldCheck,
+  Lock,
+  ListOrdered,
+  Building2
 } from 'lucide-react';
 import { 
   IssueItem, 
@@ -34,6 +38,7 @@ import {
   IssueRecoveryState, 
   BuyerIntentArchetype 
 } from '../../types/issues';
+import { deriveMerchantActionIntegrity } from '../../data/telemetrySelectors';
 
 interface IssueIntelligenceDrawerProps {
   issue: IssueItem | null;
@@ -57,6 +62,9 @@ export const IssueIntelligenceDrawer: React.FC<IssueIntelligenceDrawerProps> = (
   onNavigateDiscovery
 }) => {
   if (!issue) return null;
+
+  // Phase 2.2: Authoritative Merchant Action Integrity derivation (Contract 1-6)
+  const integrity = deriveMerchantActionIntegrity(issue);
 
   // Local verification interactive simulation state
   const [selectedVerificationChoice, setSelectedVerificationChoice] = useState<string | null>(null);
@@ -194,6 +202,13 @@ export const IssueIntelligenceDrawer: React.FC<IssueIntelligenceDrawerProps> = (
               <span className="text-[11px] font-mono text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/30">
                 {issue.previewBadge}
               </span>
+              <span className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded border ${
+                integrity.scope === 'PRODUCT'
+                  ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40'
+                  : 'bg-amber-950/80 text-amber-300 border-amber-500/40'
+              }`}>
+                {integrity.scope} SCOPE
+              </span>
             </div>
 
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
@@ -301,6 +316,251 @@ export const IssueIntelligenceDrawer: React.FC<IssueIntelligenceDrawerProps> = (
             <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
               <span>Rule Engine Grounding: Strict non-hallucination mandate</span>
               <span className="text-cyan-400">Never inferred by generative guesses</span>
+            </div>
+          </div>
+
+          {/* PHASE 2.2: EXPLAINABILITY & ACTION AUTHORITY CARD */}
+          <div 
+            id="merchant-action-integrity-card"
+            className="p-5 rounded-xl bg-gradient-to-b from-[#0D1527] to-[#0A0F1D] border border-cyan-500/40 shadow-xl space-y-5"
+          >
+            {/* Header & Domain Scope Separation */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-lg bg-cyan-950/80 border border-cyan-500/40 text-cyan-300">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-white font-mono uppercase tracking-wide">
+                      Explainability & Action Authority
+                    </h3>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-900/40 text-cyan-300 border border-cyan-500/30">
+                      Phase 2.2
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 font-sans mt-0.5">
+                    Deterministic issue explainability, evidence verification, and source-of-record boundary contract.
+                  </p>
+                </div>
+              </div>
+
+              {/* Product != Offer Separation Badge */}
+              <div className="flex items-center gap-2 self-start sm:self-auto">
+                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono font-bold border ${
+                  integrity.scope === 'PRODUCT'
+                    ? 'bg-cyan-950/70 text-cyan-300 border-cyan-500/40'
+                    : 'bg-amber-950/70 text-amber-300 border-amber-500/40'
+                }`}>
+                  <Tag className="w-3.5 h-3.5" />
+                  <span>DOMAIN: {integrity.scope} SCOPE</span>
+                </span>
+              </div>
+            </div>
+
+            {/* 1. WHAT IS WRONG? */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-rose-400 uppercase tracking-wider">
+                <AlertCircle className="w-3.5 h-3.5" />
+                <span>1. What is Wrong?</span>
+              </div>
+              <div className="p-3 rounded-lg bg-rose-950/20 border border-rose-500/30 text-rose-200 text-sm font-sans leading-relaxed">
+                {integrity.problem}
+              </div>
+            </div>
+
+            {/* 2. WHAT EVIDENCE PROVES IT? */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                <Database className="w-3.5 h-3.5" />
+                <span>2. What Evidence Proves It?</span>
+              </div>
+              <div className="p-3.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-2.5 text-xs font-mono">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  <div>
+                    <span className="text-slate-400 text-[11px] block">Observed Evidence Value:</span>
+                    <span className="text-white font-semibold block truncate" title={integrity.evidence.observedValue}>
+                      {integrity.evidence.observedValue}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 text-[11px] block">Authoritative Source:</span>
+                    <span className="text-cyan-300 font-semibold block truncate" title={integrity.evidence.source}>
+                      {integrity.evidence.source}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 text-[11px] block">Evidence State / Confidence:</span>
+                    <span className="text-amber-300 font-semibold">
+                      {integrity.evidence.evidenceState} · {integrity.evidence.confidence} Confidence
+                    </span>
+                  </div>
+                </div>
+
+                {integrity.evidence.sourceDetails && (
+                  <div className="pt-2 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                    <div className="p-2 rounded bg-slate-950/60 border border-slate-800/80">
+                      <span className="text-slate-400 block font-bold">Source A ({integrity.evidence.sourceDetails.sourceA.name}):</span>
+                      <span className="text-slate-200 font-mono">{integrity.evidence.sourceDetails.sourceA.value}</span>
+                      <span className="text-slate-400 block text-[10px] mt-0.5">{integrity.evidence.sourceDetails.sourceA.detectedAt}</span>
+                    </div>
+                    <div className="p-2 rounded bg-slate-950/60 border border-slate-800/80">
+                      <span className="text-slate-400 block font-bold">Source B ({integrity.evidence.sourceDetails.sourceB.name}):</span>
+                      <span className="text-slate-200 font-mono">{integrity.evidence.sourceDetails.sourceB.value}</span>
+                      <span className="text-slate-400 block text-[10px] mt-0.5">{integrity.evidence.sourceDetails.sourceB.detectedAt}</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-2 border-t border-slate-800 text-[11px] flex flex-wrap items-center justify-between gap-1 text-slate-400">
+                  <span>Required Grounding: <strong className="text-slate-200">{integrity.evidence.expectedCondition}</strong></span>
+                  <span>Detected: <strong className="text-slate-300">{integrity.evidence.detectedAt}</strong></span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. WHY WAS THE ISSUE CREATED? */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                <Cpu className="w-3.5 h-3.5" />
+                <span>3. Why Was The Issue Created?</span>
+              </div>
+              <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 text-xs sm:text-sm font-sans leading-relaxed">
+                {integrity.reason}
+              </div>
+            </div>
+
+            {/* 4. WHAT SHOULD THE MERCHANT DO NEXT? */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">
+                  <ListOrdered className="w-3.5 h-3.5" />
+                  <span>4. What Should the Merchant Do Next?</span>
+                </div>
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-500/30 font-bold">
+                  ACTION: {integrity.nextAction.actionCode}
+                </span>
+              </div>
+              <div className="p-3.5 rounded-lg bg-slate-900/90 border border-slate-800 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <h4 className="text-sm font-semibold text-white">
+                      {integrity.nextAction.actionLabel}
+                    </h4>
+                    <p className="text-xs text-slate-300 mt-0.5">
+                      {integrity.nextAction.summary}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step-by-Step Procedure */}
+                <div className="space-y-1.5 pt-1 border-t border-slate-800">
+                  <span className="text-[10.5px] font-mono font-bold text-slate-400 uppercase">
+                    Ordered Execution Steps:
+                  </span>
+                  <div className="grid grid-cols-1 gap-2 pt-1">
+                    {integrity.nextAction.steps.map((step) => (
+                      <div 
+                        key={step.stepNumber}
+                        className="p-2 rounded bg-slate-950/60 border border-slate-800/80 flex items-start gap-2.5 text-xs"
+                      >
+                        <span className="w-5 h-5 rounded-full bg-purple-900/60 text-purple-300 border border-purple-500/40 flex items-center justify-center font-mono font-bold text-[10px] shrink-0 mt-0.5">
+                          {step.stepNumber}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-semibold text-slate-200 font-mono text-xs">{step.label}</span>
+                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 shrink-0">
+                              {step.targetSystem}
+                            </span>
+                          </div>
+                          <p className="text-slate-400 text-xs mt-0.5 leading-normal">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 5. WHAT SOURCE OR DATA SHOULD BE CHANGED? */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                <Building2 className="w-3.5 h-3.5" />
+                <span>5. What Source or Data Should Be Changed?</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-mono">
+                <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                  <span className="text-slate-400 text-[10.5px] uppercase block">Authoritative Source of Record:</span>
+                  <span className="text-white font-semibold text-xs mt-0.5 block">
+                    {integrity.sourceOwnership.sourceOfRecord}
+                  </span>
+                  <span className="text-[11px] text-cyan-400 mt-1 block">
+                    Owner: {integrity.sourceOwnership.ownerType}
+                  </span>
+                </div>
+                <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
+                  <span className="text-slate-400 text-[10.5px] uppercase block">System Navigation Location:</span>
+                  <span className="text-slate-200 font-semibold text-xs mt-0.5 block">
+                    {integrity.sourceOwnership.systemLocation}
+                  </span>
+                  <span className="text-[11px] text-amber-400 mt-1 block">
+                    Field: {integrity.sourceOwnership.dataFieldToChange}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 6. WHAT MUST REMAIN UNCHANGED BECAUSE AIXSHOP DOES NOT OWN THE SOURCE OF TRUTH? */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                <Lock className="w-3.5 h-3.5" />
+                <span>6. Authority Boundary (What Must Remain Unchanged)</span>
+              </div>
+              <div className="p-3.5 rounded-lg bg-slate-950 border border-slate-800 space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  {/* AIXSHOP Capabilities */}
+                  <div className="p-2.5 rounded bg-cyan-950/20 border border-cyan-500/20 space-y-1.5">
+                    <span className="text-[11px] font-mono font-bold text-cyan-300 uppercase flex items-center gap-1">
+                      <Check className="w-3.5 h-3.5 text-cyan-400" />
+                      What AIXSHOP Can Do:
+                    </span>
+                    <ul className="space-y-1 text-slate-300 text-[11.5px] list-disc list-inside">
+                      {integrity.boundary.aixshopCan.map((item, idx) => (
+                        <li key={idx} className="leading-tight">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Merchant Responsibilities */}
+                  <div className="p-2.5 rounded bg-purple-950/20 border border-purple-500/20 space-y-1.5">
+                    <span className="text-[11px] font-mono font-bold text-purple-300 uppercase flex items-center gap-1">
+                      <UserCheck className="w-3.5 h-3.5 text-purple-400" />
+                      What Merchant Must Do:
+                    </span>
+                    <ul className="space-y-1 text-slate-300 text-[11.5px] list-disc list-inside">
+                      {integrity.boundary.merchantMust.map((item, idx) => (
+                        <li key={idx} className="leading-tight">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Explicit Non-Writeback Guarantee */}
+                <div className="p-2.5 rounded bg-rose-950/30 border border-rose-500/30 flex items-start gap-2 text-xs text-rose-200">
+                  <Ban className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-mono font-bold text-rose-300 block text-[11px] uppercase">
+                      Immutable AIXSHOP Truth & Write-Back Boundary:
+                    </span>
+                    <p className="text-slate-300 text-xs mt-0.5 leading-normal">
+                      {integrity.boundary.cannotClaim}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

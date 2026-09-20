@@ -25,6 +25,9 @@ import { AnalyticsPage } from '../analytics/AnalyticsPage';
 import { IntegrationsPage } from '../integrations/IntegrationsPage';
 import { BillingPage } from '../billing/BillingPage';
 import { ProductIntelligenceReportPage } from '../report/ProductIntelligenceReportPage';
+import { sampleIssuesMetrics } from '../../data/sampleIssuesData';
+import { CANONICAL_SYSTEM_KPIS } from '../../data/canonicalCatalog';
+import { sampleMonitoringMetrics } from '../../data/sampleMonitoringData';
 
 export type MerchantTab = 
   | 'overview' 
@@ -62,11 +65,11 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
 
   const navTabs: NavTabItem[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { id: 'products', label: 'Products', count: 24, icon: Package },
-    { id: 'offers', label: 'Offers', count: 42, icon: Tag },
-    { id: 'discovery', label: 'Discovery', badge: '79%', icon: Compass },
-    { id: 'issues', label: 'Issues', count: 8, isAlert: true, icon: AlertTriangle },
-    { id: 'monitoring', label: 'Monitoring', count: 12, icon: Activity },
+    { id: 'products', label: 'Products', count: CANONICAL_SYSTEM_KPIS.totalCatalogProducts, icon: Package },
+    { id: 'offers', label: 'Offers', count: CANONICAL_SYSTEM_KPIS.totalCommercialOffers, icon: Tag },
+    { id: 'discovery', label: 'Discovery', badge: `${CANONICAL_SYSTEM_KPIS.discoveryReadinessPct}%`, icon: Compass },
+    { id: 'issues', label: 'Issues', count: sampleIssuesMetrics.openIssues, isAlert: true, icon: AlertTriangle },
+    { id: 'monitoring', label: 'Monitoring', count: sampleMonitoringMetrics.changesDetected, icon: Activity },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
     { id: 'integrations', label: 'Integrations', count: 3, icon: Cpu },
     { id: 'billing', label: 'Billing', badge: 'Pro', icon: CreditCard },

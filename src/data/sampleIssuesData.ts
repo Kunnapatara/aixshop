@@ -16,6 +16,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-001',
     issueNumber: 'ISS-01',
+    scope: 'PRODUCT',
     title: 'Return Policy Evidence Missing',
     productId: CANONICAL_PRODUCT_ID,
     productName: CANONICAL_PRODUCT_NAME,
@@ -98,6 +99,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-002',
     issueNumber: 'ISS-02',
+    scope: 'PRODUCT',
     title: 'Variant GTIN Conflict',
     productId: CANONICAL_PRODUCT_ID,
     productName: CANONICAL_PRODUCT_NAME,
@@ -185,6 +187,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-003',
     issueNumber: 'ISS-03',
+    scope: 'PRODUCT',
     title: 'Upper Material Conflict',
     productId: CANONICAL_PRODUCT_ID,
     productName: CANONICAL_PRODUCT_NAME,
@@ -269,6 +272,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-004',
     issueNumber: 'ISS-04',
+    scope: 'OFFER',
     title: 'Observed Offer Price Changed',
     productId: 'aix-prod-849201948857',
     productName: 'AeroPulse TempoFlow Everyday Trainer',
@@ -348,6 +352,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-005',
     issueNumber: 'ISS-05',
+    scope: 'PRODUCT',
     title: 'Discovery Attribute Coverage Degraded',
     productId: 'aix-prod-849201948913',
     productName: 'AeroPulse TrailCore X Mountain Shoe',
@@ -428,6 +433,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-006',
     issueNumber: 'ISS-06',
+    scope: 'PRODUCT',
     title: 'Duplicate Variant SKU Collision',
     productId: 'aix-prod-849201948880',
     productName: 'AeroPulse Velocity Carbon Pro 5K/10K',
@@ -506,6 +512,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-007',
     issueNumber: 'ISS-07',
+    scope: 'OFFER',
     title: 'Inconsistent Availability Feed Microdata',
     productId: 'aix-prod-849201948634',
     productName: 'AeroKnit Recovery Slide Cushion',
@@ -582,6 +589,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-008',
     issueNumber: 'ISS-08',
+    scope: 'OFFER',
     title: 'Promotional Expiration Schema Mismatch',
     productId: 'aix-prod-849201948601',
     productName: 'CloudDrift Daily Trainer v3',
@@ -659,6 +667,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-009',
     issueNumber: 'ISS-09',
+    scope: 'PRODUCT',
     title: 'Weight Attribute Schema Normalized',
     productId: CANONICAL_PRODUCT_ID,
     productName: CANONICAL_PRODUCT_NAME,
@@ -734,6 +743,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-010',
     issueNumber: 'ISS-10',
+    scope: 'PRODUCT',
     title: 'Primary Image Aspect Ratio Realigned',
     productId: 'aix-prod-849201948857',
     productName: 'AeroPulse TempoFlow Everyday Trainer',
@@ -804,6 +814,7 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-011',
     issueNumber: 'ISS-11',
+    scope: 'OFFER',
     title: 'Manufacturer Currency Symbol Standardized',
     productId: 'aix-prod-849201948913',
     productName: 'AeroPulse TrailCore X Mountain Shoe',
@@ -873,7 +884,8 @@ export const sampleIssuesData: IssueItem[] = [
   },
   {
     id: 'iss-012',
-    issueNumber: 'ISS-012',
+    issueNumber: 'ISS-12',
+    scope: 'PRODUCT',
     title: 'Cushioning Drop Millimeter Unit Re-parsed',
     productId: 'aix-prod-849201948634',
     productName: 'AeroKnit Recovery Slide Cushion',

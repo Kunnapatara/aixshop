@@ -126,10 +126,56 @@ export interface IssueHistoryEvent {
   state: IssueRecoveryState;
 }
 
+export type IssueScope = 'PRODUCT' | 'OFFER';
+
+export interface ActionIntegrityNextStep {
+  stepNumber: number;
+  label: string;
+  description: string;
+  targetSystem: string;
+}
+
+export interface MerchantActionIntegrity {
+  scope: IssueScope;
+  problem: string;
+  evidence: {
+    source: string;
+    observedValue: string;
+    evidenceState: IssueEvidenceState;
+    detectedAt: string;
+    confidence: 'High' | 'Medium' | 'Low' | 'Unknown';
+    sourceDetails?: {
+      sourceA?: { name: string; value: string; detectedAt: string };
+      sourceB?: { name: string; value: string; detectedAt: string };
+    };
+    expectedCondition: string;
+  };
+  reason: string;
+  nextAction: {
+    actionCode: 'REVIEW' | 'OPEN_SOURCE' | 'VERIFY' | 'RECHECK';
+    actionLabel: string;
+    summary: string;
+    steps: ActionIntegrityNextStep[];
+    canSimulateRecheck: boolean;
+  };
+  sourceOwnership: {
+    sourceOfRecord: string;
+    ownerType: 'Merchant' | 'Brand / Manufacturer' | 'Authorized Retailer' | 'External Registry';
+    systemLocation: string;
+    dataFieldToChange: string;
+  };
+  boundary: {
+    aixshopCan: string[];
+    merchantMust: string[];
+    cannotClaim: string;
+  };
+}
+
 export interface IssueItem {
   id: string;
   issueNumber: string; // e.g. "ISS-01"
   title: string;
+  scope?: IssueScope;
   productId: string;
   productName: string;
   productSku: string;
