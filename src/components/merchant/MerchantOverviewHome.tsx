@@ -282,7 +282,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
               <span>What should I do next?</span>
             </div>
             <p className="text-xs text-orange-950/80 leading-relaxed font-normal">
-              Open the Issues workspace to lock authoritative manufacturer specifications. Resolving 2 critical issues unblocks AI engine discovery.
+              Open the Issues workspace to lock authoritative manufacturer specifications. Resolving {sampleIssuesMetrics.criticalIssues} critical issues unblocks AI engine discovery.
             </p>
           </div>
 

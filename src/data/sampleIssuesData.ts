@@ -16,12 +16,12 @@ export const sampleIssuesData: IssueItem[] = [
   {
     id: 'iss-001',
     issueNumber: 'ISS-01',
-    scope: 'PRODUCT',
+    scope: 'OFFER',
     title: 'Return Policy Evidence Missing',
     productId: CANONICAL_PRODUCT_ID,
     productName: CANONICAL_PRODUCT_NAME,
     productSku: CANONICAL_PRODUCT_SKU,
-    issueType: 'Evidence Missing',
+    issueType: 'Offer Integrity',
     severity: 'Critical',
     evidenceState: 'MISSING',
     whyItMatters: 'Return-policy intelligence cannot be safely represented as verified in downstream answer engines without authoritative merchant source confirmation.',
@@ -77,7 +77,7 @@ export const sampleIssuesData: IssueItem[] = [
       ],
       verificationStatus: 'BLOCKED',
       diff: {
-        field: 'hasMerchantReturnPolicy',
+        field: 'offers[0].hasMerchantReturnPolicy',
         currentValue: 'null / undefined',
         currentEvidenceState: 'MISSING',
         proposedValue: 'MerchantReturnPolicy: 30-day window, FreeReturns, ReturnByMail',
@@ -143,11 +143,11 @@ export const sampleIssuesData: IssueItem[] = [
     },
     buyerImpacts: {
       Discovery: { status: 'Affected', explanation: 'AI shopping engines cannot reliably index or match variant to search queries.' },
-      Problem: { status: 'Not Directly Affected' as any, explanation: 'Footwear performance remains unchanged.' },
+      Problem: { status: 'Not Affected', explanation: 'Footwear performance remains unchanged.' },
       Comparison: { status: 'Affected', explanation: 'Price comparison engines split the variant into two disparate products.' },
       Specification: { status: 'Affected', explanation: 'Official GS1 barcode attribute in specification table is contradictory.' },
       Purchase: { status: 'Affected', explanation: 'Risk of buyer receiving wrong warehouse variant upon fulfillment.' },
-      'Use Case': { status: 'Not Directly Affected' as any, explanation: 'Marathon racing use case remains unchanged.' },
+      'Use Case': { status: 'Not Affected', explanation: 'Marathon racing use case remains unchanged.' },
       Trust: { status: 'Affected', explanation: 'Contradictory identifiers erode trust with AI recommendation crawlers.' }
     },
     recoveryWorkspace: {

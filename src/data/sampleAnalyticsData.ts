@@ -36,12 +36,13 @@ import {
   MetricDefinition,
   ExportAnalyticsRecord
 } from '../types/analytics';
+import { sampleIssuesMetrics } from './sampleIssuesData';
 
 export const sampleAnalyticsKPIs: AnalyticsSummaryKPIs = {
   productsAnalyzed: 24,
   intelligenceCoveragePercentage: 78,
   evidenceCompletenessPercentage: 70,
-  openIssuesCount: 8,
+  openIssuesCount: sampleIssuesMetrics.openIssues,
   conflictsCount: 6,
   recoveryResolutionPercentage: 50,
   dataState: 'REPRESENTATIVE_PREVIEW',

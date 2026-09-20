@@ -159,18 +159,15 @@ export function deriveMonitoringMetrics(
  * Guarantees Product != Offer domain separation and enforces zero-hallucination / no-fake-writeback rules.
  */
 export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionIntegrity {
-  // Determine canonical domain scope (Product vs Offer)
-  const isOfferDomain = 
-    issue.scope === 'OFFER' ||
-    issue.issueNumber === 'ISS-04' ||
-    issue.issueNumber === 'ISS-07' ||
-    issue.issueNumber === 'ISS-08' ||
-    issue.issueNumber === 'ISS-11' ||
-    ['price', 'offer', 'availability', 'currency', 'promotional'].some(kw => 
-      issue.title.toLowerCase().includes(kw)
+  // Enforce explicit canonical IssueScope; never infer from title, keywords, issueNumber, or labels
+  if (!issue.scope || (issue.scope !== 'PRODUCT' && issue.scope !== 'OFFER')) {
+    throw new Error(
+      `[AIXSHOP Action Integrity Error] Issue ${issue.issueNumber || issue.id} is missing explicit canonical IssueScope ('PRODUCT' | 'OFFER'). Scope must never be inferred.`
     );
+  }
 
-  const scope: IssueScope = isOfferDomain ? 'OFFER' : 'PRODUCT';
+  const scope: IssueScope = issue.scope;
+  const isOfferDomain = scope === 'OFFER';
 
   // Base shared evidence mapping
   const evidence = {
@@ -187,14 +184,14 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
   switch (issue.issueNumber) {
     case 'ISS-01':
       return {
-        scope: 'PRODUCT',
-        problem: 'Storefront return policy evidence is missing from Schema.org microdata and product page. Downstream AI shopping engines cannot verify return windows or restocking conditions.',
+        scope: 'OFFER',
+        problem: 'Commercial return policy evidence is missing from Schema.org microdata and product page. Downstream AI shopping engines cannot verify return windows or restocking conditions.',
         evidence,
         reason: issue.diagnosticReason || 'Automated crawler observed merchant checkout link but found no authoritative Schema.org MerchantReturnPolicy object or structured return window in PDP DOM. In accordance with zero-hallucination rules, missing terms cannot be fabricated.',
         nextAction: {
           actionCode: 'VERIFY',
           actionLabel: 'Verify Authoritative Return Window',
-          summary: 'Attest official return window parameters (e.g., 30-day window, free returns) to inject Schema.org MerchantReturnPolicy.',
+          summary: 'Attest official return window parameters (e.g., 30-day window, free returns) to inject Schema.org MerchantReturnPolicy into Offer.',
           steps: [
             {
               stepNumber: 1,
@@ -224,10 +221,10 @@ export function deriveMerchantActionIntegrity(issue: IssueItem): MerchantActionI
           canSimulateRecheck: true
         },
         sourceOwnership: {
-          sourceOfRecord: 'Shopify Store Policy Settings & Storefront Theme',
+          sourceOfRecord: 'Shopify Store Policy Settings & Commercial Storefront Terms',
           ownerType: 'Merchant',
           systemLocation: 'Shopify Admin > Settings > Policies > Return & Refund Policy',
-          dataFieldToChange: 'Return Window Duration (Days), Return Method, Restocking Fees'
+          dataFieldToChange: 'Schema.org Offer.hasMerchantReturnPolicy (Window, Return Method, Restocking Fees)'
         },
         boundary: {
           aixshopCan: [

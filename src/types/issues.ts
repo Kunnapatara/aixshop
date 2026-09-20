@@ -175,7 +175,7 @@ export interface IssueItem {
   id: string;
   issueNumber: string; // e.g. "ISS-01"
   title: string;
-  scope?: IssueScope;
+  scope: IssueScope;
   productId: string;
   productName: string;
   productSku: string;
