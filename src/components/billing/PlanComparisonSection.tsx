@@ -94,7 +94,7 @@ export const PlanComparisonSection: React.FC<PlanComparisonSectionProps> = ({
       </div>
 
       {/* Plan Cards Matrix */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {canonicalPlans.map((plan) => {
           const isCurrent = plan.id === currentPlanId;
           const displayPrice = billingCycle === 'annual' ? plan.priceAnnualMonthly : plan.priceMonthly;
@@ -125,9 +125,11 @@ export const PlanComparisonSection: React.FC<PlanComparisonSectionProps> = ({
                 <div className="mt-3">
                   {displayPrice !== null ? (
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-3xl font-black text-white font-mono">${displayPrice}</span>
-                      <span className="text-xs text-slate-400">/ month</span>
-                      {billingCycle === 'annual' && (
+                      <span className="text-3xl font-black text-white font-mono">
+                        {displayPrice === 0 ? 'Free' : `$${displayPrice}`}
+                      </span>
+                      {displayPrice !== 0 && <span className="text-xs text-slate-400">/ month</span>}
+                      {billingCycle === 'annual' && displayPrice !== 0 && (
                         <span className="text-[10px] text-slate-500 font-mono ml-1">
                           (billed ${displayPrice * 12}/yr)
                         </span>
@@ -141,6 +143,12 @@ export const PlanComparisonSection: React.FC<PlanComparisonSectionProps> = ({
                   )}
                 </div>
 
+                {plan.pricingNote && (
+                  <p className="text-[11px] text-cyan-400/90 font-mono mt-1">
+                    {plan.pricingNote}
+                  </p>
+                )}
+
                 <p className="mt-2.5 text-xs text-slate-300 leading-relaxed min-h-[38px]">
                   {plan.description}
                 </p>
@@ -151,7 +159,7 @@ export const PlanComparisonSection: React.FC<PlanComparisonSectionProps> = ({
                   <span className="font-mono font-bold text-cyan-300">
                     {typeof plan.productCapacity === 'number' 
                       ? `${plan.productCapacity.toLocaleString()} Products` 
-                      : plan.productCapacity}
+                      : `${plan.productCapacity} Products`}
                   </span>
                 </div>
 
@@ -200,7 +208,7 @@ export const PlanComparisonSection: React.FC<PlanComparisonSectionProps> = ({
                   >
                     Current Active Plan
                   </button>
-                ) : plan.id === 'enterprise' ? (
+                ) : plan.id === 'paid_1000_plus' || plan.id === 'enterprise' ? (
                   <button
                     type="button"
                     onClick={onRequestEnterprise}
@@ -226,7 +234,7 @@ export const PlanComparisonSection: React.FC<PlanComparisonSectionProps> = ({
       {/* Feature Capability Table */}
       <div className="mt-8 pt-6 border-t border-slate-800">
         <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">
-          Detailed Capability Breakdown
+          Detailed Capability Breakdown Across Tiers
         </h4>
 
         <div className="overflow-x-auto">
@@ -234,49 +242,51 @@ export const PlanComparisonSection: React.FC<PlanComparisonSectionProps> = ({
             <thead className="bg-[#0B121E] text-slate-400 font-mono text-[11px] border-b border-slate-800">
               <tr>
                 <th className="p-3 font-semibold text-white">Capability</th>
-                <th className="p-3 font-semibold text-center w-36">Starter (100 Products)</th>
-                <th className="p-3 font-semibold text-center w-44 bg-cyan-950/30 text-cyan-300 border-x border-cyan-500/20">
-                  Pro (2,000 Products)
-                </th>
-                <th className="p-3 font-semibold text-center w-40">Enterprise (Custom)</th>
+                {canonicalPlans.map((plan) => (
+                  <th
+                    key={plan.id}
+                    className={`p-3 font-semibold text-center whitespace-nowrap ${
+                      plan.id === currentPlanId
+                        ? 'bg-cyan-950/30 text-cyan-300 border-x border-cyan-500/20'
+                        : ''
+                    }`}
+                  >
+                    {plan.name} ({typeof plan.productCapacity === 'number' ? `${plan.productCapacity} SKUs` : plan.productCapacity})
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 font-mono text-[11px]">
-              {capabilities.map((cap) => {
-                const starterVal = canonicalPlans[0].features[cap.key as keyof typeof canonicalPlans[0]['features']];
-                const proVal = canonicalPlans[1].features[cap.key as keyof typeof canonicalPlans[1]['features']];
-                const entVal = canonicalPlans[2].features[cap.key as keyof typeof canonicalPlans[2]['features']];
-
-                return (
-                  <tr key={cap.key} className="hover:bg-slate-900/40">
-                    <td className="p-3 font-sans">
-                      <div className="font-medium text-slate-200">{cap.label}</div>
-                      <div className="text-[10px] text-slate-500 font-sans">{cap.desc}</div>
-                    </td>
-                    <td className="p-3 text-center">
-                      {typeof starterVal === 'boolean' ? (
-                        starterVal ? <Check className="w-4 h-4 text-emerald-400 mx-auto" /> : <Minus className="w-4 h-4 text-slate-600 mx-auto" />
-                      ) : (
-                        <span className="text-slate-300">{starterVal}</span>
-                      )}
-                    </td>
-                    <td className="p-3 text-center bg-cyan-950/20 border-x border-cyan-500/20 font-semibold text-cyan-200">
-                      {typeof proVal === 'boolean' ? (
-                        proVal ? <Check className="w-4 h-4 text-cyan-400 mx-auto" /> : <Minus className="w-4 h-4 text-slate-600 mx-auto" />
-                      ) : (
-                        <span>{proVal}</span>
-                      )}
-                    </td>
-                    <td className="p-3 text-center">
-                      {typeof entVal === 'boolean' ? (
-                        entVal ? <Check className="w-4 h-4 text-emerald-400 mx-auto" /> : <Minus className="w-4 h-4 text-slate-600 mx-auto" />
-                      ) : (
-                        <span className="text-slate-300">{entVal}</span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+              {capabilities.map((cap) => (
+                <tr key={cap.key} className="hover:bg-slate-900/40">
+                  <td className="p-3 font-sans">
+                    <div className="font-medium text-slate-200">{cap.label}</div>
+                    <div className="text-[10px] text-slate-500 font-sans">{cap.desc}</div>
+                  </td>
+                  {canonicalPlans.map((plan) => {
+                    const val = plan.features[cap.key as keyof typeof plan['features']];
+                    const isCurrent = plan.id === currentPlanId;
+                    return (
+                      <td
+                        key={plan.id}
+                        className={`p-3 text-center ${
+                          isCurrent ? 'bg-cyan-950/20 border-x border-cyan-500/20 font-semibold text-cyan-200' : ''
+                        }`}
+                      >
+                        {typeof val === 'boolean' ? (
+                          val ? (
+                            <Check className={`w-4 h-4 mx-auto ${isCurrent ? 'text-cyan-400' : 'text-emerald-400'}`} />
+                          ) : (
+                            <Minus className="w-4 h-4 text-slate-600 mx-auto" />
+                          )
+                        ) : (
+                          <span className={isCurrent ? 'text-cyan-200' : 'text-slate-300'}>{val}</span>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

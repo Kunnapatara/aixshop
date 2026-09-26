@@ -9,7 +9,7 @@ export const sampleCanonicalProduct: CanonicalProductPreview = {
   canonicalId: CANONICAL_PRODUCT_ID,
   gtin: '00849201948172',
   mpn: 'AP-VSE-BLK-10',
-  heroImage: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop',
+  heroImage: '/src/assets/images/hero_product_shoe_1790429818724.jpg',
   summary: 'Dual-density PEBA cushioned marathon racing shoe with full-length carbon composite propulsion plate engineered for high-cadence road racing.',
   lowestObservedPrice: 199.00,
   officialPrice: 240.00,

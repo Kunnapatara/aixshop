@@ -38,7 +38,7 @@ export const CANONICAL_REPRESENTATIVE_PRODUCT: CanonicalProductIdentity = {
   brand: 'AeroPulse Athletics',
   category: 'Running Shoes',
   categoryPath: ['Footwear', 'Performance Running', 'Marathon Racing'],
-  imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1200'
+  imageUrl: '/src/assets/images/hero_product_shoe_1790429818724.jpg'
 };
 
 // Aliases and standard legacy mappings to ensure 100% resolution across views
@@ -160,7 +160,7 @@ export const CANONICAL_CATALOG_PRODUCTS: CanonicalCatalogProduct[] = [
     mpn: CANONICAL_PRODUCT_MPN,
     modelNumber: 'VSC-2024-X',
     variantCount: 12,
-    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1200',
+    imageUrl: '/src/assets/images/hero_product_shoe_1790429818724.jpg',
     whatAIXShopKnows: 'Weight (198g, Men US 9), Heel Drop (8mm), Full-length Carbon Plate, PEBA midsole verified via tech spec sheet.',
     whatAIXShopCannotVerify: [
       'Exact percentage of post-consumer recycled upper polyester',

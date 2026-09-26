@@ -4,6 +4,8 @@ import { ShopperExperience } from './components/shopper/ShopperExperience';
 import { MerchantExperience, MerchantTab } from './components/merchant/MerchantExperience';
 import { AdminExperience } from './components/admin/AdminExperience';
 import { HeroSection } from './components/HeroSection';
+import { ValueChainSection } from './components/landing/ValueChainSection';
+import { CatalogPricingSection } from './components/landing/CatalogPricingSection';
 import { FragmentationProblemSection } from './components/FragmentationProblemSection';
 import { ProductIntelligencePreview } from './components/ProductIntelligencePreview';
 import { EvidencePrinciplesSection } from './components/EvidencePrinciplesSection';
@@ -11,10 +13,10 @@ import { MerchantWorkflowSection } from './components/MerchantWorkflowSection';
 import { Footer } from './components/Footer';
 
 export default function App() {
-  // Primary Journey State: 'shopper' | 'merchant' | 'admin' | 'landing'
-  const [currentJourney, setCurrentJourney] = useState<UserJourney | 'landing'>('shopper');
+  // Primary Journey State: 'landing' (Default for landing & pricing sprint) | 'shopper' | 'merchant' | 'admin'
+  const [currentJourney, setCurrentJourney] = useState<UserJourney>('landing');
   
-  // Secondary sub-tab states if needed
+  // Secondary sub-tab states for merchant console
   const [merchantSubTab, setMerchantSubTab] = useState<MerchantTab>('overview');
   const [submittedUrl, setSubmittedUrl] = useState<string>('https://shop.aeropulse.com/products/vaporstride-carbon-elite');
   const urlInputRef = useRef<HTMLInputElement>(null);
@@ -31,17 +33,32 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleScrollToPricing = () => {
+    const el = document.getElementById('pricing');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleFocusUrlInput = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      urlInputRef.current?.focus();
+    }, 150);
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col font-sans selection:bg-orange-500/20 selection:text-orange-950">
       
-      {/* 1. Global Journey Navigation Bar (QRxMENU Top Header) */}
+      {/* 1. Global Navigation Bar adhering to Top Bar Contract */}
       <GlobalJourneyBar
-        currentJourney={currentJourney === 'landing' ? 'shopper' : currentJourney}
+        currentJourney={currentJourney}
         onSelectJourney={handleSelectJourney}
         onNavigateLanding={() => {
           setCurrentJourney('landing');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
+        onNavigatePricing={handleScrollToPricing}
       />
 
       {/* 2. ROLE JOURNEY A: SHOPPER EXPERIENCE */}
@@ -91,33 +108,38 @@ export default function App() {
         </div>
       )}
 
-      {/* 5. OPTIONAL: LANDING & VALUE PROPOSITION VIEW */}
+      {/* 5. LANDING PAGE & PRICING PRESENTATION */}
       {currentJourney === 'landing' && (
-        <div className="flex-1 flex flex-col bg-[#FAF8F5] text-stone-900 selection:bg-orange-500/20 selection:text-orange-950">
+        <div className="flex-1 flex flex-col bg-[#FAF8F5] text-stone-900">
           <main className="flex-1 space-y-16 pb-24">
+            
+            {/* Hero Section */}
             <HeroSection
               onStartAnalysis={handleStartAnalysis}
               onNavigateDashboard={() => {
                 setCurrentJourney('merchant');
                 setMerchantSubTab('overview');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               onNavigateReport={() => {
                 setCurrentJourney('merchant');
                 setMerchantSubTab('report');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
+              onNavigatePricing={handleScrollToPricing}
               inputRef={urlInputRef}
             />
 
-            {/* Quick 3-Journey Gateway Block (QRxMENU Rounded Card Style) */}
+            {/* Quick 3-Journey Gateway Block */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="p-8 rounded-3xl bg-white border border-stone-200/80 shadow-xs space-y-6">
+              <div className="p-8 rounded-3xl bg-white border border-stone-200/80 shadow-2xs space-y-6">
                 <div className="text-center space-y-2 max-w-2xl mx-auto">
                   <span className="px-3.5 py-1 rounded-full text-xs font-semibold text-orange-800 bg-orange-50 border border-orange-200">
-                    ONE INTELLIGENCE SYSTEM · THREE EXPERIENCES
+                    ONE PRODUCT TRUTH · THREE INTERACTIVE EXPERIENCES
                   </span>
-                  <h2 className="text-2xl font-extrabold text-stone-900">Select Your Operational Journey</h2>
+                  <h2 className="text-2xl font-extrabold text-stone-900">Experience AIXSHOP Live</h2>
                   <p className="text-xs sm:text-sm text-stone-500">
-                    Experience how product truth powers buyer trust, catalog optimization, and algorithmic governance.
+                    Explore how product data truth powers shopper trust, merchant catalog optimization, and algorithmic governance.
                   </p>
                 </div>
 
@@ -170,11 +192,45 @@ export default function App() {
               </div>
             </div>
 
+            {/* The 9-Stage AIXSHOP Value Chain */}
+            <ValueChainSection 
+              onAnalyzeClick={handleFocusUrlInput}
+              onExplorePricingClick={handleScrollToPricing}
+            />
+
+            {/* Catalog-Limit Pricing Section (10, 50, 150, 500, 1000, 1000+) */}
+            <CatalogPricingSection
+              onSelectTier={(plan) => {
+                setCurrentJourney('merchant');
+                setMerchantSubTab('billing');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onNavigateConsole={() => {
+                setCurrentJourney('merchant');
+                setMerchantSubTab('overview');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
+
+            {/* Fragmentation Problem Breakdown */}
             <FragmentationProblemSection />
-            <ProductIntelligencePreview onStartAnalysis={handleStartAnalysis} />
+
+            {/* Canonical Product Intelligence Card Preview */}
+            <ProductIntelligencePreview 
+              onNavigateShopper={() => {
+                setCurrentJourney('shopper');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }} 
+            />
+
+            {/* Evidence Principles Section */}
             <EvidencePrinciplesSection />
-            <MerchantWorkflowSection />
+
+            {/* Merchant Workflow Section */}
+            <MerchantWorkflowSection onAnalyzeClick={handleFocusUrlInput} />
+
           </main>
+          
           <Footer />
         </div>
       )}

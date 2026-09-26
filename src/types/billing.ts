@@ -1,4 +1,13 @@
-export type BillingPlanTier = 'starter' | 'pro' | 'enterprise';
+export type BillingPlanTier = 
+  | 'free_10' 
+  | 'paid_50' 
+  | 'paid_150' 
+  | 'paid_500' 
+  | 'paid_1000' 
+  | 'paid_1000_plus'
+  | 'starter' 
+  | 'pro' 
+  | 'enterprise';
 
 export type BillingCycle = 'monthly' | 'annual';
 
@@ -12,11 +21,13 @@ export interface BillingPlan {
   id: BillingPlanTier;
   name: string;
   badge?: string;
-  priceMonthly: number | null; // null for enterprise/custom
+  priceMonthly: number | null; // null for custom / 1,000+
   priceAnnualMonthly: number | null; // discounted monthly rate if billed annually
-  productCapacity: number | string; // e.g. 100, 2000, "Custom"
+  productCapacity: number | string; // 10, 50, 150, 500, 1000, "1,000+"
   description: string;
   highlight?: boolean;
+  isPricingConfigured?: boolean; // clearly indicates tier pricing configuration
+  pricingNote?: string;
   features: {
     productCapacity: string;
     productIntelligence: boolean | string;

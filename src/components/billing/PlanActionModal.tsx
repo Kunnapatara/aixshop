@@ -72,7 +72,11 @@ export const PlanActionModal: React.FC<PlanActionModalProps> = ({
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-white uppercase tracking-wide">Requested Tier</span>
                   <span className="text-xs font-mono font-bold text-cyan-400">
-                    ${targetPlan.priceMonthly} USD / month
+                    {targetPlan.priceMonthly === 0 
+                      ? 'Free' 
+                      : targetPlan.priceMonthly !== null 
+                        ? `$${targetPlan.priceMonthly} USD / month` 
+                        : 'Custom Tier'}
                   </span>
                 </div>
                 <div className="text-sm font-bold text-white mt-1">{targetPlan.name} Plan</div>

@@ -22,6 +22,12 @@ export const Footer: React.FC = () => {
 
           {/* Quick Anchor Navigation */}
           <div className="flex flex-wrap items-center gap-6 text-xs text-stone-600 font-medium">
+            <a href="#value-chain" className="hover:text-orange-600 transition-colors">
+              Value Chain
+            </a>
+            <a href="#pricing" className="hover:text-orange-600 transition-colors">
+              Catalog Pricing
+            </a>
             <a href="#preview" className="hover:text-orange-600 transition-colors">
               Product Intelligence
             </a>
