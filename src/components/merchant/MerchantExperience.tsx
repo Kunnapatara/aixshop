@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { 
   LayoutDashboard, 
   Package, 
@@ -38,9 +38,10 @@ import {
   resolveMerchantTab, 
   isMoreSecondaryTab 
 } from './merchantNavigationConfig';
-import { sampleIssuesMetrics } from '../../data/sampleIssuesData';
+import { sampleIssuesData, sampleIssuesMetrics } from '../../data/sampleIssuesData';
 import { CANONICAL_SYSTEM_KPIS } from '../../data/canonicalCatalog';
 import { sampleMonitoringMetrics } from '../../data/sampleMonitoringData';
+import { IssueItem } from '../../types/issues';
 
 // Re-export type for consumers
 export type { MerchantTab };
@@ -63,6 +64,48 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
   const [isStoreMenuOpen, setIsStoreMenuOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [activeScannedUrl, setActiveScannedUrl] = useState<string>('https://shop.aeropulse.com/products/vaporstride-carbon-elite');
+  const [issues, setIssues] = useState<IssueItem[]>(sampleIssuesData);
+  const [readinessScore, setReadinessScore] = useState<number>(CANONICAL_SYSTEM_KPIS.discoveryReadinessPct);
+
+  const openIssuesCount = useMemo(() => {
+    return issues.filter(i => !i.isResolved).length;
+  }, [issues]);
+
+  const handleApproveIssue = (issueId: string, customVal?: string) => {
+    setIssues(prev => prev.map(iss => {
+      if (iss.id === issueId) {
+        return {
+          ...iss,
+          isResolved: true,
+          recoveryState: 'Resolved' as const,
+          recoveryWorkspace: {
+            ...iss.recoveryWorkspace,
+            verificationStatus: 'VERIFIED' as const,
+            diff: {
+              ...iss.recoveryWorkspace.diff,
+              proposedValue: customVal || iss.recoveryWorkspace.diff.proposedValue,
+              validationResult: 'PASS' as const
+            }
+          }
+        };
+      }
+      return iss;
+    }));
+    setReadinessScore(prev => Math.min(99, prev + 3));
+  };
+
+  const handleDismissIssue = (issueId: string) => {
+    setIssues(prev => prev.map(iss => {
+      if (iss.id === issueId) {
+        return {
+          ...iss,
+          isResolved: false,
+          recoveryState: 'Blocked' as const
+        };
+      }
+      return iss;
+    }));
+  };
 
   const moreMenuRef = useRef<HTMLDivElement>(null);
   const storeMenuRef = useRef<HTMLDivElement>(null);
@@ -124,7 +167,7 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
           <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
             isActive ? 'bg-amber-400/30 text-amber-200' : 'bg-rose-100 text-rose-800'
           }`}>
-            {sampleIssuesMetrics.openIssues}
+            {openIssuesCount}
           </span>
         );
       case 'readiness':
@@ -132,7 +175,7 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
           <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${
             isActive ? 'bg-emerald-400/30 text-emerald-200' : 'bg-emerald-100 text-emerald-800'
           }`}>
-            {CANONICAL_SYSTEM_KPIS.discoveryReadinessPct}%
+            {readinessScore}%
           </span>
         );
       default:
@@ -495,6 +538,10 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
             onNavigateReport={() => setActiveTab('report')}
             onNavigateIntegrations={() => setActiveTab('integrations')}
             onAddProducts={() => setIsAddModalOpen(true)}
+            issues={issues}
+            onApproveIssue={handleApproveIssue}
+            onDismissIssue={handleDismissIssue}
+            readinessScore={readinessScore}
           />
         )}
 

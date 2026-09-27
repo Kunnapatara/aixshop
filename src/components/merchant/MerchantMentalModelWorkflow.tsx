@@ -19,7 +19,11 @@ interface MerchantMentalModelWorkflowProps {
   onNavigateFix: () => void;
   onNavigateReady: () => void;
   onNavigateConnect: () => void;
-  activeStage?: 'add' | 'scan' | 'fix' | 'recheck' | 'ready' | 'connect';
+  activeStage?: 'add' | 'scan' | 'fix' | 'recheck' | 'ready' | 'connect' | 'check' | 'review' | 'approve';
+  openIssuesCount?: number;
+  approvedCount?: number;
+  readinessPct?: number;
+  onRecheck?: () => void;
 }
 
 export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowProps> = ({
@@ -28,7 +32,11 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
   onNavigateFix,
   onNavigateReady,
   onNavigateConnect,
-  activeStage
+  activeStage,
+  openIssuesCount = sampleIssuesMetrics.openIssues,
+  approvedCount = 0,
+  readinessPct = CANONICAL_SYSTEM_KPIS.discoveryReadinessPct,
+  onRecheck
 }) => {
   const [isRechecking, setIsRechecking] = useState(false);
   const [recheckSuccess, setRecheckSuccess] = useState(false);
@@ -36,6 +44,9 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
   const handleRecheckClick = () => {
     setIsRechecking(true);
     setRecheckSuccess(false);
+    if (onRecheck) {
+      onRecheck();
+    }
     setTimeout(() => {
       setIsRechecking(false);
       setRecheckSuccess(true);
@@ -55,9 +66,9 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
       status: 'complete'
     },
     {
-      id: 'scan',
+      id: 'check',
       stepNum: '02',
-      title: 'Scan',
+      title: 'Check',
       subtitle: 'Catalog Audited',
       actionLabel: 'Inspect Hero',
       icon: Search,
@@ -65,19 +76,30 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
       status: 'complete'
     },
     {
-      id: 'fix',
+      id: 'review',
       stepNum: '03',
-      title: 'Fix',
-      subtitle: `${sampleIssuesMetrics.openIssues} Issues Found`,
+      title: 'Review',
+      subtitle: `${openIssuesCount} Issues Found`,
       actionLabel: 'Triage Issues',
       icon: AlertTriangle,
       onClick: onNavigateFix,
-      status: 'attention',
-      badge: `${sampleIssuesMetrics.openIssues} Open`
+      status: openIssuesCount > 0 ? 'attention' : 'complete',
+      badge: `${openIssuesCount} Open`
+    },
+    {
+      id: 'approve',
+      stepNum: '04',
+      title: 'Approve',
+      subtitle: approvedCount > 0 ? `${approvedCount} Applied` : 'Review & Apply',
+      actionLabel: 'Review Tasks',
+      icon: CheckCircle2,
+      onClick: onNavigateFix,
+      status: approvedCount > 0 ? 'complete' : 'ready',
+      badge: approvedCount > 0 ? `${approvedCount} Done` : undefined
     },
     {
       id: 'recheck',
-      stepNum: '04',
+      stepNum: '05',
       title: 'Recheck',
       subtitle: recheckSuccess ? 'Simulation Complete' : 'Preview (18m ago)',
       actionLabel: isRechecking ? 'Simulating...' : 'Run Recheck',
@@ -88,24 +110,14 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
     },
     {
       id: 'ready',
-      stepNum: '05',
+      stepNum: '06',
       title: 'Ready',
-      subtitle: `${CANONICAL_SYSTEM_KPIS.discoveryReadinessPct}% AI Ready`,
+      subtitle: `${readinessPct}% AI Ready`,
       actionLabel: 'View Readiness',
       icon: Compass,
       onClick: onNavigateReady,
       status: 'active',
-      badge: `${CANONICAL_SYSTEM_KPIS.discoveryReadinessPct}%`
-    },
-    {
-      id: 'connect',
-      stepNum: '06',
-      title: 'Connect',
-      subtitle: 'Connections & Feeds',
-      actionLabel: 'Manage Feeds',
-      icon: Workflow,
-      onClick: onNavigateConnect,
-      status: 'ready'
+      badge: `${readinessPct}%`
     }
   ];
 
@@ -121,7 +133,7 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
           </h2>
         </div>
         <div className="text-xs text-stone-500 font-medium">
-          Add → Scan → Fix → Recheck → Ready → Connect/Export
+          Add → Check → Review → Approve → Recheck → Ready
         </div>
       </div>
 

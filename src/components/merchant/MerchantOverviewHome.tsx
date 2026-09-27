@@ -16,8 +16,10 @@ import {
 } from 'lucide-react';
 import { sampleCatalogDimensions, sampleHealthDistribution, sampleRecentEvents } from '../../data/sampleDashboardData';
 import { CANONICAL_SYSTEM_KPIS, CANONICAL_TELEMETRY_FUNNEL } from '../../data/canonicalCatalog';
-import { sampleIssuesMetrics } from '../../data/sampleIssuesData';
+import { sampleIssuesData, sampleIssuesMetrics } from '../../data/sampleIssuesData';
 import { MerchantMentalModelWorkflow } from './MerchantMentalModelWorkflow';
+import { MerchantActionCenter } from './MerchantActionCenter';
+import { IssueItem } from '../../types/issues';
 
 interface MerchantOverviewHomeProps {
   onNavigateIssues: () => void;
@@ -28,6 +30,11 @@ interface MerchantOverviewHomeProps {
   onNavigateReport: () => void;
   onNavigateIntegrations?: () => void;
   onAddProducts?: () => void;
+  issues?: IssueItem[];
+  onApproveIssue?: (issueId: string, customValue?: string) => void;
+  onDismissIssue?: (issueId: string) => void;
+  onInspectIssue?: (issue: IssueItem) => void;
+  readinessScore?: number;
 }
 
 export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
@@ -38,7 +45,12 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   onNavigateMonitoring,
   onNavigateReport,
   onNavigateIntegrations,
-  onAddProducts
+  onAddProducts,
+  issues = sampleIssuesData,
+  onApproveIssue,
+  onDismissIssue,
+  onInspectIssue,
+  readinessScore = CANONICAL_SYSTEM_KPIS.discoveryReadinessPct
 }) => {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -93,13 +105,17 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
         </div>
       </div>
 
-      {/* 2. Merchant Mental Model & Value Loop: Add → Scan → Fix → Recheck → Ready → Connect/Export */}
-      <MerchantMentalModelWorkflow
+      {/* 2. PRIMARY ACTION CENTER: Task-First Guided Review & Approve Workflow */}
+      <MerchantActionCenter
+        issues={issues}
+        onApproveIssue={onApproveIssue}
+        onDismissIssue={onDismissIssue}
+        onInspectIssue={onInspectIssue || ((iss) => onNavigateIssues())}
+        onNavigateCatalog={onNavigateProducts}
+        onNavigateReadiness={onNavigateDiscovery}
+        onNavigateIntegrations={onNavigateIntegrations}
         onAddProducts={onAddProducts || onNavigateProducts}
-        onNavigateScan={onNavigateReport}
-        onNavigateFix={onNavigateIssues}
-        onNavigateReady={onNavigateDiscovery}
-        onNavigateConnect={onNavigateIntegrations || onNavigateDiscovery}
+        readinessScore={readinessScore}
       />
 
       {/* 2. Structured KPI Hierarchy (Primary vs Secondary per Prompt) */}

@@ -121,13 +121,14 @@ export function isMoreSecondaryTab(tab: MerchantTab): boolean {
 }
 
 /**
- * 6-Stage Merchant Mental Model Pipeline
+ * 6-Stage Task-First Merchant Mental Model Pipeline
+ * Mental Model: Add → Check → Review → Approve → Recheck → Ready
  */
 export const MERCHANT_MENTAL_MODEL_STAGES = [
   { stage: 'add', stepNum: '01', title: 'Add', actionLabel: '+ Add SKUs' },
-  { stage: 'scan', stepNum: '02', title: 'Scan', actionLabel: 'Inspect Hero' },
-  { stage: 'fix', stepNum: '03', title: 'Fix', actionLabel: 'Triage Issues' },
-  { stage: 'recheck', stepNum: '04', title: 'Recheck', actionLabel: 'Run Recheck' },
-  { stage: 'ready', stepNum: '05', title: 'Ready', actionLabel: 'View Readiness' },
-  { stage: 'connect', stepNum: '06', title: 'Connect', actionLabel: 'Manage Feeds' },
+  { stage: 'check', stepNum: '02', title: 'Check', actionLabel: 'Audit Catalog' },
+  { stage: 'review', stepNum: '03', title: 'Review', actionLabel: 'Review Tasks' },
+  { stage: 'approve', stepNum: '04', title: 'Approve', actionLabel: 'Approve Fixes' },
+  { stage: 'recheck', stepNum: '05', title: 'Recheck', actionLabel: 'Run Recheck' },
+  { stage: 'ready', stepNum: '06', title: 'Ready', actionLabel: 'View Readiness' },
 ] as const;
