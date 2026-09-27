@@ -17,6 +17,7 @@ import {
 import { sampleCatalogDimensions, sampleHealthDistribution, sampleRecentEvents } from '../../data/sampleDashboardData';
 import { CANONICAL_SYSTEM_KPIS, CANONICAL_TELEMETRY_FUNNEL } from '../../data/canonicalCatalog';
 import { sampleIssuesMetrics } from '../../data/sampleIssuesData';
+import { MerchantMentalModelWorkflow } from './MerchantMentalModelWorkflow';
 
 interface MerchantOverviewHomeProps {
   onNavigateIssues: () => void;
@@ -25,6 +26,8 @@ interface MerchantOverviewHomeProps {
   onNavigateDiscovery: () => void;
   onNavigateMonitoring: () => void;
   onNavigateReport: () => void;
+  onNavigateIntegrations?: () => void;
+  onAddProducts?: () => void;
 }
 
 export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
@@ -33,7 +36,9 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   onNavigateOffers,
   onNavigateDiscovery,
   onNavigateMonitoring,
-  onNavigateReport
+  onNavigateReport,
+  onNavigateIntegrations,
+  onAddProducts
 }) => {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -59,6 +64,15 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
           </div>
 
           <div className="flex items-center gap-2 self-start md:self-auto">
+            {onAddProducts && (
+              <button
+                type="button"
+                onClick={onAddProducts}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
+              >
+                <span>+ Add Products</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={onNavigateReport}
@@ -78,6 +92,15 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
           </div>
         </div>
       </div>
+
+      {/* 2. Merchant Mental Model & Value Loop: Add → Scan → Fix → Recheck → Ready → Connect/Export */}
+      <MerchantMentalModelWorkflow
+        onAddProducts={onAddProducts || onNavigateProducts}
+        onNavigateScan={onNavigateReport}
+        onNavigateFix={onNavigateIssues}
+        onNavigateReady={onNavigateDiscovery}
+        onNavigateConnect={onNavigateIntegrations || onNavigateDiscovery}
+      />
 
       {/* 2. Structured KPI Hierarchy (Primary vs Secondary per Prompt) */}
       <div className="space-y-4">

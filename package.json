@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "test": "tsx src/tests/sprintVerification.ts"
+    "test": "tsx src/tests/sprintVerification.ts && tsx src/tests/merchantIaVerification.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

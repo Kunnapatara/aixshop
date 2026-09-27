@@ -24,10 +24,10 @@ export const WorkbenchHeader: React.FC<WorkbenchHeaderProps> = ({
               className="hover:text-stone-900 transition-colors flex items-center gap-1.5 cursor-pointer"
             >
               <ArrowLeft className="w-3 h-3" />
-              <span>Merchant Overview</span>
+              <span>Home</span>
             </button>
             <span className="text-stone-300">/</span>
-            <span className="text-[#F97316] font-bold">Products Intelligence Workbench</span>
+            <span className="text-[#F97316] font-bold">Catalog</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -43,7 +43,7 @@ export const WorkbenchHeader: React.FC<WorkbenchHeaderProps> = ({
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight flex items-center gap-2.5">
-                <span>Products</span>
+                <span>Catalog</span>
                 <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-50 text-orange-700 border border-orange-200">
                   Workbench
                 </span>
@@ -66,7 +66,7 @@ export const WorkbenchHeader: React.FC<WorkbenchHeaderProps> = ({
               className="px-3.5 py-2 rounded-xl bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold border border-stone-200/80 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
               <ArrowLeft className="w-3.5 h-3.5 text-stone-500" />
-              <span>Back to Overview</span>
+              <span>Back to Home</span>
             </button>
 
             <button

@@ -251,11 +251,11 @@ export const MerchantDiscoveryPage: React.FC<MerchantDiscoveryPageProps> = ({
                 className="hover:text-orange-600 transition-colors flex items-center gap-1 cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Overview</span>
+                <span>Home</span>
               </button>
             )}
             <span>/</span>
-            <span className="text-orange-600 font-bold">Discovery Readiness (P08)</span>
+            <span className="text-orange-600 font-bold">AI & Channel Readiness</span>
           </div>
 
           {/* Quick Nav Badges */}
@@ -267,7 +267,7 @@ export const MerchantDiscoveryPage: React.FC<MerchantDiscoveryPageProps> = ({
                 className="px-3 py-1.5 rounded-xl bg-stone-50 hover:bg-stone-100 text-stone-700 border border-stone-200/80 font-medium transition-colors cursor-pointer flex items-center gap-1.5"
               >
                 <Package className="w-3.5 h-3.5 text-stone-400" />
-                <span>Products (24)</span>
+                <span>Catalog (24)</span>
               </button>
             )}
             {onNavigateOffers && (

@@ -45,6 +45,7 @@ interface MonitoringPageProps {
   onNavigateShopper?: () => void;
   onNavigateIntegrations?: () => void;
   onNavigateAnalytics?: () => void;
+  hideNavShell?: boolean;
 }
 
 export const MonitoringPage: React.FC<MonitoringPageProps> = ({
@@ -58,7 +59,8 @@ export const MonitoringPage: React.FC<MonitoringPageProps> = ({
   onNavigateIssues,
   onNavigateShopper,
   onNavigateIntegrations,
-  onNavigateAnalytics
+  onNavigateAnalytics,
+  hideNavShell = false
 }) => {
   // 1. Filter and View States
   const [filters, setFilters] = useState<MonitoringFiltersState>({
@@ -325,6 +327,7 @@ export const MonitoringPage: React.FC<MonitoringPageProps> = ({
       {/* 1. Merchant Application Navigation Shell */}
       <DashboardNavigationShell
         currentPage="monitoring"
+        hideNavShell={hideNavShell}
         onBoundaryClick={(pageId, pageName, description) =>
           handleOpenFutureBoundary(pageName, description)
         }

@@ -91,18 +91,34 @@ export const DashboardNavigationShell: React.FC<DashboardNavigationShellProps> =
   const navItems = [
     {
       id: 'overview',
-      label: 'Overview',
+      label: 'Home',
       icon: LayoutDashboard,
       status: currentActive === 'overview' ? 'active' : 'ready',
       badge: currentActive === 'overview' ? 'Active' : 'Ready'
     },
     {
       id: 'products',
-      label: 'Products',
+      label: 'Catalog',
       icon: Package,
       status: currentActive === 'products' ? 'active' : 'ready',
       badge: currentActive === 'products' ? 'Active' : 'Ready',
       desc: 'Catalog-wide multi-product specification editor, GS1 barcode manager, and variant inheritance rules.'
+    },
+    {
+      id: 'issues',
+      label: 'Issues',
+      icon: AlertCircle,
+      status: currentActive === 'issues' ? 'active' : 'ready',
+      badge: currentActive === 'issues' ? 'Active' : 'Ready',
+      desc: 'Centralized evidence gap triage, merchant arbitration queue, and automated Schema.org remediation.'
+    },
+    {
+      id: 'discovery',
+      label: 'Readiness',
+      icon: Compass,
+      status: currentActive === 'discovery' ? 'active' : 'ready',
+      badge: currentActive === 'discovery' ? 'Active' : '79%',
+      desc: 'Autonomous AI answer engine readiness, structured feed audits, and buyer intent query simulations.'
     },
     {
       id: 'offers',
@@ -113,28 +129,12 @@ export const DashboardNavigationShell: React.FC<DashboardNavigationShellProps> =
       desc: 'Multi-seller commercial offer intelligence, time-dependent pricing, availability tracking, and dispersion analysis.'
     },
     {
-      id: 'discovery',
-      label: 'Discovery',
-      icon: Compass,
-      status: currentActive === 'discovery' ? 'active' : 'ready',
-      badge: currentActive === 'discovery' ? 'Active' : '79%',
-      desc: 'Autonomous AI answer engine readiness, structured feed audits, and buyer intent query simulations.'
-    },
-    {
       id: 'monitoring',
       label: 'Monitoring',
       icon: Activity,
       status: currentActive === 'monitoring' ? 'active' : 'ready',
       badge: currentActive === 'monitoring' ? 'Active' : 'Ready',
       desc: 'Continuous ground-truth drift detection, schema regression alerts, and unauthorized seller notifications.'
-    },
-    {
-      id: 'issues',
-      label: 'Issues',
-      icon: AlertCircle,
-      status: currentActive === 'issues' ? 'active' : 'ready',
-      badge: currentActive === 'issues' ? 'Active' : 'Ready',
-      desc: 'Centralized evidence gap triage, merchant arbitration queue, and automated Schema.org remediation.'
     },
     {
       id: 'shopper',

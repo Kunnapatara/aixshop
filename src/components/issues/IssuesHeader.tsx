@@ -45,14 +45,10 @@ export const IssuesHeader: React.FC<IssuesHeaderProps> = ({
               className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-stone-50 hover:bg-stone-100 text-stone-700 transition-colors cursor-pointer border border-stone-200 font-medium text-xs shadow-3xs"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Overview</span>
+              <span>Back to Home</span>
             </button>
             <span className="text-stone-300">/</span>
-            <span className="text-[#F97316] font-mono font-bold uppercase tracking-wider text-[11px]">
-              Page 10
-            </span>
-            <span className="text-stone-300">/</span>
-            <span className="text-stone-800 font-semibold">Issues & Recovery</span>
+            <span className="text-stone-800 font-semibold">Issues</span>
           </div>
 
           <div className="flex items-center gap-2">

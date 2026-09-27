@@ -45,6 +45,7 @@ interface IntegrationsPageProps {
   onNavigateIntegrations?: () => void;
   onNavigateAnalytics?: () => void;
   onBoundaryClick?: (pageId: string, pageName: string, description: string) => void;
+  hideNavShell?: boolean;
 }
 
 export const IntegrationsPage: React.FC<IntegrationsPageProps> = ({
@@ -61,7 +62,8 @@ export const IntegrationsPage: React.FC<IntegrationsPageProps> = ({
   onNavigateShopper,
   onNavigateIntegrations,
   onNavigateAnalytics,
-  onBoundaryClick
+  onBoundaryClick,
+  hideNavShell = false
 }) => {
   // State for sources (can be modified in preview mode)
   const [sources, setSources] = useState<IntegrationSource[]>(sampleIntegrationSources);
@@ -157,6 +159,7 @@ export const IntegrationsPage: React.FC<IntegrationsPageProps> = ({
   return (
     <DashboardNavigationShell
       currentActive="integrations"
+      hideNavShell={hideNavShell}
       onNavigateHome={onNavigateHome}
       onNavigateLanding={onNavigateLanding}
       onNavigateAnalysis={onNavigateAnalysis}

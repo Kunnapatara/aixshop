@@ -38,6 +38,7 @@ interface OffersPricingPageProps {
   onNavigateShopper?: () => void;
   onNavigateIntegrations?: () => void;
   onNavigateAnalytics?: () => void;
+  hideNavShell?: boolean;
 }
 
 export const OffersPricingPage: React.FC<OffersPricingPageProps> = ({
@@ -52,7 +53,8 @@ export const OffersPricingPage: React.FC<OffersPricingPageProps> = ({
   onNavigateIssues,
   onNavigateShopper,
   onNavigateIntegrations,
-  onNavigateAnalytics
+  onNavigateAnalytics,
+  hideNavShell = false
 }) => {
   // Modal for future page boundaries (Pages 08–15)
   const [boundaryModalInfo, setBoundaryModalInfo] = useState<{
@@ -274,6 +276,7 @@ export const OffersPricingPage: React.FC<OffersPricingPageProps> = ({
   return (
     <DashboardNavigationShell
       currentPage="offers"
+      hideNavShell={hideNavShell}
       onNavigateLanding={onNavigateLanding}
       onNavigateAnalysis={onNavigateAnalysis}
       onNavigateReport={onNavigateReport}

@@ -35,6 +35,7 @@ interface BillingPageProps {
   onNavigateBilling?: () => void;
   onSelectFuturePage?: (pageName: string, description: string) => void;
   onBoundaryClick?: (pageId: string, pageName: string, description: string) => void;
+  hideNavShell?: boolean;
 }
 
 export const BillingPage: React.FC<BillingPageProps> = ({
@@ -56,7 +57,8 @@ export const BillingPage: React.FC<BillingPageProps> = ({
   onNavigateAnalytics,
   onNavigateBilling,
   onSelectFuturePage,
-  onBoundaryClick
+  onBoundaryClick,
+  hideNavShell = false
 }) => {
   // Modal states
   const [selectedReceipt, setSelectedReceipt] = useState<BillingHistoryRecord | null>(null);
@@ -102,10 +104,11 @@ export const BillingPage: React.FC<BillingPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#070B14] text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col">
       {/* 1. Dashboard Navigation Shell */}
       <DashboardNavigationShell
         currentActive="billing"
+        hideNavShell={hideNavShell}
         onNavigateHome={onNavigateHome}
         onNavigateLanding={onNavigateLanding}
         onNavigateAnalysis={onNavigateAnalysis || (() => {})}

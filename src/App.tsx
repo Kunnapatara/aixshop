@@ -51,15 +51,17 @@ export default function App() {
     <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col font-sans selection:bg-orange-500/20 selection:text-orange-950">
       
       {/* 1. Global Navigation Bar adhering to Top Bar Contract */}
-      <GlobalJourneyBar
-        currentJourney={currentJourney}
-        onSelectJourney={handleSelectJourney}
-        onNavigateLanding={() => {
-          setCurrentJourney('landing');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-        onNavigatePricing={handleScrollToPricing}
-      />
+      {currentJourney !== 'merchant' && (
+        <GlobalJourneyBar
+          currentJourney={currentJourney}
+          onSelectJourney={handleSelectJourney}
+          onNavigateLanding={() => {
+            setCurrentJourney('landing');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onNavigatePricing={handleScrollToPricing}
+        />
+      )}
 
       {/* 2. ROLE JOURNEY A: SHOPPER EXPERIENCE */}
       {currentJourney === 'shopper' && (
@@ -67,7 +69,7 @@ export default function App() {
           <ShopperExperience
             onNavigateMerchant={() => {
               setCurrentJourney('merchant');
-              setMerchantSubTab('overview');
+              setMerchantSubTab('home');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />
@@ -85,6 +87,10 @@ export default function App() {
             }}
             onNavigateAdmin={() => {
               setCurrentJourney('admin');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            onNavigateLanding={() => {
+              setCurrentJourney('landing');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />

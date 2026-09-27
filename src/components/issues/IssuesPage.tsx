@@ -39,6 +39,7 @@ interface IssuesPageProps {
   onNavigateShopper?: () => void;
   onNavigateIntegrations?: () => void;
   onNavigateAnalytics?: () => void;
+  hideNavShell?: boolean;
 }
 
 export const IssuesPage: React.FC<IssuesPageProps> = ({
@@ -53,7 +54,8 @@ export const IssuesPage: React.FC<IssuesPageProps> = ({
   onNavigateFixWorkflow,
   onNavigateShopper,
   onNavigateIntegrations,
-  onNavigateAnalytics
+  onNavigateAnalytics,
+  hideNavShell = false
 }) => {
   // Master issues state (allows interactive verification updates in preview model)
   const [issues, setIssues] = useState<IssueItem[]>(sampleIssuesData);
@@ -319,6 +321,7 @@ export const IssuesPage: React.FC<IssuesPageProps> = ({
   return (
     <DashboardNavigationShell
       currentActive="issues"
+      hideNavShell={hideNavShell}
       onNavigateHome={onNavigateHome}
       onNavigateAnalysis={onNavigateAnalysis}
       onNavigateReport={onNavigateReport}
