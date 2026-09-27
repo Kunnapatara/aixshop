@@ -36,7 +36,7 @@ export const IntegrationsHeader: React.FC<IntegrationsHeaderProps> = ({
           <div className="flex items-center gap-2">
             <span className="px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#F97316] font-mono text-[11px] font-bold tracking-wide uppercase flex items-center gap-1.5 shadow-3xs">
               <Workflow className="w-3.5 h-3.5 text-[#F97316]" />
-              Page 12 · Integrations Workspace
+              Connections & Feeds
             </span>
             <span className="text-stone-300">/</span>
             <span className="text-xs font-mono text-stone-500">

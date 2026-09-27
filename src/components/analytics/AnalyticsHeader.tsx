@@ -42,12 +42,10 @@ export const AnalyticsHeader: React.FC<AnalyticsHeaderProps> = ({
             className="flex items-center gap-1.5 text-stone-500 hover:text-[#F97316] transition-colors cursor-pointer font-medium"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Return to Overview (Page 05)</span>
+            <span>Back to Home</span>
           </button>
           <span className="text-stone-300">/</span>
-          <span className="text-stone-400 font-medium">Page 13</span>
-          <span className="text-stone-300">/</span>
-          <span className="text-[#F97316] font-mono font-bold">Analytics & Performance</span>
+          <span className="text-[#F97316] font-bold">Analytics & Performance</span>
         </div>
 
         {/* Mandatory Data Truth Banner */}

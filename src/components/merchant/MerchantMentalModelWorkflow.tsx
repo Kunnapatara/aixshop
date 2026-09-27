@@ -79,8 +79,8 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
       id: 'recheck',
       stepNum: '04',
       title: 'Recheck',
-      subtitle: recheckSuccess ? 'Catalog Corroborated' : '18m ago',
-      actionLabel: isRechecking ? 'Rechecking...' : 'Run Recheck',
+      subtitle: recheckSuccess ? 'Simulation Complete' : 'Preview (18m ago)',
+      actionLabel: isRechecking ? 'Simulating...' : 'Run Recheck',
       icon: RefreshCw,
       onClick: handleRecheckClick,
       status: recheckSuccess ? 'complete' : 'ready',
@@ -101,7 +101,7 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
       id: 'connect',
       stepNum: '06',
       title: 'Connect',
-      subtitle: 'Feeds & Channels',
+      subtitle: 'Connections & Feeds',
       actionLabel: 'Manage Feeds',
       icon: Workflow,
       onClick: onNavigateConnect,
@@ -129,7 +129,7 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
         <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>Catalog re-audit complete. 24 SKUs verified against AI schema specifications.</span>
+            <span>Recheck simulation complete (representative preview). Continuous validation rules evaluated against catalog specifications.</span>
           </div>
           <button 
             onClick={onNavigateReady}
