@@ -40,6 +40,8 @@ interface IssuesPageProps {
   onNavigateIntegrations?: () => void;
   onNavigateAnalytics?: () => void;
   hideNavShell?: boolean;
+  issues?: IssueItem[];
+  onUpdateIssue?: (issueId: string, updates: Partial<IssueItem>) => void;
 }
 
 export const IssuesPage: React.FC<IssuesPageProps> = ({
@@ -55,10 +57,13 @@ export const IssuesPage: React.FC<IssuesPageProps> = ({
   onNavigateShopper,
   onNavigateIntegrations,
   onNavigateAnalytics,
-  hideNavShell = false
+  hideNavShell = false,
+  issues: propIssues,
+  onUpdateIssue
 }) => {
   // Master issues state (allows interactive verification updates in preview model)
-  const [issues, setIssues] = useState<IssueItem[]>(sampleIssuesData);
+  const [localIssues, setLocalIssues] = useState<IssueItem[]>(sampleIssuesData);
+  const issues = propIssues || localIssues;
 
   // Filter state
   const [filters, setFilters] = useState<IssuesFilterState>({
@@ -301,16 +306,19 @@ export const IssuesPage: React.FC<IssuesPageProps> = ({
 
   // Update issue state from drawer
   const handleUpdateIssueState = (issueId: string, updates: Partial<IssueItem>) => {
-    setIssues(prev => prev.map(item => {
-      if (item.id === issueId) {
-        const updated = { ...item, ...updates };
-        if (activeDrawerIssue?.id === issueId) {
-          setActiveDrawerIssue(updated);
+    if (onUpdateIssue) {
+      onUpdateIssue(issueId, updates);
+    } else {
+      setLocalIssues(prev => prev.map(item => {
+        if (item.id === issueId) {
+          return { ...item, ...updates };
         }
-        return updated;
-      }
-      return item;
-    }));
+        return item;
+      }));
+    }
+    if (activeDrawerIssue?.id === issueId) {
+      setActiveDrawerIssue(prev => prev ? { ...prev, ...updates } : null);
+    }
   };
 
   // Recompute live summary metrics based on actual state of issues via canonical selector

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Compass, 
   Search, 
@@ -24,6 +24,9 @@ import {
   FileText,
   Activity
 } from 'lucide-react';
+import { IssueItem } from '../../types/issues';
+import { CANONICAL_SYSTEM_KPIS } from '../../data/canonicalCatalog';
+import { READINESS_TRUTH_BOUNDARIES } from '../../state/canonicalReadiness';
 
 interface MerchantDiscoveryPageProps {
   onNavigateIssues: () => void;
@@ -36,6 +39,8 @@ interface MerchantDiscoveryPageProps {
   onNavigateAnalytics?: () => void;
   onNavigateBilling?: () => void;
   onNavigateShopper?: () => void;
+  readinessScore?: number;
+  issues?: IssueItem[];
 }
 
 interface DiscoverySurfaceDetail {
@@ -66,7 +71,9 @@ export const MerchantDiscoveryPage: React.FC<MerchantDiscoveryPageProps> = ({
   onNavigateIntegrations,
   onNavigateAnalytics,
   onNavigateBilling,
-  onNavigateShopper
+  onNavigateShopper,
+  readinessScore = CANONICAL_SYSTEM_KPIS.discoveryReadinessPct,
+  issues
 }) => {
   // Active Filter / Tab
   const [activeFilter, setActiveFilter] = useState<'all' | 'ai' | 'search' | 'schema' | 'marketplaces'>('all');
@@ -74,6 +81,12 @@ export const MerchantDiscoveryPage: React.FC<MerchantDiscoveryPageProps> = ({
   const [selectedSimQueryId, setSelectedSimQueryId] = useState<string>('query-1');
   const [isAuditing, setIsAuditing] = useState(false);
   const [auditSuccess, setAuditSuccess] = useState(false);
+
+  // Derived open issues count if canonical issues passed
+  const openCount = useMemo(() => {
+    if (!issues) return 8;
+    return issues.filter(i => !i.isResolved && i.recoveryState !== 'Resolved').length;
+  }, [issues]);
 
   // 4 Canonical Discovery Surfaces
   const canonicalSurfaces: DiscoverySurfaceDetail[] = [
@@ -287,7 +300,7 @@ export const MerchantDiscoveryPage: React.FC<MerchantDiscoveryPageProps> = ({
                 className="px-3 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200/80 font-bold transition-colors cursor-pointer flex items-center gap-1.5"
               >
                 <AlertTriangle className="w-3.5 h-3.5 text-orange-600" />
-                <span>Issues Queue (8)</span>
+                <span>Issues Queue ({openCount})</span>
               </button>
             )}
           </div>
@@ -311,20 +324,30 @@ export const MerchantDiscoveryPage: React.FC<MerchantDiscoveryPageProps> = ({
             <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
               Deterministic machine readability and answerability score across search engines, conversational AI answer engines, commerce feeds, and semantic microdata.
             </p>
+            <div className="text-[11px] text-stone-500 font-medium flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+              <span>{READINESS_TRUTH_BOUNDARIES.previewModel}</span>
+              <span className="text-stone-300">·</span>
+              <span className="text-stone-400">{READINESS_TRUTH_BOUNDARIES.externalUnchanged}</span>
+            </div>
           </div>
 
           {/* Big Score Hero Card */}
           <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 flex items-center gap-4 shrink-0">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#EA580C] to-[#F97316] flex flex-col items-center justify-center text-white shadow-xs">
-              <span className="text-2xl font-black leading-none">79%</span>
+              <span className="text-2xl font-black leading-none">{readinessScore}%</span>
               <span className="text-[10px] font-medium tracking-tight uppercase mt-0.5">Overall</span>
             </div>
             <div>
               <span className="text-xs text-stone-500 font-medium block">Catalog Readiness</span>
-              <span className="text-base font-extrabold text-stone-900 block">Strong Baseline</span>
+              <span className="text-base font-extrabold text-stone-900 block">
+                {readinessScore >= 95 ? 'Optimized' : readinessScore >= 80 ? 'Strong Baseline' : 'Needs Review'}
+              </span>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                <span className="text-xs text-amber-800 font-semibold">1 surface gated by conflicts</span>
+                <span className={`w-2 h-2 rounded-full ${openCount === 0 ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+                <span className={`text-xs font-semibold ${openCount === 0 ? 'text-emerald-800' : 'text-amber-800'}`}>
+                  {openCount === 0 ? 'All surfaces verified in preview model' : `${openCount} issues open in preview model`}
+                </span>
               </div>
             </div>
           </div>

@@ -23,6 +23,8 @@ interface MerchantMentalModelWorkflowProps {
   openIssuesCount?: number;
   approvedCount?: number;
   readinessPct?: number;
+  isRechecking?: boolean;
+  recheckSuccess?: boolean;
   onRecheck?: () => void;
 }
 
@@ -36,22 +38,29 @@ export const MerchantMentalModelWorkflow: React.FC<MerchantMentalModelWorkflowPr
   openIssuesCount = sampleIssuesMetrics.openIssues,
   approvedCount = 0,
   readinessPct = CANONICAL_SYSTEM_KPIS.discoveryReadinessPct,
+  isRechecking: propIsRechecking,
+  recheckSuccess: propRecheckSuccess,
   onRecheck
 }) => {
-  const [isRechecking, setIsRechecking] = useState(false);
-  const [recheckSuccess, setRecheckSuccess] = useState(false);
+  const [internalRechecking, setInternalRechecking] = useState(false);
+  const [internalSuccess, setInternalSuccess] = useState(false);
+
+  const isRechecking = propIsRechecking !== undefined ? propIsRechecking : internalRechecking;
+  const recheckSuccess = propRecheckSuccess !== undefined ? propRecheckSuccess : internalSuccess;
 
   const handleRecheckClick = () => {
-    setIsRechecking(true);
-    setRecheckSuccess(false);
     if (onRecheck) {
       onRecheck();
     }
-    setTimeout(() => {
-      setIsRechecking(false);
-      setRecheckSuccess(true);
-      setTimeout(() => setRecheckSuccess(false), 3500);
-    }, 1000);
+    if (propIsRechecking === undefined) {
+      setInternalRechecking(true);
+      setInternalSuccess(false);
+      setTimeout(() => {
+        setInternalRechecking(false);
+        setInternalSuccess(true);
+        setTimeout(() => setInternalSuccess(false), 3500);
+      }, 1000);
+    }
   };
 
   const steps = [

@@ -42,6 +42,7 @@ import { sampleIssuesData, sampleIssuesMetrics } from '../../data/sampleIssuesDa
 import { CANONICAL_SYSTEM_KPIS } from '../../data/canonicalCatalog';
 import { sampleMonitoringMetrics } from '../../data/sampleMonitoringData';
 import { IssueItem } from '../../types/issues';
+import { useMerchantSession } from '../../state/useMerchantSession';
 
 // Re-export type for consumers
 export type { MerchantTab };
@@ -59,53 +60,22 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
   onNavigateAdmin,
   onNavigateLanding
 }) => {
-  const [activeTab, setActiveTab] = useState<MerchantTab>(resolveMerchantTab(initialTab));
+  // Canonical Session Coordinator
+  const {
+    activeTab,
+    setActiveTab,
+    issues,
+    openIssuesCount,
+    readinessScore,
+    approveIssue: handleApproveIssue,
+    dismissIssue: handleDismissIssue,
+    updateIssue: handleUpdateIssue
+  } = useMerchantSession(initialTab);
+
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isStoreMenuOpen, setIsStoreMenuOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [activeScannedUrl, setActiveScannedUrl] = useState<string>('https://shop.aeropulse.com/products/vaporstride-carbon-elite');
-  const [issues, setIssues] = useState<IssueItem[]>(sampleIssuesData);
-  const [readinessScore, setReadinessScore] = useState<number>(CANONICAL_SYSTEM_KPIS.discoveryReadinessPct);
-
-  const openIssuesCount = useMemo(() => {
-    return issues.filter(i => !i.isResolved).length;
-  }, [issues]);
-
-  const handleApproveIssue = (issueId: string, customVal?: string) => {
-    setIssues(prev => prev.map(iss => {
-      if (iss.id === issueId) {
-        return {
-          ...iss,
-          isResolved: true,
-          recoveryState: 'Resolved' as const,
-          recoveryWorkspace: {
-            ...iss.recoveryWorkspace,
-            verificationStatus: 'VERIFIED' as const,
-            diff: {
-              ...iss.recoveryWorkspace.diff,
-              proposedValue: customVal || iss.recoveryWorkspace.diff.proposedValue,
-              validationResult: 'PASS' as const
-            }
-          }
-        };
-      }
-      return iss;
-    }));
-    setReadinessScore(prev => Math.min(99, prev + 3));
-  };
-
-  const handleDismissIssue = (issueId: string) => {
-    setIssues(prev => prev.map(iss => {
-      if (iss.id === issueId) {
-        return {
-          ...iss,
-          isResolved: false,
-          recoveryState: 'Blocked' as const
-        };
-      }
-      return iss;
-    }));
-  };
 
   const moreMenuRef = useRef<HTMLDivElement>(null);
   const storeMenuRef = useRef<HTMLDivElement>(null);
@@ -597,6 +567,8 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
               onNavigateAnalytics={() => setActiveTab('analytics')}
               onNavigateBilling={() => setActiveTab('billing')}
               onNavigateShopper={onNavigateShopper}
+              readinessScore={readinessScore}
+              issues={issues}
             />
           </div>
         )}
@@ -617,6 +589,8 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
               onNavigateShopper={onNavigateShopper}
               onNavigateIntegrations={() => setActiveTab('integrations')}
               onNavigateAnalytics={() => setActiveTab('analytics')}
+              issues={issues}
+              onUpdateIssue={handleUpdateIssue}
             />
           </div>
         )}

@@ -42,6 +42,7 @@ import {
 } from 'lucide-react';
 import { IssueItem, IssueSeverity } from '../../types/issues';
 import { CANONICAL_SYSTEM_KPIS } from '../../data/canonicalCatalog';
+import { calculateReadinessScore, BASE_READINESS_SCORE } from '../../state/canonicalReadiness';
 
 export interface ActionItemReviewState {
   status: 'pending' | 'approved' | 'dismissed';
@@ -78,12 +79,29 @@ export const MerchantActionCenter: React.FC<MerchantActionCenterProps> = ({
     const initial: Record<string, ActionItemReviewState> = {};
     issues.forEach(iss => {
       initial[iss.id] = {
-        status: iss.isResolved ? 'approved' : 'pending',
+        status: iss.isResolved ? 'approved' : (iss.recoveryState === 'Blocked' ? 'dismissed' : 'pending'),
         customValue: iss.recoveryWorkspace?.diff?.proposedValue || ''
       };
     });
     return initial;
   });
+
+  // Synchronize reviewStates when canonical issues array updates (e.g. from IssuesPage / Drawer)
+  React.useEffect(() => {
+    setReviewStates(prev => {
+      const updated = { ...prev };
+      issues.forEach(iss => {
+        const canonicalStatus = iss.isResolved ? 'approved' : (iss.recoveryState === 'Blocked' ? 'dismissed' : 'pending');
+        if (!updated[iss.id] || iss.isResolved || iss.recoveryState === 'Blocked') {
+          updated[iss.id] = {
+            status: canonicalStatus,
+            customValue: iss.recoveryWorkspace?.diff?.proposedValue || updated[iss.id]?.customValue || ''
+          };
+        }
+      });
+      return updated;
+    });
+  }, [issues]);
 
   // Track editable input mode per card
   const [editingCardId, setEditingCardId] = useState<string | null>(null);
@@ -119,12 +137,10 @@ export const MerchantActionCenter: React.FC<MerchantActionCenterProps> = ({
     return issues.filter(i => reviewStates[i.id]?.status === 'dismissed').length;
   }, [issues, reviewStates]);
 
-  // Dynamic simulated readiness score based on approved fixes
+  // Dynamic simulated readiness score based on approved fixes via canonical readiness authority
   const currentReadinessScore = useMemo(() => {
     if (recheckFeedback) return recheckFeedback.score;
-    const base = readinessScore;
-    const boost = totalApproved * 2.5; // up to ~99%
-    return Math.min(99, Math.round(base + boost));
+    return calculateReadinessScore(totalApproved, readinessScore);
   }, [readinessScore, totalApproved, recheckFeedback]);
 
   // Filtered issues list
