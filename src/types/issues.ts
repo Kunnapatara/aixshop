@@ -126,7 +126,7 @@ export interface IssueHistoryEvent {
   state: IssueRecoveryState;
 }
 
-export type IssueScope = 'PRODUCT' | 'OFFER';
+export type IssueScope = 'PRODUCT' | 'OFFER' | 'STORE' | 'EVIDENCE';
 
 export interface ActionIntegrityNextStep {
   stepNumber: number;

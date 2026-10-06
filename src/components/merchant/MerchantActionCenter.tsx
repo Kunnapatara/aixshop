@@ -274,7 +274,7 @@ export const MerchantActionCenter: React.FC<MerchantActionCenterProps> = ({
             </h1>
 
             <p className="text-sm text-stone-600 leading-relaxed font-normal">
-              AIXSHOP scanned your 24 products across AI shopping engines (ChatGPT, Google Gemini, Perplexity) and external retail channels. Review and approve the suggested fixes below to ensure AI assistants recommend your products accurately.
+              AIXSHOP scanned your 24 products across AI shopping engines (ChatGPT, Google Gemini, Perplexity) and external retail channels. Review and approve the suggested fixes below to improve your product's readiness for AI Shopping and strengthen information quality.
             </p>
           </div>
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Sparkles, 
   AlertTriangle, 
@@ -9,16 +9,19 @@ import {
   Search, 
   ShieldCheck, 
   ShoppingBag,
-  Layers,
-  Clock,
-  ChevronRight,
+  Layers, 
+  Clock, 
+  ChevronRight, 
   Info
 } from 'lucide-react';
 import { sampleCatalogDimensions, sampleHealthDistribution, sampleRecentEvents } from '../../data/sampleDashboardData';
-import { CANONICAL_SYSTEM_KPIS, CANONICAL_TELEMETRY_FUNNEL } from '../../data/canonicalCatalog';
+import { CANONICAL_SYSTEM_KPIS, CANONICAL_TELEMETRY_FUNNEL, CANONICAL_CATALOG_PRODUCTS } from '../../data/canonicalCatalog';
 import { sampleIssuesData, sampleIssuesMetrics } from '../../data/sampleIssuesData';
 import { MerchantMentalModelWorkflow } from './MerchantMentalModelWorkflow';
 import { MerchantActionCenter } from './MerchantActionCenter';
+import { StoreAuditHero } from './StoreAuditHero';
+import { StoreFindingsSection } from './StoreFindingsSection';
+import { ProductAuditModal } from './ProductAuditModal';
 import { IssueItem } from '../../types/issues';
 
 interface MerchantOverviewHomeProps {
@@ -52,70 +55,74 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   onInspectIssue,
   readinessScore = CANONICAL_SYSTEM_KPIS.discoveryReadinessPct
 }) => {
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+  const [selectedProductAudit, setSelectedProductAudit] = useState<{ id: string; name: string }>({
+    id: CANONICAL_CATALOG_PRODUCTS[0].id,
+    name: CANONICAL_CATALOG_PRODUCTS[0].name
+  });
+
+  const openIssuesCount = issues.filter(i => !i.isResolved && i.recoveryState !== 'Resolved').length;
+
+  const handleInspectProduct = (productId: string, productName: string) => {
+    setSelectedProductAudit({ id: productId, name: productName });
+    setIsProductModalOpen(true);
+  };
+
+  const scrollToActions = () => {
+    const el = document.getElementById('action-center-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
-      {/* 1. Top Section Greeting & Intro (Exact Prompt Specification) */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-xs">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-orange-50 text-orange-700 border border-orange-200/80 tracking-wide">
-                CATALOG INTELLIGENCE DASHBOARD
-              </span>
-              <span className="text-xs text-stone-400 font-mono">AeroPulse Pro Account</span>
-            </div>
-            
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
-              Good morning, AeroPulse
-            </h1>
-            
-            <p className="text-xs sm:text-sm text-stone-500 font-normal">
-              Your catalog intelligence at a glance. Continuous multi-channel corroboration and discovery governance.
-            </p>
-          </div>
+      {/* 1. STORE-FIRST AUDIT HERO (Primary Entry Point: ตรวจร้านของคุณ) */}
+      <StoreAuditHero
+        readinessScore={readinessScore}
+        openIssuesCount={openIssuesCount}
+        onAuditStore={(url) => {
+          setSelectedProductAudit({ id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name });
+          setIsProductModalOpen(true);
+        }}
+        onStartFixing={scrollToActions}
+        onRecheckStore={() => {
+          if (onApproveIssue) {
+            // trigger simulation refresh
+          }
+        }}
+      />
 
-          <div className="flex items-center gap-2 self-start md:self-auto">
-            {onAddProducts && (
-              <button
-                type="button"
-                onClick={onAddProducts}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-stone-900 hover:bg-black text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
-              >
-                <span>+ Add Products</span>
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={onNavigateReport}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200/70 text-stone-800 text-xs font-semibold transition-colors cursor-pointer border border-stone-200"
-            >
-              <Eye className="w-3.5 h-3.5 text-stone-600" />
-              <span>Inspect Hero Product</span>
-            </button>
-            <button
-              type="button"
-              onClick={onNavigateIssues}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold shadow-xs hover:shadow transition-all cursor-pointer"
-            >
-              <span>Review {sampleIssuesMetrics.openIssues} Issues</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
+      {/* 2. FINDINGS GROUPED BY ACTION PRIORITY: ต้องแก้ก่อน | ควรปรับปรุง | ดีแล้ว */}
+      <StoreFindingsSection
+        issues={issues}
+        onInspectProduct={handleInspectProduct}
+        onOpenActionCenter={scrollToActions}
+        onResolveIssue={(id) => onApproveIssue && onApproveIssue(id)}
+      />
+
+      {/* 3. PRIMARY ACTION CENTER: Task-First Guided Review & Approve Workflow */}
+      <div id="action-center-section">
+        <MerchantActionCenter
+          issues={issues}
+          onApproveIssue={onApproveIssue}
+          onDismissIssue={onDismissIssue}
+          onInspectIssue={onInspectIssue || ((iss) => onNavigateIssues())}
+          onNavigateCatalog={onNavigateProducts}
+          onNavigateReadiness={onNavigateDiscovery}
+          onNavigateIntegrations={onNavigateIntegrations}
+          onAddProducts={onAddProducts || onNavigateProducts}
+          readinessScore={readinessScore}
+        />
       </div>
 
-      {/* 2. PRIMARY ACTION CENTER: Task-First Guided Review & Approve Workflow */}
-      <MerchantActionCenter
-        issues={issues}
-        onApproveIssue={onApproveIssue}
-        onDismissIssue={onDismissIssue}
-        onInspectIssue={onInspectIssue || ((iss) => onNavigateIssues())}
-        onNavigateCatalog={onNavigateProducts}
-        onNavigateReadiness={onNavigateDiscovery}
-        onNavigateIntegrations={onNavigateIntegrations}
-        onAddProducts={onAddProducts || onNavigateProducts}
-        readinessScore={readinessScore}
+      {/* 4. Product Audit Modal for Direct Drill-down */}
+      <ProductAuditModal
+        isOpen={isProductModalOpen}
+        onClose={() => setIsProductModalOpen(false)}
+        productId={selectedProductAudit.id}
+        productName={selectedProductAudit.name}
       />
 
       {/* 2. Structured KPI Hierarchy (Primary vs Secondary per Prompt) */}
