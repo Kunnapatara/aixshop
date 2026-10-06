@@ -100,9 +100,38 @@ assert(homeSrc.includes('<ProductAuditModal'), 'MerchantOverviewHome renders Pro
 assert(homeSrc.includes('<MerchantActionCenter'), 'MerchantOverviewHome preserves MerchantActionCenter');
 assert(homeSrc.includes('onApproveIssue={onApproveIssue}'), 'MerchantOverviewHome passes onApproveIssue');
 assert(homeSrc.includes('readinessScore={readinessScore}'), 'MerchantOverviewHome passes readinessScore');
+assert(homeSrc.includes('audit-result-banner') && homeSrc.includes('ผลการตรวจร้าน'), 'MerchantOverviewHome renders Store Audit Result summary banner');
+assert(homeSrc.includes('showActionCenter'), 'Action Center is housed in secondary/collapsible workspace on Home');
+
+// Verify old dashboard sections removed from primary Home
+assert(!homeSrc.includes('sampleCatalogDimensions'), 'OLD DASHBOARD REMOVAL: Catalog Intelligence Dimensions removed from Home');
+assert(!homeSrc.includes('sampleHealthDistribution'), 'OLD DASHBOARD REMOVAL: Health Distribution removed from Home');
+assert(!homeSrc.includes('sampleRecentEvents'), 'OLD DASHBOARD REMOVAL: Live Ingestion Feed removed from Home');
+assert(!homeSrc.includes('What needs attention?'), 'OLD DASHBOARD REMOVAL: "What needs attention?" hero block removed from Home');
+assert(!homeSrc.includes('Intelligence Coverage'), 'OLD DASHBOARD REMOVAL: Intelligence Coverage KPI block removed from Home');
+
+// Verify semantic routing: Store Audit CTA triggers store audit, NOT product audit
+assert(
+  !homeSrc.includes('onAuditStore={(url) => {\n          setSelectedProductAudit'),
+  'ROUTING FIX: "ตรวจร้าน" triggers store audit, not product modal'
+);
+assert(
+  modalSrc.includes('Shopify / WooCommerce') && modalSrc.includes('ขั้นตอนการแก้ที่ต้นทาง'),
+  'SOURCE-OF-TRUTH RULE: Clear step-by-step fix at store source instructions present'
+);
 
 // 5. NO FALSE AI CLAIMS & HONEST BOUNDARIES
 console.log('\n--- 5. TRUTH BOUNDARIES & NO FALSE AI CLAIMS ---');
+
+// Verify 5 AI Commerce Surfaces represented honestly
+assert(
+  heroSrc.includes('Google') && heroSrc.includes('ChatGPT') && heroSrc.includes('Gemini') && heroSrc.includes('Bing') && heroSrc.includes('TikTok'),
+  '5 AI Commerce Visibility surfaces (Google, ChatGPT, Gemini, Bing, TikTok) presented in StoreAuditHero'
+);
+assert(
+  heroSrc.includes('AI Commerce') && heroSrc.includes('Catalog Readiness'),
+  'Frames store discoverability honestly as AI Commerce catalog readiness without fake rankings'
+);
 
 const actionCenterPath = path.resolve(__dirname, '../components/merchant/MerchantActionCenter.tsx');
 const actionCenterSrc = fs.readFileSync(actionCenterPath, 'utf8');

@@ -86,7 +86,13 @@ export const StoreAuditHero: React.FC<StoreAuditHeroProps> = ({
             <>
               <button
                 type="button"
-                onClick={() => onRecheckStore ? onRecheckStore() : null}
+                onClick={() => {
+                  if (onAuditStore) {
+                    onAuditStore(storeUrlInput);
+                  } else if (onRecheckStore) {
+                    onRecheckStore();
+                  }
+                }}
                 disabled={isRechecking}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-stone-900 hover:bg-black text-white text-xs sm:text-sm font-bold shadow-xs hover:shadow transition-all cursor-pointer disabled:opacity-50"
               >
@@ -312,6 +318,78 @@ export const StoreAuditHero: React.FC<StoreAuditHeroProps> = ({
                 <span>ข้อมูลที่ช่วยยืนยัน: พบคู่แข่งและร้านอื่นให้ข้อมูลวัสดุขัดแย้งกัน</span>
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. AI Commerce Visibility & Readiness Surfaces (5 Supported Surfaces) */}
+      <div className="p-5 rounded-2xl bg-white border border-stone-200/80 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-2.5">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-orange-600" />
+            <h4 className="text-xs font-bold text-stone-900">
+              ความพร้อมและการเตรียมตัวสำหรับ AI Commerce (5 Supported Surfaces)
+            </h4>
+          </div>
+          <span className="text-[10px] text-stone-400 font-medium">
+            * ประเมินจากคุณภาพและความครบถ้วนของข้อมูลแคตตาล็อกร้านค้า (Catalog Readiness) ไม่ใช่การการันตีอันดับการค้นหาภายนอก
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-1">
+          {/* Surface 1: Google */}
+          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-stone-900">Google</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800">84% พร้อม</span>
+            </div>
+            <p className="text-[11px] text-stone-500 leading-normal">
+              Search & Shopping feeds ผ่านเกณฑ์ข้อมูลพื้นฐาน
+            </p>
+          </div>
+
+          {/* Surface 2: ChatGPT */}
+          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-stone-900">ChatGPT</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">68% ปรับปรุง</span>
+            </div>
+            <p className="text-[11px] text-stone-500 leading-normal">
+              ขาดสเปกเฉพาะทาง (Drop, Plate, Materials)
+            </p>
+          </div>
+
+          {/* Surface 3: Gemini */}
+          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-stone-900">Gemini</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">72% ปรับปรุง</span>
+            </div>
+            <p className="text-[11px] text-stone-500 leading-normal">
+              พบข้อมูลวัสดุขัดแย้งกับฟีดตัวแทนจำหน่าย
+            </p>
+          </div>
+
+          {/* Surface 4: Bing */}
+          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-stone-900">Bing Copilot</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800">76% พร้อม</span>
+            </div>
+            <p className="text-[11px] text-stone-500 leading-normal">
+              สเปกพื้นฐานพร้อมสำหรับคำค้นหาทั่วไป
+            </p>
+          </div>
+
+          {/* Surface 5: TikTok */}
+          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-stone-900">TikTok Shop</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-700">เตรียมฟีด</span>
+            </div>
+            <p className="text-[11px] text-stone-500 leading-normal">
+              อยู่ในขั้นตอนจัดเตรียมโครงสร้างแคตตาล็อก
+            </p>
           </div>
         </div>
       </div>

@@ -136,7 +136,7 @@ export const ProductAuditModal: React.FC<ProductAuditModalProps> = ({
         </div>
 
         {/* 4. สิ่งที่ควรทำ (Action at Source) */}
-        <div className="p-4 rounded-2xl bg-orange-50/60 border border-orange-200/80 space-y-2 text-xs">
+        <div className="p-4 rounded-2xl bg-orange-50/60 border border-orange-200/80 space-y-2.5 text-xs">
           <div className="flex items-center gap-2 font-bold text-orange-950">
             <Wrench className="w-4 h-4 text-orange-600" />
             <span>สิ่งที่ควรทำ (แก้ที่ร้านต้นทาง):</span>
@@ -151,8 +151,22 @@ export const ProductAuditModal: React.FC<ProductAuditModalProps> = ({
             </li>
           </ul>
 
-          <div className="pt-1 text-[10px] text-stone-400">
-            * ระบบร้านค้าของคุณคือแหล่งข้อมูลจริง — AIXSHOP ทำหน้าที่ตรวจและยืนยันความพร้อม
+          {/* 4-Step Action At Source Workflow */}
+          <div className="p-2.5 rounded-xl bg-white/80 border border-orange-200/60 space-y-1 text-[11px] text-stone-700">
+            <span className="font-bold text-stone-900 block">ขั้นตอนการแก้ที่ต้นทาง:</span>
+            <div className="flex flex-wrap items-center gap-1.5 text-stone-600 font-medium">
+              <span>1. เปิด Shopify / WooCommerce</span>
+              <span>→</span>
+              <span>2. แก้ข้อมูลสินค้า</span>
+              <span>→</span>
+              <span>3. บันทึกการเปลี่ยนแปลง</span>
+              <span>→</span>
+              <span>4. กลับมาที่ AIXSHOP กด &quot;ตรวจอีกครั้ง&quot;</span>
+            </div>
+          </div>
+
+          <div className="pt-0.5 text-[10px] text-stone-400">
+            * ระบบร้านค้าของคุณคือแหล่งข้อมูลจริง — AIXSHOP ทำหน้าที่ตรวจและยืนยันความพร้อม ข้อมูลภายนอกจะไม่เปลี่ยนจนกว่าคุณจะบันทึกที่ต้นทาง
           </div>
         </div>
 

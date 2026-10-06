@@ -82,7 +82,11 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
       scope: 'PRODUCT',
       affectedCount: '6 สินค้า',
       impactText: 'ภาพถ่ายไม่ตรงตามมาตรฐาน Google Shopping และการแสดงผลใน Shopping Cards',
-      recommendedAction: 'อัปโหลดภาพขนาด 800x800px พื้นหลังสีขาวล้วน'
+      recommendedAction: 'อัปโหลดภาพขนาด 800x800px พื้นหลังสีขาวล้วน',
+      productsAffected: [
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['ภาพพื้นหลังขาวล้วน (White BG)'] },
+        { id: CANONICAL_CATALOG_PRODUCTS[2].id, name: CANONICAL_CATALOG_PRODUCTS[2].name, missing: ['ภาพมุมมองด้านข้างความละเอียดสูง'] }
+      ]
     },
     {
       id: 'find-5',
@@ -90,7 +94,10 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
       scope: 'OFFER',
       affectedCount: '4 สินค้า',
       impactText: 'ลูกค้าที่ต้องการสินค้าด่วนไม่สามารถประเมินวันถึงได้',
-      recommendedAction: 'ระบุระยะเวลาตัดรอบจัดส่งและเงื่อนไขส่งฟรีในระบบร้าน'
+      recommendedAction: 'ระบุระยะเวลาตัดรอบจัดส่งและเงื่อนไขส่งฟรีในระบบร้าน',
+      productsAffected: [
+        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['ระยะเวลาตัดรอบส่งมอบประจำวัน'] }
+      ]
     },
     {
       id: 'find-6',
@@ -98,7 +105,11 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
       scope: 'PRODUCT',
       affectedCount: '5 สินค้า',
       impactText: 'คำค้นหาแบบธรรมชาติ เช่น "รองเท้าวิ่งมาราธอนที่เหมาะกับเท้าแบน" ไม่จับคู่กับสินค้า',
-      recommendedAction: 'เพิ่มรายละเอียดวัตถุประสงค์การใช้งานในย่อหน้าสรุปสินค้า'
+      recommendedAction: 'เพิ่มรายละเอียดวัตถุประสงค์การใช้งานในย่อหน้าสรุปสินค้า',
+      productsAffected: [
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['คำอธิบายวัตถุประสงค์การใช้งานเชิงลึก'] },
+        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['คำอธิบายประเภทสรีระเท้าที่เหมาะสม'] }
+      ]
     },
     {
       id: 'find-7',
@@ -106,7 +117,10 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
       scope: 'PRODUCT',
       affectedCount: '6 ตัวเลือก',
       impactText: 'AI ไม่สามารถระบุเจาะจงสินค้าตัวย่อยเมื่อลูกค้าค้นหาระดับไซส์',
-      recommendedAction: 'ใส่รหัสบาร์โค้ดให้ครบทุก Variants'
+      recommendedAction: 'ใส่รหัสบาร์โค้ดให้ครบทุก Variants',
+      productsAffected: [
+        { id: CANONICAL_CATALOG_PRODUCTS[2].id, name: CANONICAL_CATALOG_PRODUCTS[2].name, missing: ['GTIN-14 Variant Checksum'] }
+      ]
     },
     {
       id: 'find-8',
@@ -114,7 +128,10 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
       scope: 'PRODUCT',
       affectedCount: '2 สินค้า',
       impactText: 'สเปกที่บันทึกเป็นข้อความธรรมดาทำให้ระบบค้นหาตามช่วงตัวเลขคัดกรองไม่ได้',
-      recommendedAction: 'ปรับข้อมูลจาก "ดรอป 8 มิล" ให้เป็นช่องตัวเลข "8" หน่วย "mm"'
+      recommendedAction: 'ปรับข้อมูลจาก "ดรอป 8 มิล" ให้เป็นช่องตัวเลข "8" หน่วย "mm"',
+      productsAffected: [
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['ค่าตัวเลขสแต็คโฟม (mm)'] }
+      ]
     }
   ];
 
@@ -321,32 +338,104 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
 
       {/* Tab Content 2: ควรปรับปรุง (Improvements) */}
       {activePriorityTab === 'improvement' && (
-        <div className="space-y-3">
-          {improvementFindings.map((finding) => (
-            <div 
-              key={finding.id}
-              className="p-4 rounded-2xl border border-amber-200/80 bg-amber-50/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-            >
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <h4 className="text-xs sm:text-sm font-bold text-stone-900">
-                    {finding.title}
-                  </h4>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
-                    {finding.affectedCount}
-                  </span>
-                </div>
-                <p className="text-xs text-stone-500">
-                  {finding.impactText}
-                </p>
-              </div>
+        <div className="space-y-4">
+          {improvementFindings.map((finding) => {
+            const isExpanded = expandedFindingId === finding.id;
+            return (
+              <div 
+                key={finding.id} 
+                className="rounded-2xl border border-amber-200 bg-amber-50/30 overflow-hidden transition-all"
+              >
+                {/* Header row */}
+                <div 
+                  className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer hover:bg-amber-50/60"
+                  onClick={() => setExpandedFindingId(isExpanded ? null : finding.id)}
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                      <h4 className="text-sm font-bold text-stone-900">
+                        {finding.title}
+                      </h4>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                        {finding.affectedCount}
+                      </span>
+                    </div>
+                    <p className="text-xs text-stone-600">
+                      <strong>ผลกระทบ:</strong> {finding.impactText}
+                    </p>
+                  </div>
 
-              <div className="text-xs font-semibold text-stone-700 bg-white px-3 py-1.5 rounded-xl border border-stone-200/80 shrink-0 self-start sm:self-auto">
-                คำแนะนำ: {finding.recommendedAction}
+                  <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto">
+                    <span className="text-xs font-bold text-amber-800 hidden sm:inline">
+                      {isExpanded ? 'ย่อรายละเอียด' : 'ดูสินค้าที่ได้รับผลกระทบ'}
+                    </span>
+                    {isExpanded ? <ChevronUp className="w-4 h-4 text-amber-800" /> : <ChevronDown className="w-4 h-4 text-amber-800" />}
+                  </div>
+                </div>
+
+                {/* Expanded Details & Affected Products Drill-Down */}
+                {isExpanded && (
+                  <div className="px-5 pb-5 pt-2 border-t border-amber-100 bg-white space-y-4">
+                    {/* Solution instruction */}
+                    <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 flex items-start gap-3">
+                      <Wrench className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                      <div className="text-xs text-amber-950">
+                        <strong className="block text-amber-900 font-bold mb-0.5">วิธีแก้ที่ร้านต้นทาง (Action at Source):</strong>
+                        {finding.recommendedAction} — หลังจากแก้ในระบบ Shopify/WooCommerce แล้ว กดตรวจอีกครั้งเพื่ออัปเดตผล
+                      </div>
+                    </div>
+
+                    {/* Products Affected List */}
+                    {finding.productsAffected && finding.productsAffected.length > 0 && (
+                      <div className="space-y-2">
+                        <span className="text-xs font-bold text-stone-700 block">
+                          สินค้าที่ตรวจพบข้อแนะนำนี้ ({finding.productsAffected.length} รายการตัวอย่าง):
+                        </span>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {finding.productsAffected.map((prod) => (
+                            <div 
+                              key={prod.id} 
+                              className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between gap-3 hover:border-amber-300 transition-colors"
+                            >
+                              <div className="space-y-1">
+                                <div className="text-xs font-bold text-stone-900 flex items-center gap-1.5">
+                                  <Package className="w-3.5 h-3.5 text-stone-500" />
+                                  <span>{prod.name}</span>
+                                </div>
+                                <div className="text-[11px] text-amber-800 flex flex-wrap gap-1">
+                                  <span>ขาดข้อมูล:</span>
+                                  {prod.missing.map((m, idx) => (
+                                    <span key={idx} className="bg-amber-100/70 text-amber-900 px-1.5 py-0.2 rounded text-[10px] font-medium">
+                                      {m}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (onInspectProduct) {
+                                    onInspectProduct(prod.id, prod.name);
+                                  }
+                                }}
+                                className="px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-black text-white text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
+                              >
+                                ตรวจสินค้านี้ →
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

@@ -67,6 +67,8 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
     issues,
     openIssuesCount,
     readinessScore,
+    isRechecking,
+    runRecheckSimulation,
     approveIssue: handleApproveIssue,
     dismissIssue: handleDismissIssue,
     updateIssue: handleUpdateIssue
@@ -512,6 +514,8 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
             onApproveIssue={handleApproveIssue}
             onDismissIssue={handleDismissIssue}
             readinessScore={readinessScore}
+            onRecheckStore={runRecheckSimulation}
+            isRechecking={isRechecking}
           />
         )}
 
