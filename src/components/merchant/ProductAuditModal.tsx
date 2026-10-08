@@ -19,11 +19,12 @@ import {
 } from 'lucide-react';
 import { CanonicalCatalogProduct } from '../../data/canonicalCatalog';
 
-interface ProductAuditModalProps {
+export interface ProductAuditModalProps {
   isOpen: boolean;
   onClose: () => void;
   productId?: string;
   productName?: string;
+  issueIds?: string[];
   onRecheckProduct?: () => void;
 }
 
@@ -32,6 +33,7 @@ export const ProductAuditModal: React.FC<ProductAuditModalProps> = ({
   onClose,
   productId,
   productName = 'AeroPulse VaporStride Carbon Elite',
+  issueIds = [],
   onRecheckProduct
 }) => {
   const [isRechecking, setIsRechecking] = useState(false);

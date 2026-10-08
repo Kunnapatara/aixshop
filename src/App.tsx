@@ -13,11 +13,11 @@ import { MerchantWorkflowSection } from './components/MerchantWorkflowSection';
 import { Footer } from './components/Footer';
 
 export default function App() {
-  // Primary Journey State: 'landing' (Default for landing & pricing sprint) | 'shopper' | 'merchant' | 'admin'
-  const [currentJourney, setCurrentJourney] = useState<UserJourney>('landing');
+  // Primary Journey State: 'merchant' (Default Store-First Merchant Console working surface) | 'landing' | 'shopper' | 'admin'
+  const [currentJourney, setCurrentJourney] = useState<UserJourney>('merchant');
   
-  // Secondary sub-tab states for merchant console
-  const [merchantSubTab, setMerchantSubTab] = useState<MerchantTab>('overview');
+  // Secondary sub-tab states for merchant console: 'home' is the default Store-First view
+  const [merchantSubTab, setMerchantSubTab] = useState<MerchantTab>('home');
   const [submittedUrl, setSubmittedUrl] = useState<string>('https://shop.aeropulse.com/products/vaporstride-carbon-elite');
   const urlInputRef = useRef<HTMLInputElement>(null);
 

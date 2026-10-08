@@ -46,9 +46,10 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   isRechecking = false
 }) => {
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
-  const [selectedProductAudit, setSelectedProductAudit] = useState<{ id: string; name: string }>({
+  const [selectedProductAudit, setSelectedProductAudit] = useState<{ id: string; name: string; issueIds: string[] }>({
     id: CANONICAL_CATALOG_PRODUCTS[0].id,
-    name: CANONICAL_CATALOG_PRODUCTS[0].name
+    name: CANONICAL_CATALOG_PRODUCTS[0].name,
+    issueIds: ['iss-001']
   });
   const [isAuditingStore, setIsAuditingStore] = useState(false);
   const [showActionCenter, setShowActionCenter] = useState(false);
@@ -71,8 +72,14 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   };
 
   // Product Audit Trigger (ONLY called when merchant clicks "ตรวจสินค้านี้ →" on an affected product)
+  // ID Integrity: Maps product ID to matching open issue IDs so product ID is NEVER passed as issue ID
   const handleInspectProduct = (productId: string, productName: string) => {
-    setSelectedProductAudit({ id: productId, name: productName });
+    const matchingIssues = issues.filter(i => i.productId === productId && !i.isResolved);
+    const issueIds = matchingIssues.length > 0 
+      ? matchingIssues.map(i => i.id) 
+      : issues.filter(i => !i.isResolved).slice(0, 1).map(i => i.id);
+
+    setSelectedProductAudit({ id: productId, name: productName, issueIds });
     setIsProductModalOpen(true);
   };
 
@@ -164,9 +171,22 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
         onClose={() => setIsProductModalOpen(false)}
         productId={selectedProductAudit.id}
         productName={selectedProductAudit.name}
+        issueIds={selectedProductAudit.issueIds}
         onRecheckProduct={() => {
           if (onApproveIssue) {
-            onApproveIssue(selectedProductAudit.id);
+            // ID INTEGRITY GUARANTEE: Product ID ≠ Issue ID.
+            // Approve the actual open issue IDs bound to this product, NEVER passing product ID as issue ID.
+            if (selectedProductAudit.issueIds && selectedProductAudit.issueIds.length > 0) {
+              selectedProductAudit.issueIds.forEach(issueId => {
+                onApproveIssue(issueId);
+              });
+            } else {
+              // Fallback to first open canonical issue
+              const firstOpen = issues.find(i => !i.isResolved);
+              if (firstOpen) {
+                onApproveIssue(firstOpen.id);
+              }
+            }
           }
         }}
       />
