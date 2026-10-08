@@ -121,7 +121,7 @@ export const IntelligenceCoverageCard: React.FC<IntelligenceCoverageCardProps> =
             onClick={onNavigateProducts}
             className="text-xs font-bold text-[#F97316] hover:text-orange-700 flex items-center gap-1 cursor-pointer"
           >
-            <span>Inspect in Products (P06)</span>
+            <span>Inspect in Catalog</span>
             <ArrowRight className="w-3 h-3" />
           </button>
         </div>

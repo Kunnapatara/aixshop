@@ -63,7 +63,7 @@ const pipelineStages: PipelineStage[] = [
     outputExample: 'Raw Observation Object + SHA-256 Digest + 2026-09-14 08:42 UTC',
     concreteExplanation: 'Observations are frozen as immutable snapshots with source URL, timestamp, and payload hash. Never overwritten silently.',
     provenanceState: 'OBSERVED (Raw)',
-    connectedPage: 'Page 02 & Page 12'
+    connectedPage: 'Storefront & Ingestion Feeds'
   },
   {
     id: 'normalization',
@@ -75,7 +75,7 @@ const pipelineStages: PipelineStage[] = [
     outputExample: 'Canonical Schema: mass=204g, currency=USD, price=240.00',
     concreteExplanation: 'Converts fragmented retailer schemas, imperial/metric variations, and currency symbols into standardized Schema.org and GS1 types.',
     provenanceState: 'Normalized schema',
-    connectedPage: 'Page 03 (Intelligence Report)'
+    connectedPage: 'Product Intelligence Report'
   },
   {
     id: 'identity_resolution',
@@ -87,7 +87,7 @@ const pipelineStages: PipelineStage[] = [
     outputExample: 'Canonical ID: AIX-PROD-8942-ROAD (VaporStride Carbon Elite)',
     concreteExplanation: 'Separates physical canonical products from transient multi-seller offers. Binds variant color and size trees to universal GS1 barcodes.',
     provenanceState: 'Identity Resolved',
-    connectedPage: 'Page 06 (Products Workbench)'
+    connectedPage: 'Catalog Workbench'
   },
   {
     id: 'evidence',
@@ -99,7 +99,7 @@ const pipelineStages: PipelineStage[] = [
     outputExample: 'Weight → CONFLICT; Midsole → MERCHANT_VERIFIED; Drop → OBSERVED',
     concreteExplanation: 'Connecting a source does not make every value "true". Multi-source contradictions are elevated to CONFLICT rather than averaged or guessed.',
     provenanceState: 'Evidence Classified',
-    connectedPage: 'Page 03 & Page 11'
+    connectedPage: 'Evidence Verification'
   },
   {
     id: 'product_intelligence',
@@ -111,7 +111,7 @@ const pipelineStages: PipelineStage[] = [
     outputExample: 'Complete AI-ready product graph with intent diagnostics',
     concreteExplanation: 'Synthesizes authoritative specifications, offer matrix, and buyer intent answers into a queryable semantic model for search and AI discovery.',
     provenanceState: 'Canonical Graph Active',
-    connectedPage: 'Page 03, 07, 11'
+    connectedPage: 'Intelligence & Offers Engine'
   },
   {
     id: 'monitoring',

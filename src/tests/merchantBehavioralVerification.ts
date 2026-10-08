@@ -3,7 +3,7 @@
  * 
  * Verifies actual runtime behavior, contracts, and regressions:
  * Test A: Initial application opens Merchant Console ('merchant')
- * Test B: Merchant Home renders Store Audit ('home')
+ * Test B: Merchant Home renders Store Audit ('home') in English
  * Test C: Click Store Audit does NOT open Product Audit
  * Test D: Store Finding -> affected product -> Product Audit
  * Test E: Product ID is NEVER passed as Issue ID (ID Integrity)
@@ -13,15 +13,22 @@
  * Test I: Shopper remains accessible via switcher/handlers
  * Test J: Admin remains accessible via switcher/handlers
  * Test K: Merchant Action Center remains secondary/collapsible
+ * Test L: All 10 Merchant Navigation tabs render successfully with zero blank screens
+ * Test M: Strict Product Identity integrity (no fallback across products)
+ * Test N: Zero Thai user-facing text in Merchant components
+ * Test O: Zero legacy page leakage (P06, P07, P09, P10, Page 01-07) in user UI
  */
 
 import fs from 'fs';
 import path from 'path';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
 import { fileURLToPath } from 'url';
 import { approveIssue, getOpenIssuesCount, getApprovedIssuesCount } from '../state/canonicalIssues';
 import { calculateReadinessScore, BASE_READINESS_SCORE } from '../state/canonicalReadiness';
 import { sampleIssuesData } from '../data/sampleIssuesData';
 import { CANONICAL_CATALOG_PRODUCTS } from '../data/canonicalCatalog';
+import { MerchantExperience, MerchantTab } from '../components/merchant/MerchantExperience';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -82,8 +89,8 @@ assert(
   'Test B: MerchantOverviewHome renders StoreAuditHero'
 );
 assert(
-  heroSrc.includes('ตรวจร้านของคุณ') && heroSrc.includes('ตรวจร้านของฉัน'),
-  'Test B: Store Audit CTA headline and button present'
+  heroSrc.includes('Store Audit') && heroSrc.includes('Audit My Store'),
+  'Test B: Store Audit CTA headline and button present in English'
 );
 
 // Test C: Click Store Audit does NOT open Product Audit
@@ -100,8 +107,8 @@ assert(
 // Test D: Store Finding -> affected product -> Product Audit
 console.log('\n--- TEST D: STORE FINDINGS DRILL-DOWN ---');
 assert(
-  findingsSrc.includes('onInspectProduct') && findingsSrc.includes('ตรวจสินค้านี้ →'),
-  'Test D: Store findings provides "ตรวจสินค้านี้ →" drill-down button'
+  findingsSrc.includes('onInspectProduct') && findingsSrc.includes('Audit Product →'),
+  'Test D: Store findings provides "Audit Product →" drill-down button'
 );
 assert(
   homeSrc.includes('onInspectProduct={handleInspectProduct}'),
@@ -136,7 +143,7 @@ assert(
   'Test E: Passing Issue ID to approveIssue correctly resolves the issue'
 );
 assert(
-  homeSrc.includes('Product ID ≠ Issue ID'),
+  homeSrc.includes('Product ID != Issue ID') || homeSrc.includes('Product ID ≠ Issue ID'),
   'Test E: MerchantOverviewHome explicitly documents and enforces Product ID ≠ Issue ID'
 );
 assert(
@@ -147,8 +154,8 @@ assert(
 // Test F: Product Recheck updates the correct issue
 console.log('\n--- TEST F: PRODUCT RECHECK UPDATES CORRECT ISSUE ---');
 assert(
-  modalSrc.includes('onRecheckProduct') && modalSrc.includes('ตรวจอีกครั้ง'),
-  'Test F: ProductAuditModal exposes onRecheckProduct with "ตรวจอีกครั้ง" trigger'
+  modalSrc.includes('onRecheckProduct') && modalSrc.includes('Re-check Product'),
+  'Test F: ProductAuditModal exposes onRecheckProduct with "Re-check Product" trigger in English'
 );
 const afterRecheck = approveIssue(testIssues, 'iss-001');
 const newReadiness = calculateReadinessScore(getApprovedIssuesCount(afterRecheck));
@@ -160,19 +167,19 @@ assert(
 // Test G: No external visibility claim is rendered as actual observation
 console.log('\n--- TEST G: TRUTH BOUNDARIES (READINESS ≠ VISIBILITY) ---');
 assert(
-  heroSrc.includes('Catalog Readiness') || heroSrc.includes('ความพร้อม'),
-  'Test G: Surfaces framed honestly as Catalog Readiness'
+  heroSrc.includes('Catalog Readiness') && heroSrc.includes('Not an external ranking guarantee'),
+  'Test G: Surfaces framed honestly as Catalog Readiness without fake rankings'
 );
 assert(
-  heroSrc.includes('ไม่ใช่การการันตีอันดับการค้นหาภายนอก') || heroSrc.includes('ประเมินจากคุณภาพและความครบถ้วน'),
-  'Test G: Explicit disclaimer that scores are internal catalog evaluation not external rankings'
+  heroSrc.includes('Not yet observed'),
+  'Test G: Unobserved visibility is explicitly labeled as "Not yet observed"'
 );
 assert(
   !heroSrc.includes('actual ranking') && !heroSrc.includes('Your store is #7 on Google'),
   'Test G: Zero fabricated external rank claims'
 );
 
-// Test H: Landing remains accessible
+// Test H, I, J, K: Secondary Journeys & Action Center
 console.log('\n--- TEST H, I, J, K: SECONDARY JOURNEYS & ACTION CENTER ---');
 assert(
   appSrc.includes("currentJourney === 'landing'"),
@@ -183,7 +190,6 @@ assert(
   'Test H: MerchantExperience provides onNavigateLanding callback to return to landing'
 );
 
-// Test I: Shopper remains accessible
 assert(
   appSrc.includes("currentJourney === 'shopper'"),
   'Test I: Shopper journey remains implemented and accessible'
@@ -193,7 +199,6 @@ assert(
   'Test I: MerchantExperience provides onNavigateShopper switcher'
 );
 
-// Test J: Admin remains accessible
 assert(
   appSrc.includes("currentJourney === 'admin'"),
   'Test J: Admin journey remains implemented and accessible'
@@ -203,15 +208,58 @@ assert(
   'Test J: MerchantExperience provides onNavigateAdmin switcher'
 );
 
-// Test K: Merchant Action Center remains secondary
 assert(
   homeSrc.includes('<MerchantActionCenter') && homeSrc.includes('showActionCenter'),
   'Test K: Merchant Action Center is collapsible/secondary on Home'
 );
 assert(
-  homeSrc.includes('เครื่องมือจัดการงานเชิงลึก (Advanced Workspace)'),
+  homeSrc.includes('Advanced Workspace'),
   'Test K: Action Center labeled as Advanced Workspace'
 );
+
+// Test L: Runtime Render Verification of All 10 Tabs (No Blank Screen)
+console.log('\n--- TEST L: RUNTIME NAVIGATION MATRIX (NO BLANK SCREENS) ---');
+const allTabs: MerchantTab[] = [
+  'home', 'catalog', 'issues', 'readiness', 'offers', 
+  'monitoring', 'analytics', 'integrations', 'billing', 'report'
+];
+
+for (const tab of allTabs) {
+  try {
+    const html = renderToString(React.createElement(MerchantExperience, { initialTab: tab }));
+    assert(html.length > 5000, `Test L: Tab "${tab}" renders cleanly without blank screen (${html.length} bytes)`);
+  } catch (err: any) {
+    assert(false, `Test L: Tab "${tab}" crashed during render: ${err?.message}`);
+  }
+}
+
+// Test M: Strict Product Identity Integrity (No fallback across products)
+console.log('\n--- TEST M: STRICT PRODUCT IDENTITY INTEGRITY ---');
+assert(
+  !homeSrc.includes("issues.filter(i => !i.isResolved).slice(0, 1)"),
+  'Test M: No cross-product issue fallback when product has no matching issues'
+);
+assert(
+  modalSrc.includes("No open issues found for this product"),
+  'Test M: ProductAuditModal cleanly handles products with zero open issues'
+);
+
+// Test N: Language Audit - Zero Thai text in rendered Merchant UI
+console.log('\n--- TEST N: LANGUAGE AUDIT (ZERO THAI IN MERCHANT UI) ---');
+const thaiRegex = /[\u0E00-\u0E7F]/;
+assert(!thaiRegex.test(heroSrc), 'Test N: StoreAuditHero has 0 Thai characters');
+assert(!thaiRegex.test(findingsSrc), 'Test N: StoreFindingsSection has 0 Thai characters');
+assert(!thaiRegex.test(modalSrc), 'Test N: ProductAuditModal has 0 Thai characters');
+assert(!thaiRegex.test(homeSrc), 'Test N: MerchantOverviewHome has 0 Thai characters');
+
+// Test O: Legacy Leakage Audit (No P06/P07/P09/P10/Page 01-07 in Merchant rendered UI)
+console.log('\n--- TEST O: ARCHITECTURAL LEAKAGE AUDIT ---');
+const homeRenderedHtml = renderToString(React.createElement(MerchantExperience, { initialTab: 'home' }));
+const catalogRenderedHtml = renderToString(React.createElement(MerchantExperience, { initialTab: 'catalog' }));
+
+assert(!homeRenderedHtml.includes('P06') && !homeRenderedHtml.includes('P10'), 'Test O: Home rendered UI has zero P06/P10 badges');
+assert(!catalogRenderedHtml.includes('P06') && !catalogRenderedHtml.includes('P10'), 'Test O: Catalog rendered UI has zero P06/P10 badges');
+assert(!homeRenderedHtml.includes('FuturePageBoundaryModal'), 'Test O: Home rendered UI has zero FuturePageBoundaryModal');
 
 console.log('\n======================================================');
 console.log(` RESULTS: ${passedTests} passed, ${failedTests} failed out of ${totalTests} total behavioral tests`);

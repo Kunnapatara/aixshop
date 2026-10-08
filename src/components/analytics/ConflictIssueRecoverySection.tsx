@@ -112,7 +112,7 @@ export const ConflictIssueRecoverySection: React.FC<ConflictIssueRecoverySection
               onClick={onNavigateIssues}
               className="text-xs text-rose-600 hover:text-rose-800 font-bold flex items-center gap-1 cursor-pointer"
             >
-              <span>Arbitrate Conflicts in Issues (P10)</span>
+              <span>Arbitrate Conflicts in Issues</span>
               <ArrowRight className="w-3 h-3" />
             </button>
           </div>
@@ -186,7 +186,7 @@ export const ConflictIssueRecoverySection: React.FC<ConflictIssueRecoverySection
               onClick={onNavigateMonitoring}
               className="text-[#F97316] hover:text-orange-700 font-bold flex items-center gap-1 cursor-pointer"
             >
-              <span>View Monitoring Stream (P09)</span>
+              <span>View Monitoring Stream</span>
               <ArrowRight className="w-3 h-3" />
             </button>
           </div>
@@ -212,7 +212,7 @@ export const ConflictIssueRecoverySection: React.FC<ConflictIssueRecoverySection
               onClick={onNavigateIssues}
               className="text-xs text-amber-700 hover:text-amber-900 font-bold flex items-center gap-1 cursor-pointer"
             >
-              <span>Manage in Issues (P10)</span>
+              <span>Manage in Issues</span>
               <ArrowRight className="w-3 h-3" />
             </button>
           </div>

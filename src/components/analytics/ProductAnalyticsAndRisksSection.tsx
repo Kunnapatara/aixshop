@@ -69,7 +69,7 @@ export const ProductAnalyticsAndRisksSection: React.FC<ProductAnalyticsAndRisksS
               <h3 className="text-base font-bold text-stone-900 tracking-tight">Top Intelligence Risks</h3>
             </div>
             <p className="text-xs text-stone-500 mt-0.5">
-              Ranked threats to catalog visibility and buyer confidence. Direct remediation in Issues (P10).
+              Ranked threats to catalog visibility and buyer confidence. Direct remediation in Issues.
             </p>
           </div>
           <button
@@ -77,7 +77,7 @@ export const ProductAnalyticsAndRisksSection: React.FC<ProductAnalyticsAndRisksS
             onClick={onNavigateIssues}
             className="text-xs text-rose-600 hover:text-rose-800 font-bold flex items-center gap-1 cursor-pointer"
           >
-            <span>Issues Workspace (P10)</span>
+            <span>Issues Workspace</span>
             <ArrowRight className="w-3 h-3" />
           </button>
         </div>
@@ -121,7 +121,7 @@ export const ProductAnalyticsAndRisksSection: React.FC<ProductAnalyticsAndRisksS
                   onClick={onNavigateIssues}
                   className="text-[#F97316] hover:text-orange-700 font-bold flex items-center gap-1 cursor-pointer"
                 >
-                  <span>Resolve in P10</span>
+                  <span>Resolve in Issues</span>
                   <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
@@ -276,7 +276,7 @@ export const ProductAnalyticsAndRisksSection: React.FC<ProductAnalyticsAndRisksS
                         type="button"
                         onClick={onNavigateReport}
                         className="px-2.5 py-1 rounded-xl bg-white hover:bg-stone-100 text-stone-700 text-[11px] font-medium transition-colors border border-stone-200 shadow-3xs"
-                        title="View Intelligence Report (P03)"
+                        title="View Intelligence Report"
                       >
                         Report
                       </button>
@@ -284,7 +284,7 @@ export const ProductAnalyticsAndRisksSection: React.FC<ProductAnalyticsAndRisksS
                         type="button"
                         onClick={onNavigateProducts}
                         className="px-2.5 py-1 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#F97316] text-[11px] font-bold transition-colors border border-orange-200"
-                        title="Inspect in Products (P06)"
+                        title="Inspect in Catalog"
                       >
                         Product
                       </button>

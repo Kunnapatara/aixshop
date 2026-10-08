@@ -347,7 +347,11 @@ export const WorkbenchProductTable: React.FC<WorkbenchProductTableProps> = ({
                         <span>{product.observedOffersCount} Offers</span>
                       </div>
                       <div className="text-[10px] text-stone-500">
-                        ${product.observedPriceMin.toFixed(0)}–${product.observedPriceMax.toFixed(0)} {product.currency}
+                        {product.observedPriceMin != null && product.observedPriceMax != null
+                          ? `$${product.observedPriceMin.toFixed(0)}–$${product.observedPriceMax.toFixed(0)} ${product.currency}`
+                          : product.observedPriceMin != null
+                          ? `$${product.observedPriceMin.toFixed(0)} ${product.currency}`
+                          : 'No pricing observed'}
                       </div>
                     </div>
                   </td>

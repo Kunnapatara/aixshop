@@ -69,7 +69,7 @@ export const MonitoringHeader: React.FC<MonitoringHeaderProps> = ({
             </p>
 
             <p className="text-xs text-stone-500 leading-normal">
-              QRxMENU monitors the integrity of the product intelligence layer — not traffic, clicks, or generic website metrics.
+              AIXSHOP monitors the integrity of the product intelligence layer — not traffic, clicks, or generic website metrics.
             </p>
           </div>
 
@@ -80,10 +80,10 @@ export const MonitoringHeader: React.FC<MonitoringHeaderProps> = ({
                 type="button"
                 onClick={onNavigateProducts}
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-50 hover:bg-stone-100 text-stone-700 text-xs font-semibold border border-stone-200 transition-colors cursor-pointer shadow-3xs"
-                title="View Products Workbench (P06)"
+                title="View Catalog"
               >
                 <Package className="w-3.5 h-3.5 text-stone-500" />
-                <span>View Products (P06)</span>
+                <span>View Catalog</span>
               </button>
             )}
 
@@ -92,10 +92,10 @@ export const MonitoringHeader: React.FC<MonitoringHeaderProps> = ({
                 type="button"
                 onClick={onNavigateOffers}
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-50 hover:bg-stone-100 text-stone-700 text-xs font-semibold border border-stone-200 transition-colors cursor-pointer shadow-3xs"
-                title="View Offers & Pricing (P07)"
+                title="View Offers & Pricing"
               >
                 <DollarSign className="w-3.5 h-3.5 text-stone-500" />
-                <span>View Offers (P07)</span>
+                <span>View Offers</span>
               </button>
             )}
 
@@ -104,10 +104,10 @@ export const MonitoringHeader: React.FC<MonitoringHeaderProps> = ({
                 type="button"
                 onClick={onNavigateIssues}
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-orange-50 hover:bg-orange-100/80 text-[#F97316] text-xs font-bold border border-orange-200 transition-colors cursor-pointer shadow-3xs"
-                title="Triage in Issues & Recovery (P10)"
+                title="Triage in Issues & Recovery"
               >
                 <AlertCircle className="w-3.5 h-3.5 text-[#F97316]" />
-                <span>Issues Queue (P10)</span>
+                <span>Issues Queue</span>
               </button>
             )}
 
@@ -115,7 +115,7 @@ export const MonitoringHeader: React.FC<MonitoringHeaderProps> = ({
               type="button"
               onClick={onNavigateAnalysis}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F97316] hover:bg-orange-600 text-white text-xs font-bold shadow-3xs transition-all cursor-pointer"
-              title="Analyze a Product Extraction (P02)"
+              title="Analyze a Product Extraction"
             >
               <Search className="w-3.5 h-3.5" />
               <span>Analyze a Product</span>

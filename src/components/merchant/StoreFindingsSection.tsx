@@ -1,5 +1,5 @@
 // src/components/merchant/StoreFindingsSection.tsx
-// Store-First Findings Grouped by Priority: ต้องแก้ก่อน | ควรปรับปรุง | ดีแล้ว
+// Store-First Findings Grouped by Priority: Must Fix | Improve | Healthy
 // Features affected products drill-down directly into Product Audit
 
 import React, { useState } from 'react';
@@ -19,7 +19,7 @@ import {
   Info
 } from 'lucide-react';
 import { IssueItem } from '../../types/issues';
-import { CANONICAL_CATALOG_PRODUCTS, CanonicalCatalogProduct } from '../../data/canonicalCatalog';
+import { CANONICAL_CATALOG_PRODUCTS } from '../../data/canonicalCatalog';
 
 interface StoreFindingsSectionProps {
   issues: IssueItem[];
@@ -41,36 +41,36 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
   const criticalFindings = [
     {
       id: 'find-1',
-      title: 'ข้อมูลสินค้าไม่ครบถ้วนสำหรับคำค้นสำคัญ',
+      title: 'Incomplete Product Specifications for Core Queries',
       scope: 'PRODUCT',
-      affectedCount: '8 สินค้า',
-      impactText: 'ผู้ซื้อที่ถามสเปกเฉพาะเจาะจง (เช่น ดรอป, วัสดุ, แผ่นคาร์บอน) จะไม่พบคำตอบที่ชัดเจนจาก AI',
-      recommendedAction: 'เข้าไปเติมสเปกสำคัญในระบบหลังบ้านของร้านค้า',
+      affectedCount: '8 Products',
+      impactText: 'Shoppers asking technical questions (drop, upper mesh, carbon plate) receive incomplete answers from AI models.',
+      recommendedAction: 'Add missing structured specifications in your merchant backend (Shopify / WooCommerce).',
       productsAffected: [
-        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['วัสดุผ้าอัปเปอร์', 'ความสูงสแต็คโฟม', 'นโยบายคืน'] },
-        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['การกันน้ำ HydroGuard', 'การยึดเกาะพื้น'] },
-        { id: CANONICAL_CATALOG_PRODUCTS[2].id, name: CANONICAL_CATALOG_PRODUCTS[2].name, missing: ['จำนวนตะปูสไปค์', 'ขนาดบาร์โค้ด GTIN'] }
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['Upper Material', 'Foam Stack Height', 'Return Policy'] },
+        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['HydroGuard Waterproofing', 'Outsole Grip Tech'] },
+        { id: CANONICAL_CATALOG_PRODUCTS[2].id, name: CANONICAL_CATALOG_PRODUCTS[2].name, missing: ['Spike Pin Count', 'GTIN Barcode Checksum'] }
       ]
     },
     {
       id: 'find-2',
-      title: 'ข้อมูลราคาไม่ตรงกันระหว่างหน้าเว็บร้านกับแหล่งอื่น',
+      title: 'Price Discrepancy Between Direct Store and Reseller Feeds',
       scope: 'OFFER',
       affectedCount: '3 Offers',
-      impactText: 'ผู้ช่วย AI ลดระดับความเชื่อมั่นในราคา เมื่อเห็นร้านค้ากับตัวแทนจำหน่ายลงราคาขัดแย้งกัน',
-      recommendedAction: 'ตรวจสอบราคาขายและโปรโมชันในระบบเชื่อมต่อสต็อก',
+      impactText: 'AI assistants lower confidence score when store pricing conflicts with third-party merchant listings.',
+      recommendedAction: 'Verify offer price and promotions in your catalog feed connections.',
       productsAffected: [
-        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['ราคาโปรโมชัน $189 vs MSRP $199'] },
-        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['ค่าธรรมเนียมจัดส่งไม่ถูกระบุ'] }
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['Promo Price $189 vs MSRP $199'] },
+        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['Shipping Fee Unspecified'] }
       ]
     },
     {
       id: 'find-3',
-      title: 'ขาดโครงสร้างนโยบายการคืนสินค้าของร้าน (Return Policy)',
+      title: 'Missing Structured Return Policy (Schema.org)',
       scope: 'STORE',
-      affectedCount: 'ระดับร้านค้า',
-      impactText: 'ผู้ซื้อลังเลที่จะตัดสินใจซื้อ หาก AI ไม่สามารถตอบเงื่อนไขการคืนสินค้าหรือระยะเวลารับประกันได้',
-      recommendedAction: 'ติดตั้ง Schema.org MerchantReturnPolicy ในหน้าตั้งค่าร้านค้า',
+      affectedCount: 'Store-Wide',
+      impactText: 'Shoppers hesitate to buy if AI cannot verify return terms, turnaround windows, or warranty eligibility.',
+      recommendedAction: 'Implement Schema.org MerchantReturnPolicy in your storefront settings.',
       productsAffected: []
     }
   ];
@@ -78,59 +78,59 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
   const improvementFindings = [
     {
       id: 'find-4',
-      title: 'ภาพสินค้าความละเอียดสูงและพื้นหลังขาว',
+      title: 'High-Resolution Imagery with Pure White Background',
       scope: 'PRODUCT',
-      affectedCount: '6 สินค้า',
-      impactText: 'ภาพถ่ายไม่ตรงตามมาตรฐาน Google Shopping และการแสดงผลใน Shopping Cards',
-      recommendedAction: 'อัปโหลดภาพขนาด 800x800px พื้นหลังสีขาวล้วน',
+      affectedCount: '6 Products',
+      impactText: 'Images do not meet Google Shopping 800x800px pure white background standard for rich cards.',
+      recommendedAction: 'Upload 800x800px product photos with isolated white background.',
       productsAffected: [
-        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['ภาพพื้นหลังขาวล้วน (White BG)'] },
-        { id: CANONICAL_CATALOG_PRODUCTS[2].id, name: CANONICAL_CATALOG_PRODUCTS[2].name, missing: ['ภาพมุมมองด้านข้างความละเอียดสูง'] }
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['White Background Main Shot'] },
+        { id: CANONICAL_CATALOG_PRODUCTS[2].id, name: CANONICAL_CATALOG_PRODUCTS[2].name, missing: ['High-Res Lateral Profile'] }
       ]
     },
     {
       id: 'find-5',
-      title: 'ข้อมูลการจัดส่งและระยะเวลาส่งมอบ',
+      title: 'Shipping Transit Times & Cut-Off Schedules',
       scope: 'OFFER',
-      affectedCount: '4 สินค้า',
-      impactText: 'ลูกค้าที่ต้องการสินค้าด่วนไม่สามารถประเมินวันถึงได้',
-      recommendedAction: 'ระบุระยะเวลาตัดรอบจัดส่งและเงื่อนไขส่งฟรีในระบบร้าน',
+      affectedCount: '4 Products',
+      impactText: 'Shoppers with urgent delivery needs cannot evaluate delivery windows.',
+      recommendedAction: 'Specify same-day cut-off time and free shipping thresholds in store admin.',
       productsAffected: [
-        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['ระยะเวลาตัดรอบส่งมอบประจำวัน'] }
+        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['Daily Shipping Cut-Off Window'] }
       ]
     },
     {
       id: 'find-6',
-      title: 'คำอธิบายสินค้าเชิงลึกสำหรับค้นหาแบบภาษาพูด',
+      title: 'Natural Language Product Descriptions for Conversational Search',
       scope: 'PRODUCT',
-      affectedCount: '5 สินค้า',
-      impactText: 'คำค้นหาแบบธรรมชาติ เช่น "รองเท้าวิ่งมาราธอนที่เหมาะกับเท้าแบน" ไม่จับคู่กับสินค้า',
-      recommendedAction: 'เพิ่มรายละเอียดวัตถุประสงค์การใช้งานในย่อหน้าสรุปสินค้า',
+      affectedCount: '5 Products',
+      impactText: 'Conversational queries like "marathon shoe for flat feet" fail to match product summaries.',
+      recommendedAction: 'Add intended biomechanical use cases and runner archetypes to product overview paragraphs.',
       productsAffected: [
-        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['คำอธิบายวัตถุประสงค์การใช้งานเชิงลึก'] },
-        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['คำอธิบายประเภทสรีระเท้าที่เหมาะสม'] }
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['Runner Arch Profile Description'] },
+        { id: CANONICAL_CATALOG_PRODUCTS[1].id, name: CANONICAL_CATALOG_PRODUCTS[1].name, missing: ['Terrain Suitability Details'] }
       ]
     },
     {
       id: 'find-7',
-      title: 'บาร์โค้ดสากล (GTIN-14) สำหรับสีและไซส์ย่อย',
+      title: 'Universal Barcodes (GTIN-14) on Size/Color Variants',
       scope: 'PRODUCT',
-      affectedCount: '6 ตัวเลือก',
-      impactText: 'AI ไม่สามารถระบุเจาะจงสินค้าตัวย่อยเมื่อลูกค้าค้นหาระดับไซส์',
-      recommendedAction: 'ใส่รหัสบาร์โค้ดให้ครบทุก Variants',
+      affectedCount: '6 Variants',
+      impactText: 'AI cannot distinguish specific SKU variants when shoppers search by size.',
+      recommendedAction: 'Assign valid GS1 GTIN barcodes to each variant in your inventory management.',
       productsAffected: [
         { id: CANONICAL_CATALOG_PRODUCTS[2].id, name: CANONICAL_CATALOG_PRODUCTS[2].name, missing: ['GTIN-14 Variant Checksum'] }
       ]
     },
     {
       id: 'find-8',
-      title: 'หน่วยวัดของสเปกสินค้าให้เป็นตัวเลขมาตรฐาน',
+      title: 'Standardize Specification Measurement Units',
       scope: 'PRODUCT',
-      affectedCount: '2 สินค้า',
-      impactText: 'สเปกที่บันทึกเป็นข้อความธรรมดาทำให้ระบบค้นหาตามช่วงตัวเลขคัดกรองไม่ได้',
-      recommendedAction: 'ปรับข้อมูลจาก "ดรอป 8 มิล" ให้เป็นช่องตัวเลข "8" หน่วย "mm"',
+      affectedCount: '2 Products',
+      impactText: 'Unstructured text like "8mm drop" hinders numeric range filtering across search engines.',
+      recommendedAction: 'Change raw text to quantitative structured properties with standardized unit codes.',
       productsAffected: [
-        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['ค่าตัวเลขสแต็คโฟม (mm)'] }
+        { id: CANONICAL_CATALOG_PRODUCTS[0].id, name: CANONICAL_CATALOG_PRODUCTS[0].name, missing: ['Foam Stack Numeric (mm)'] }
       ]
     }
   ];
@@ -138,27 +138,27 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
   const goodFindings = [
     {
       id: 'find-9',
-      title: 'ชื่อสินค้าและแบรนด์ถูกต้องชัดเจนตามมาตรฐานสากล',
-      affectedCount: '24 สินค้าครบ',
-      detail: 'ระบุแบรนด์ AeroPulse Athletics และชื่อรุ่นชัดเจน ไม่มีการยัดคีย์เวิร์ดเกินจริง'
+      title: 'Clear Product Titles & Standardized Brand Identity',
+      affectedCount: '24 Products',
+      detail: 'Clear brand name AeroPulse Athletics and model titles without keyword stuffing.'
     },
     {
       id: 'find-10',
-      title: 'สถานะสินค้ามีในสต็อกตรงกับระบบเช็คเอาท์',
-      affectedCount: '24 สินค้าครบ',
-      detail: 'ผู้ซื้อและ AI มั่นใจได้ว่าสินค้าที่มีป้ายพร้อมส่ง สามารถสั่งซื้อได้จริง'
+      title: 'Stock Availability Synchronized with Checkout',
+      affectedCount: '24 Products',
+      detail: 'Shoppers and AI assistants can rely on real-time availability states.'
     },
     {
       id: 'find-11',
-      title: 'สกุลเงินและราคาสอดคล้องกับมาตรฐาน ISO 4217 (USD)',
+      title: 'Currency & Pricing ISO 4217 Compliance (USD)',
       affectedCount: '42 Offers',
-      detail: 'โครงสร้างราคาแสดงทศนิยมถูกต้อง ป้องกันปัญหาการแปลงค่าเงินผิดพลาด'
+      detail: 'Structured numeric prices prevent currency conversion and parsing errors.'
     },
     {
       id: 'find-12',
-      title: 'การเชื่อมต่อแคตตาล็อกและสถาปัตยกรรมโดเมนพร้อมใช้งาน',
-      affectedCount: 'ทั้งร้าน',
-      detail: 'ใบรับรอง SSL และแผนผังเว็บไซต์ (Sitemap) สมบูรณ์พร้อมให้ระบบตรวจจับ'
+      title: 'Catalog Syndication & Domain Architecture Ready',
+      affectedCount: 'Store-Wide',
+      detail: 'SSL certificates and XML sitemaps are verified and indexable.'
     }
   ];
 
@@ -169,13 +169,13 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-5">
         <div>
           <span className="text-xs font-bold text-orange-600 uppercase tracking-wider block">
-            สิ่งที่ตรวจพบในร้าน (Store Findings)
+            Store Findings
           </span>
           <h2 className="text-lg sm:text-xl font-extrabold text-stone-900 tracking-tight mt-0.5">
-            ปัญหาที่พบ & สิ่งที่ต้องแก้ที่ต้นทาง
+            Diagnostic Issues & Source Actions
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 font-normal">
-            จัดกลุ่มตามความสำคัญ — แก้ที่ระบบร้านของคุณ (Shopify, WooCommerce, Catalog) แล้วผลตรวจจะอัปเดตอัตโนมัติ
+            Grouped by priority — resolve at store source (Shopify, WooCommerce, Catalog) and re-check to update readiness.
           </p>
         </div>
 
@@ -185,7 +185,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
             onClick={onOpenActionCenter}
             className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold transition-colors cursor-pointer self-start sm:self-auto shrink-0"
           >
-            <span>เปิดรายการงานที่ต้องตรวจ</span>
+            <span>Open Action Center</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         )}
@@ -203,7 +203,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
           }`}
         >
           <AlertCircle className="w-3.5 h-3.5" />
-          <span>ต้องแก้ก่อน (3 เรื่อง)</span>
+          <span>Must Fix (3 issues)</span>
         </button>
 
         <button
@@ -216,7 +216,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
           }`}
         >
           <AlertTriangle className="w-3.5 h-3.5" />
-          <span>ควรปรับปรุง (5 เรื่อง)</span>
+          <span>Improve (5 issues)</span>
         </button>
 
         <button
@@ -229,11 +229,11 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
           }`}
         >
           <CheckCircle2 className="w-3.5 h-3.5" />
-          <span>ดีแล้ว (4 เรื่อง)</span>
+          <span>Healthy (4 items)</span>
         </button>
       </div>
 
-      {/* Tab Content 1: ต้องแก้ก่อน (Critical) */}
+      {/* Tab Content 1: Must Fix (Critical) */}
       {activePriorityTab === 'critical' && (
         <div className="space-y-4">
           {criticalFindings.map((finding) => {
@@ -259,13 +259,13 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                       </span>
                     </div>
                     <p className="text-xs text-stone-600">
-                      <strong>ผลกระทบ:</strong> {finding.impactText}
+                      <strong>Impact:</strong> {finding.impactText}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto">
                     <span className="text-xs font-bold text-rose-700 hidden sm:inline">
-                      {isExpanded ? 'ย่อรายละเอียด' : 'ดูสินค้าที่ได้รับผลกระทบ'}
+                      {isExpanded ? 'Collapse Details' : 'View Affected Products'}
                     </span>
                     {isExpanded ? <ChevronUp className="w-4 h-4 text-rose-700" /> : <ChevronDown className="w-4 h-4 text-rose-700" />}
                   </div>
@@ -278,8 +278,8 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                     <div className="p-3.5 rounded-xl bg-orange-50 border border-orange-200 flex items-start gap-3">
                       <Wrench className="w-4 h-4 text-orange-600 shrink-0 mt-0.5" />
                       <div className="text-xs text-orange-950">
-                        <strong className="block text-orange-900 font-bold mb-0.5">วิธีแก้ที่ร้านต้นทาง (Action at Source):</strong>
-                        {finding.recommendedAction} — หลังจากแก้ในระบบ Shopify/WooCommerce แล้ว กดตรวจอีกครั้งเพื่ออัปเดตผล
+                        <strong className="block text-orange-900 font-bold mb-0.5">Action at Source:</strong>
+                        {finding.recommendedAction} — After updating in your Shopify or WooCommerce admin, click Re-check to update readiness.
                       </div>
                     </div>
 
@@ -287,7 +287,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                     {finding.productsAffected && finding.productsAffected.length > 0 && (
                       <div className="space-y-2">
                         <span className="text-xs font-bold text-stone-700 block">
-                          สินค้าที่ตรวจพบปัญหานี้ ({finding.productsAffected.length} รายการตัวอย่าง):
+                          Affected Products ({finding.productsAffected.length} sample items):
                         </span>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -302,7 +302,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                                   <span>{prod.name}</span>
                                 </div>
                                 <div className="text-[11px] text-rose-700 flex flex-wrap gap-1">
-                                  <span>ขาดข้อมูล:</span>
+                                  <span>Missing:</span>
                                   {prod.missing.map((m, idx) => (
                                     <span key={idx} className="bg-rose-100/70 text-rose-900 px-1.5 py-0.2 rounded text-[10px] font-medium">
                                       {m}
@@ -321,7 +321,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                                 }}
                                 className="px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-black text-white text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
                               >
-                                ตรวจสินค้านี้ →
+                                Audit Product →
                               </button>
                             </div>
                           ))}
@@ -336,7 +336,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
         </div>
       )}
 
-      {/* Tab Content 2: ควรปรับปรุง (Improvements) */}
+      {/* Tab Content 2: Improve */}
       {activePriorityTab === 'improvement' && (
         <div className="space-y-4">
           {improvementFindings.map((finding) => {
@@ -362,13 +362,13 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                       </span>
                     </div>
                     <p className="text-xs text-stone-600">
-                      <strong>ผลกระทบ:</strong> {finding.impactText}
+                      <strong>Impact:</strong> {finding.impactText}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto">
                     <span className="text-xs font-bold text-amber-800 hidden sm:inline">
-                      {isExpanded ? 'ย่อรายละเอียด' : 'ดูสินค้าที่ได้รับผลกระทบ'}
+                      {isExpanded ? 'Collapse Details' : 'View Affected Products'}
                     </span>
                     {isExpanded ? <ChevronUp className="w-4 h-4 text-amber-800" /> : <ChevronDown className="w-4 h-4 text-amber-800" />}
                   </div>
@@ -381,8 +381,8 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                     <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200 flex items-start gap-3">
                       <Wrench className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                       <div className="text-xs text-amber-950">
-                        <strong className="block text-amber-900 font-bold mb-0.5">วิธีแก้ที่ร้านต้นทาง (Action at Source):</strong>
-                        {finding.recommendedAction} — หลังจากแก้ในระบบ Shopify/WooCommerce แล้ว กดตรวจอีกครั้งเพื่ออัปเดตผล
+                        <strong className="block text-amber-900 font-bold mb-0.5">Action at Source:</strong>
+                        {finding.recommendedAction} — After updating in your Shopify or WooCommerce admin, click Re-check to update readiness.
                       </div>
                     </div>
 
@@ -390,7 +390,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                     {finding.productsAffected && finding.productsAffected.length > 0 && (
                       <div className="space-y-2">
                         <span className="text-xs font-bold text-stone-700 block">
-                          สินค้าที่ตรวจพบข้อแนะนำนี้ ({finding.productsAffected.length} รายการตัวอย่าง):
+                          Affected Products ({finding.productsAffected.length} sample items):
                         </span>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -405,7 +405,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                                   <span>{prod.name}</span>
                                 </div>
                                 <div className="text-[11px] text-amber-800 flex flex-wrap gap-1">
-                                  <span>ขาดข้อมูล:</span>
+                                  <span>Missing:</span>
                                   {prod.missing.map((m, idx) => (
                                     <span key={idx} className="bg-amber-100/70 text-amber-900 px-1.5 py-0.2 rounded text-[10px] font-medium">
                                       {m}
@@ -424,7 +424,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                                 }}
                                 className="px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-black text-white text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
                               >
-                                ตรวจสินค้านี้ →
+                                Audit Product →
                               </button>
                             </div>
                           ))}
@@ -439,12 +439,12 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
         </div>
       )}
 
-      {/* Tab Content 3: ดีแล้ว (Good / Passed) */}
+      {/* Tab Content 3: Healthy (Good / Passed) */}
       {activePriorityTab === 'good' && (
         <div className="space-y-3">
           {goodFindings.map((finding) => (
             <div 
-              key={finding.id}
+              key={finding.id} 
               className="p-4 rounded-2xl border border-emerald-200/80 bg-emerald-50/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
             >
               <div className="space-y-0.5">
@@ -463,7 +463,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
               </div>
 
               <span className="text-xs font-bold text-emerald-700 shrink-0">
-                ผ่านเกณฑ์ ✓
+                Verified Healthy ✓
               </span>
             </div>
           ))}

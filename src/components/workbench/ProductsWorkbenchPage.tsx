@@ -340,12 +340,10 @@ export const ProductsWorkbenchPage: React.FC<ProductsWorkbenchPageProps> = ({
         isOpen={!!activeDrawerProduct}
         onClose={() => setActiveDrawerProduct(null)}
         onOpenReport={onNavigateReport}
-        onOpenFixVerification={(name) => {
-          setFuturePageModal({
-            isOpen: true,
-            title: `Fix & Verification: ${name}`,
-            description: 'The automated evidence remediation pipeline and merchant verification boundary (Page 04) allows merchants to upload lab certificates, arbitrate retailer discrepancies, and push verified Schema.org models.'
-          });
+        onOpenFixVerification={() => {
+          if (onNavigateIssues) {
+            onNavigateIssues();
+          }
         }}
         onOpenVaporStrideReport={onNavigateReport}
       />

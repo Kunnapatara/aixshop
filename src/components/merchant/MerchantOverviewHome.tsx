@@ -71,13 +71,12 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
     }, 750);
   };
 
-  // Product Audit Trigger (ONLY called when merchant clicks "ตรวจสินค้านี้ →" on an affected product)
-  // ID Integrity: Maps product ID to matching open issue IDs so product ID is NEVER passed as issue ID
+  // Product Audit Trigger (ONLY called when merchant clicks "Audit Product →" on an affected product)
+  // ID Integrity: Strictly maps product ID to its own matching open issue IDs.
+  // Rule: NEVER fallback to another product's issues if this product has none.
   const handleInspectProduct = (productId: string, productName: string) => {
     const matchingIssues = issues.filter(i => i.productId === productId && !i.isResolved);
-    const issueIds = matchingIssues.length > 0 
-      ? matchingIssues.map(i => i.id) 
-      : issues.filter(i => !i.isResolved).slice(0, 1).map(i => i.id);
+    const issueIds = matchingIssues.map(i => i.id);
 
     setSelectedProductAudit({ id: productId, name: productName, issueIds });
     setIsProductModalOpen(true);
@@ -103,7 +102,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
-      {/* 1. STORE-FIRST AUDIT HERO (Primary Entry Point: ตรวจร้านของคุณ) */}
+      {/* 1. STORE-FIRST AUDIT HERO (Primary Entry Point) */}
       <StoreAuditHero
         readinessScore={readinessScore}
         openIssuesCount={openIssuesCount}
@@ -122,7 +121,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
             <span className="text-[11px] font-bold uppercase tracking-widest text-orange-400">
-              ผลการตรวจร้าน (Store Audit Result)
+              Store Audit Result
             </span>
             <span className="text-xs text-stone-400 font-mono">
               · {CANONICAL_MERCHANT.domain}
@@ -131,15 +130,15 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
 
           <div className="flex flex-wrap items-baseline gap-3 pt-1">
             <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-              ความพร้อมของร้าน {readinessScore}%
+              Store Readiness {readinessScore}%
             </h3>
             <span className="text-xs sm:text-sm text-stone-300 font-medium">
-              — มี {openIssuesCount} เรื่องที่ควรปรับปรุง (3 เรื่องต้องแก้ก่อน)
+              — {openIssuesCount} items to address (3 must fix first)
             </span>
           </div>
 
           <p className="text-xs text-stone-400 max-w-2xl leading-relaxed">
-            การตรวจสัญญาณระดับร้านค้า (Store Signals) และสเปกสินค้า (Catalog Signals) ครบ {CANONICAL_SYSTEM_KPIS.totalCatalogProducts} รายการ ข้อมูลจัดกลุ่มตามความสำคัญเพื่อให้แก้ที่ต้นทางได้ทันที
+            Store-level integrity and catalog specifications evaluated across {CANONICAL_SYSTEM_KPIS.totalCatalogProducts} products. Actionable findings are grouped by priority to resolve at the source.
           </p>
         </div>
 
@@ -149,13 +148,13 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
             onClick={scrollToFindings}
             className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#F97316] hover:bg-[#EA580C] text-white text-xs sm:text-sm font-bold shadow-xs hover:shadow transition-all cursor-pointer"
           >
-            <span>ดูเรื่องที่ต้องแก้</span>
+            <span>View Issues to Fix</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* 3. FINDINGS GROUPED BY ACTION PRIORITY: ต้องแก้ก่อน | ควรปรับปรุง | ดีแล้ว */}
+      {/* 3. FINDINGS GROUPED BY ACTION PRIORITY: Must Fix | Improve | Healthy */}
       <div id="store-findings-section">
         <StoreFindingsSection
           issues={issues}
@@ -174,18 +173,12 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
         issueIds={selectedProductAudit.issueIds}
         onRecheckProduct={() => {
           if (onApproveIssue) {
-            // ID INTEGRITY GUARANTEE: Product ID ≠ Issue ID.
-            // Approve the actual open issue IDs bound to this product, NEVER passing product ID as issue ID.
+            // ID INTEGRITY GUARANTEE: Product ID != Issue ID.
+            // Approve the actual open issue IDs belonging to this product.
             if (selectedProductAudit.issueIds && selectedProductAudit.issueIds.length > 0) {
               selectedProductAudit.issueIds.forEach(issueId => {
                 onApproveIssue(issueId);
               });
-            } else {
-              // Fallback to first open canonical issue
-              const firstOpen = issues.find(i => !i.isResolved);
-              if (firstOpen) {
-                onApproveIssue(firstOpen.id);
-              }
             }
           }
         }}
@@ -200,7 +193,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-800">
-                เครื่องมือจัดการงานเชิงลึก (Advanced Workspace)
+                Advanced Workspace
               </span>
               <span className="text-xs text-stone-400 font-medium">·</span>
               <span className="text-xs font-semibold text-stone-700">
@@ -208,10 +201,10 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
               </span>
             </div>
             <h3 className="text-base font-bold text-stone-900">
-              ศูนย์จัดการและอนุมัติการแก้ไข (Merchant Action Center)
+              Merchant Action Center
             </h3>
             <p className="text-xs text-stone-500">
-              สำหรับผู้ดูแลที่ต้องการดูความต่างของข้อมูล (Diff), แก้ไขค่าด้วยตนเอง และบันทึกคำตอบทีละรายการ
+              For managers who want to inspect side-by-side evidence diffs, arbitrate discrepancies, and commit verified values item by item.
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
@@ -219,7 +212,7 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
               type="button"
               className="px-4 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
             >
-              {showActionCenter ? 'ย่อ Action Center ▲' : 'เปิด Action Center ▼'}
+              {showActionCenter ? 'Collapse Action Center ▲' : 'Open Action Center ▼'}
             </button>
           </div>
         </div>
@@ -241,14 +234,14 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
         )}
       </div>
 
-      {/* 6. LEVEL 2 INTELLIGENCE WORKSPACES (Secondary Navigation Shortcuts) */}
+      {/* 6. ADVANCED WORKSPACE SHORTCUTS */}
       <div className="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-            ข้อมูลเชิงลึกเฉพาะด้าน (Advanced Intelligence Surfaces)
+            Operational Workspaces
           </h4>
           <p className="text-xs text-stone-500">
-            ดูแคตตาล็อกสินค้า, การวิเคราะห์ความพร้อม (Readiness) หรือการเชื่อมต่อฟีดในหน้าเครื่องมือเฉพาะ
+            Jump directly to catalog management, continuous monitoring, or technical feeds.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -257,21 +250,21 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
             onClick={onNavigateProducts}
             className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
           >
-            แคตตาล็อก ({CANONICAL_SYSTEM_KPIS.totalCatalogProducts} สินค้า) →
+            Catalog ({CANONICAL_SYSTEM_KPIS.totalCatalogProducts} Products) →
           </button>
           <button
             type="button"
             onClick={onNavigateDiscovery}
             className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
           >
-            ความพร้อม ({readinessScore}%) →
+            Readiness ({readinessScore}%) →
           </button>
           <button
             type="button"
             onClick={onNavigateIssues}
             className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
           >
-            รายการปัญหา ({openIssuesCount} รายการ) →
+            Issues Queue ({openIssuesCount} Open) →
           </button>
         </div>
       </div>

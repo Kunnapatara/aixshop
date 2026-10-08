@@ -165,7 +165,7 @@ export const EvidenceAnalyticsCard: React.FC<EvidenceAnalyticsCardProps> = ({
                 onClick={onNavigateIssues}
                 className="text-[11px] font-bold text-amber-700 hover:text-amber-900 flex items-center gap-1 cursor-pointer"
               >
-                <span>Triage {activeDistributionItem.count} items in Issues (P10)</span>
+                <span>Triage {activeDistributionItem.count} items in Issues</span>
                 <ArrowRight className="w-3 h-3" />
               </button>
             ) : (

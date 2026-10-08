@@ -3,9 +3,9 @@
  * 
  * Verifies:
  * 1. Store-First Entry Point & 2-Layer Store Audit (Store Signals & Catalog Signals)
- * 2. Human Language & Task-First Priority Grouping (ต้องแก้ก่อน | ควรปรับปรุง | ดีแล้ว)
+ * 2. Human Language & Task-First Priority Grouping (Must Fix | Improve | Healthy)
  * 3. Affected Products Drill-down to Product Audit Modal
- * 4. Product Audit Contract: สินค้า | สถานะ | ปัญหาที่พบ | สิ่งที่ควรทำ | [ ตรวจอีกครั้ง ]
+ * 4. Product Audit Contract: Product | Status | Problems Found | Action at Source | [ Re-check ]
  * 5. Source-of-truth Integrity: Merchant System = Source of Truth; AIXSHOP = Intelligence Layer
  * 6. Preserved Canonical State Authorities & Zero False AI Guarantees
  */
@@ -45,17 +45,17 @@ const heroPath = path.resolve(__dirname, '../components/merchant/StoreAuditHero.
 assert(fs.existsSync(heroPath), 'StoreAuditHero.tsx exists');
 const heroSrc = fs.readFileSync(heroPath, 'utf8');
 
-assert(heroSrc.includes('ตรวจร้านของคุณ'), 'Store Audit headline: ตรวจร้านของคุณ');
-assert(heroSrc.includes('ตรวจร้านของฉัน'), 'Primary Action CTA: ตรวจร้านของฉัน');
+assert(heroSrc.includes('Store Audit'), 'Store Audit headline: Store Audit');
+assert(heroSrc.includes('Audit My Store'), 'Primary Action CTA: Audit My Store');
 assert(
-  heroSrc.includes('ดูว่าสินค้า ข้อมูล และข้อเสนอของร้านพร้อมสำหรับ AI Shopping แค่ไหน'),
-  'Supporting explanation: ดูว่าสินค้า ข้อมูล และข้อเสนอของร้านพร้อมสำหรับ AI Shopping แค่ไหน'
+  heroSrc.includes('AI Shopping assistants') || heroSrc.includes('Evaluate how well your store'),
+  'Supporting explanation: AI Shopping assistant readiness'
 );
-assert(heroSrc.includes('พร้อมระดับไหน?'), 'Human readiness question: พร้อมระดับไหน?');
-assert(heroSrc.includes('12 เรื่องที่ควรแก้'), 'Priority breakdown headline: 12 เรื่องที่ควรแก้');
-assert(heroSrc.includes('ต้องแก้ก่อน') && heroSrc.includes('ควรปรับปรุง') && heroSrc.includes('ดีแล้ว'), '3 human priority tiers present');
-assert(heroSrc.includes('ระดับร้านค้า (Store Signals)'), 'Layer 1: Store-level signals distinguished');
-assert(heroSrc.includes('ระดับสินค้า (Catalog Signals)'), 'Layer 2: Catalog-level signals distinguished');
+assert(heroSrc.includes('How Ready is the Catalog?'), 'Human readiness question: How Ready is the Catalog?');
+assert(heroSrc.includes('12 Items to Address'), 'Priority breakdown headline: 12 Items to Address');
+assert(heroSrc.includes('Must Fix') && heroSrc.includes('Improve') && heroSrc.includes('Healthy'), '3 human priority tiers present (Must Fix | Improve | Healthy)');
+assert(heroSrc.includes('Store-Level Signals'), 'Layer 1: Store-level signals distinguished');
+assert(heroSrc.includes('Catalog-Level Signals'), 'Layer 2: Catalog-level signals distinguished');
 
 // 2. STORE FINDINGS & DRILL-DOWN CONTRACT
 console.log('\n--- 2. STORE FINDINGS & DRILL-DOWN ---');
@@ -64,14 +64,14 @@ const findingsPath = path.resolve(__dirname, '../components/merchant/StoreFindin
 assert(fs.existsSync(findingsPath), 'StoreFindingsSection.tsx exists');
 const findingsSrc = fs.readFileSync(findingsPath, 'utf8');
 
-assert(findingsSrc.includes('ต้องแก้ก่อน (3 เรื่อง)'), 'Critical findings tab: ต้องแก้ก่อน (3 เรื่อง)');
-assert(findingsSrc.includes('ควรปรับปรุง (5 เรื่อง)'), 'Improvement findings tab: ควรปรับปรุง (5 เรื่อง)');
-assert(findingsSrc.includes('ดีแล้ว (4 เรื่อง)'), 'Good findings tab: ดีแล้ว (4 เรื่อง)');
-assert(findingsSrc.includes('ข้อมูลสินค้าไม่ครบถ้วน'), 'Finding 1: ข้อมูลสินค้าไม่ครบถ้วน');
-assert(findingsSrc.includes('ข้อมูลราคาไม่ตรงกัน'), 'Finding 2: ข้อมูลราคาไม่ตรงกัน');
-assert(findingsSrc.includes('ดูสินค้าที่ได้รับผลกระทบ'), 'Interactive drill-down prompt: ดูสินค้าที่ได้รับผลกระทบ');
-assert(findingsSrc.includes('ตรวจสินค้านี้ →'), 'Drill-down action button: ตรวจสินค้านี้ →');
-assert(findingsSrc.includes('แก้ที่ร้านต้นทาง'), 'Action-at-source direction: แก้ที่ร้านต้นทาง');
+assert(findingsSrc.includes('Must Fix (3 issues)'), 'Critical findings tab: Must Fix (3 issues)');
+assert(findingsSrc.includes('Improve (5 issues)'), 'Improvement findings tab: Improve (5 issues)');
+assert(findingsSrc.includes('Healthy (4 items)'), 'Good findings tab: Healthy (4 items)');
+assert(findingsSrc.includes('Incomplete Product Specifications'), 'Finding 1: Incomplete Product Specifications');
+assert(findingsSrc.includes('Price Discrepancy'), 'Finding 2: Price Discrepancy');
+assert(findingsSrc.includes('View Affected Products'), 'Interactive drill-down prompt: View Affected Products');
+assert(findingsSrc.includes('Audit Product →'), 'Drill-down action button: Audit Product →');
+assert(findingsSrc.includes('Action at Source') || findingsSrc.includes('store source'), 'Action-at-source direction: Action at Source');
 
 // 3. PRODUCT AUDIT MODAL CONTRACT
 console.log('\n--- 3. PRODUCT AUDIT DIAGNOSTIC MODAL ---');
@@ -80,12 +80,12 @@ const modalPath = path.resolve(__dirname, '../components/merchant/ProductAuditMo
 assert(fs.existsSync(modalPath), 'ProductAuditModal.tsx exists');
 const modalSrc = fs.readFileSync(modalPath, 'utf8');
 
-assert(modalSrc.includes('การตรวจสินค้า (Product Audit)'), 'Modal title: การตรวจสินค้า (Product Audit)');
-assert(modalSrc.includes('สถานะความพร้อม'), 'Status section: สถานะความพร้อม');
-assert(modalSrc.includes('ต้องปรับปรุง'), 'Defines status: ต้องปรับปรุง');
-assert(modalSrc.includes('ปัญหาที่พบ'), 'Defines problems: ปัญหาที่พบ');
-assert(modalSrc.includes('สิ่งที่ควรทำ (แก้ที่ร้านต้นทาง)'), 'Action directive: สิ่งที่ควรทำ (แก้ที่ร้านต้นทาง)');
-assert(modalSrc.includes('ตรวจอีกครั้ง'), 'Re-check action button: ตรวจอีกครั้ง');
+assert(modalSrc.includes('Product Audit'), 'Modal title: Product Audit');
+assert(modalSrc.includes('Readiness Status'), 'Status section: Readiness Status');
+assert(modalSrc.includes('Needs Improvement'), 'Defines status: Needs Improvement');
+assert(modalSrc.includes('Problems Identified'), 'Defines problems: Problems Identified');
+assert(modalSrc.includes('Action at Store Source:'), 'Action directive: Action at Store Source:');
+assert(modalSrc.includes('Re-check Product'), 'Re-check action button: Re-check Product');
 
 // 4. HOME & ARCHITECTURAL INTEGRATION
 console.log('\n--- 4. STORE-FIRST HOME INTEGRATION ---');
@@ -100,7 +100,7 @@ assert(homeSrc.includes('<ProductAuditModal'), 'MerchantOverviewHome renders Pro
 assert(homeSrc.includes('<MerchantActionCenter'), 'MerchantOverviewHome preserves MerchantActionCenter');
 assert(homeSrc.includes('onApproveIssue={onApproveIssue}'), 'MerchantOverviewHome passes onApproveIssue');
 assert(homeSrc.includes('readinessScore={readinessScore}'), 'MerchantOverviewHome passes readinessScore');
-assert(homeSrc.includes('audit-result-banner') && homeSrc.includes('ผลการตรวจร้าน'), 'MerchantOverviewHome renders Store Audit Result summary banner');
+assert(homeSrc.includes('audit-result-banner') && homeSrc.includes('Store Audit Result'), 'MerchantOverviewHome renders Store Audit Result summary banner');
 assert(homeSrc.includes('showActionCenter'), 'Action Center is housed in secondary/collapsible workspace on Home');
 
 // Verify old dashboard sections removed from primary Home
@@ -113,10 +113,10 @@ assert(!homeSrc.includes('Intelligence Coverage'), 'OLD DASHBOARD REMOVAL: Intel
 // Verify semantic routing: Store Audit CTA triggers store audit, NOT product audit
 assert(
   !homeSrc.includes('onAuditStore={(url) => {\n          setSelectedProductAudit'),
-  'ROUTING FIX: "ตรวจร้าน" triggers store audit, not product modal'
+  'ROUTING FIX: "Store Audit" triggers store audit, not product modal'
 );
 assert(
-  modalSrc.includes('Shopify / WooCommerce') && modalSrc.includes('ขั้นตอนการแก้ที่ต้นทาง'),
+  modalSrc.includes('Shopify / WooCommerce') && modalSrc.includes('Resolution Workflow:'),
   'SOURCE-OF-TRUTH RULE: Clear step-by-step fix at store source instructions present'
 );
 

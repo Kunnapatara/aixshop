@@ -1,7 +1,7 @@
 // src/components/merchant/ProductAuditModal.tsx
 // Product Audit Modal: Direct Single-Product Diagnostic
 // Formatted directly according to Prompt Product Audit specification:
-// สินค้า | สถานะ | ปัญหาที่พบ | สิ่งที่ควรทำ | [ ตรวจอีกครั้ง ]
+// Product | Status | Problems Found | Action at Source | [ Re-check ]
 
 import React, { useState } from 'react';
 import { 
@@ -13,11 +13,11 @@ import {
   RefreshCw, 
   Wrench, 
   ExternalLink,
-  ShieldCheck,
+  ShieldCheck, 
   Check,
   Info
 } from 'lucide-react';
-import { CanonicalCatalogProduct } from '../../data/canonicalCatalog';
+import { IssueItem } from '../../types/issues';
 
 export interface ProductAuditModalProps {
   isOpen: boolean;
@@ -25,6 +25,7 @@ export interface ProductAuditModalProps {
   productId?: string;
   productName?: string;
   issueIds?: string[];
+  productIssues?: IssueItem[];
   onRecheckProduct?: () => void;
 }
 
@@ -34,6 +35,7 @@ export const ProductAuditModal: React.FC<ProductAuditModalProps> = ({
   productId,
   productName = 'AeroPulse VaporStride Carbon Elite',
   issueIds = [],
+  productIssues = [],
   onRecheckProduct
 }) => {
   const [isRechecking, setIsRechecking] = useState(false);
@@ -51,28 +53,30 @@ export const ProductAuditModal: React.FC<ProductAuditModalProps> = ({
       setIsRechecking(false);
       setRecheckSuccess(true);
       setTimeout(() => setRecheckSuccess(false), 3500);
-    }, 1000);
+    }, 800);
   };
+
+  const hasIssues = issueIds.length > 0 || productIssues.length > 0;
 
   return (
     <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-      <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-2xl relative">
+      <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
           type="button"
           onClick={onClose}
           className="absolute top-5 right-5 p-2 rounded-xl text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors cursor-pointer"
-          aria-label="ปิด"
+          aria-label="Close"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* 1. สินค้า (Product Identity) */}
+        {/* 1. Product Identity */}
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-bold text-orange-600 uppercase tracking-wider bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200/60">
-              การตรวจสินค้า (Product Audit)
+              Product Audit
             </span>
             <span className="text-xs text-stone-400 font-mono">ID: {productId || 'AP-VSE-001'}</span>
           </div>
@@ -81,105 +85,110 @@ export const ProductAuditModal: React.FC<ProductAuditModalProps> = ({
             {productName}
           </h3>
           <p className="text-xs text-stone-500">
-            AeroPulse Athletics · หมวดหมู่รองเท้าวิ่งมาราธอน
+            AeroPulse Athletics · Performance Footwear
           </p>
         </div>
 
-        {/* 2. สถานะ (Status) */}
+        {/* 2. Status */}
         <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex items-center justify-between">
           <div>
-            <span className="text-[11px] text-amber-800 font-semibold block">สถานะความพร้อม</span>
+            <span className="text-[11px] text-amber-800 font-semibold block">Readiness Status</span>
             <span className="text-base font-extrabold text-amber-950 mt-0.5 block">
-              {recheckSuccess ? 'พร้อมสำหรับการค้นหา (ปรับปรุงแล้ว)' : 'ต้องปรับปรุง (Needs Improvement)'}
+              {recheckSuccess ? 'Ready for AI Search (Updated)' : hasIssues ? 'Needs Improvement' : 'Ready'}
             </span>
           </div>
-          <span className={`px-3 py-1 rounded-full text-xs font-bold ${recheckSuccess ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'}`}>
-            {recheckSuccess ? '94% พร้อม' : '68% พร้อม'}
+          <span className={`px-3 py-1 rounded-full text-xs font-bold ${recheckSuccess || !hasIssues ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'}`}>
+            {recheckSuccess || !hasIssues ? '95% Ready' : '68% Ready'}
           </span>
         </div>
 
-        {/* 3. ปัญหาที่พบ (Problems Found) */}
+        {/* 3. Problems Found */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-              ปัญหาที่พบ ({recheckSuccess ? '0' : '2'} รายการ)
+              Problems Identified ({recheckSuccess ? '0' : hasIssues ? issueIds.length || 2 : '0'} Items)
             </span>
-            <span className="text-[11px] text-rose-700 font-semibold">กระทบการตอบของผู้ช่วย AI</span>
+            <span className="text-[11px] text-rose-700 font-semibold">Impacts AI assistant accuracy</span>
           </div>
 
-          {!recheckSuccess ? (
+          {!recheckSuccess && hasIssues ? (
             <div className="space-y-2">
               <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs space-y-1">
                 <div className="flex items-center gap-1.5 font-bold text-rose-900">
-                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-                  <span>1. ข้อมูลวัสดุผ้าอัปเปอร์ไม่ชัดเจนและขัดแย้งกัน</span>
+                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                  <span>1. Upper mesh material specification conflict</span>
                 </div>
                 <p className="text-stone-500 text-[11px] pl-5 leading-relaxed">
-                  ร้านระบุ Engineered Mesh แต่ฟีดภายนอกระบุ Synthetic Knit ทำให้ระบบ AI ไม่กล้ายืนยันคำตอบ
+                  Store specifies Engineered Mesh but external retailer feeds state Synthetic Knit, causing AI assistants to downgrade confidence.
                 </p>
               </div>
 
               <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs space-y-1">
                 <div className="flex items-center gap-1.5 font-bold text-rose-900">
-                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-                  <span>2. ขาดข้อมูลเงื่อนไขการจัดส่งและระยะเวลาส่งมอบ</span>
+                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+                  <span>2. Missing structured shipping & transit terms</span>
                 </div>
                 <p className="text-stone-500 text-[11px] pl-5 leading-relaxed">
-                  ไม่มีข้อมูลระยะเวลาตัดรอบจัดส่งในสคีมา ทำให้ลูกค้าที่ต้องการของด่วนไม่พบตัวเลือกนี้
+                  Cut-off schedule and delivery turnaround missing in product schema, causing urgent shopping queries to omit this product.
                 </p>
               </div>
+            </div>
+          ) : !hasIssues && !recheckSuccess ? (
+            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+              <span>No open issues found for this product. Specifications are complete and verified.</span>
             </div>
           ) : (
             <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-              <span>ตรวจพบการอัปเดตข้อมูลสเปกแล้ว — สินค้านี้มีข้อมูลครบถ้วนสำหรับ AI Shopping</span>
+              <span>Specifications updated and verified — this product is ready for AI Shopping queries.</span>
             </div>
           )}
         </div>
 
-        {/* 4. สิ่งที่ควรทำ (Action at Source) */}
+        {/* 4. Action at Source */}
         <div className="p-4 rounded-2xl bg-orange-50/60 border border-orange-200/80 space-y-2.5 text-xs">
           <div className="flex items-center gap-2 font-bold text-orange-950">
             <Wrench className="w-4 h-4 text-orange-600" />
-            <span>สิ่งที่ควรทำ (แก้ที่ร้านต้นทาง):</span>
+            <span>Action at Store Source:</span>
           </div>
 
           <ul className="space-y-1.5 text-stone-700 pl-6 list-disc text-[11px]">
             <li>
-              <strong>เพิ่มข้อมูลวัสดุ:</strong> เข้าสู่หลังบ้าน Shopify / WooCommerce แล้วกรอกข้อมูลวัสดุในช่องสเปกสินค้าให้ตรงกัน
+              <strong>Add Material Specifications:</strong> Log in to your Shopify / WooCommerce store admin and fill in the structured material attributes.
             </li>
             <li>
-              <strong>ตรวจสอบข้อมูลการจัดส่ง:</strong> ระบุนโยบายส่งฟรีและระยะเวลาส่งมอบในหน้า Product / Settings
+              <strong>Set Transit Policies:</strong> Configure free shipping rules and estimated delivery turnaround times in your store settings.
             </li>
           </ul>
 
           {/* 4-Step Action At Source Workflow */}
           <div className="p-2.5 rounded-xl bg-white/80 border border-orange-200/60 space-y-1 text-[11px] text-stone-700">
-            <span className="font-bold text-stone-900 block">ขั้นตอนการแก้ที่ต้นทาง:</span>
+            <span className="font-bold text-stone-900 block">Resolution Workflow:</span>
             <div className="flex flex-wrap items-center gap-1.5 text-stone-600 font-medium">
-              <span>1. เปิด Shopify / WooCommerce</span>
+              <span>1. Open Shopify / WooCommerce</span>
               <span>→</span>
-              <span>2. แก้ข้อมูลสินค้า</span>
+              <span>2. Update product data</span>
               <span>→</span>
-              <span>3. บันทึกการเปลี่ยนแปลง</span>
+              <span>3. Save changes</span>
               <span>→</span>
-              <span>4. กลับมาที่ AIXSHOP กด &quot;ตรวจอีกครั้ง&quot;</span>
+              <span>4. Return to AIXSHOP & click &quot;Re-check&quot;</span>
             </div>
           </div>
 
           <div className="pt-0.5 text-[10px] text-stone-400">
-            * ระบบร้านค้าของคุณคือแหล่งข้อมูลจริง — AIXSHOP ทำหน้าที่ตรวจและยืนยันความพร้อม ข้อมูลภายนอกจะไม่เปลี่ยนจนกว่าคุณจะบันทึกที่ต้นทาง
+            * Your merchant platform is the single source of truth — AIXSHOP validates catalog readiness without overwriting your store feeds until verified.
           </div>
         </div>
 
-        {/* 5. [ ตรวจอีกครั้ง ] Re-check Button */}
+        {/* 5. [ Re-check ] Action Button */}
         <div className="flex items-center justify-between gap-3 pt-2">
           <button
             type="button"
             onClick={onClose}
             className="px-4 py-3 rounded-2xl text-xs font-semibold text-stone-600 hover:bg-stone-100 transition-colors cursor-pointer"
           >
-            ปิดหน้าต่าง
+            Close
           </button>
 
           <button
@@ -189,7 +198,7 @@ export const ProductAuditModal: React.FC<ProductAuditModalProps> = ({
             className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#F97316] hover:bg-[#EA580C] text-white text-xs font-bold shadow-xs hover:shadow transition-all cursor-pointer disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${isRechecking ? 'animate-spin' : ''}`} />
-            <span>{isRechecking ? 'กำลังตรวจอีกครั้ง...' : 'ตรวจอีกครั้ง'}</span>
+            <span>{isRechecking ? 'Auditing Product...' : 'Re-check Product'}</span>
           </button>
         </div>
 

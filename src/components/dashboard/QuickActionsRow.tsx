@@ -50,7 +50,6 @@ export const QuickActionsRow: React.FC<QuickActionsRowProps> = ({
         >
           <HelpCircle className="w-3.5 h-3.5 text-rose-400" />
           <span>Review Evidence Gaps</span>
-          <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-500">P10</span>
         </button>
 
         {/* Review Conflicts */}
@@ -61,7 +60,6 @@ export const QuickActionsRow: React.FC<QuickActionsRowProps> = ({
         >
           <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
           <span>Review Conflicts</span>
-          <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-500">P10</span>
         </button>
 
         {/* Review Offers */}
@@ -72,7 +70,6 @@ export const QuickActionsRow: React.FC<QuickActionsRowProps> = ({
         >
           <Tag className="w-3.5 h-3.5 text-indigo-400" />
           <span>Review Offers</span>
-          <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-500">P07</span>
         </button>
 
         {/* Review Discovery */}

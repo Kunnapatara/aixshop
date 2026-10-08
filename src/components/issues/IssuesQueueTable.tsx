@@ -276,7 +276,7 @@ export const IssuesQueueTable: React.FC<IssuesQueueTableProps> = ({
                         type="button"
                         onClick={() => onOpenProductReport && onOpenProductReport(issue.productId)}
                         className="text-stone-800 hover:text-[#F97316] font-semibold transition-colors text-left line-clamp-1 cursor-pointer flex items-center gap-1 group/p"
-                        title="Open Product Intelligence (Page 03)"
+                        title="Open Product Intelligence Report"
                       >
                         <span>{issue.productName}</span>
                         <ExternalLink className="w-2.5 h-2.5 text-stone-400 group-hover/p:text-[#F97316] shrink-0" />

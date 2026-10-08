@@ -152,9 +152,9 @@ export const ProductsRequiringAttention: React.FC<ProductsRequiringAttentionProp
                           onNavigateToReport();
                         }}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-semibold transition-colors cursor-pointer shadow-sm"
-                        title="View Full Product Intelligence Report on Page 03"
+                        title="View Full Product Intelligence Report"
                       >
-                        <span>Inspect P03</span>
+                        <span>Inspect Report</span>
                         <ExternalLink className="w-3 h-3 text-cyan-400" />
                       </button>
                     ) : (
@@ -186,7 +186,7 @@ export const ProductsRequiringAttention: React.FC<ProductsRequiringAttentionProp
             onClick={onNavigateProducts}
             className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors flex items-center gap-1 cursor-pointer self-start sm:self-auto"
           >
-            <span>View All 24 Products in Workbench (Page 06)</span>
+            <span>View All 24 Products in Catalog</span>
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
         ) : (

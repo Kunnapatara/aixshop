@@ -690,6 +690,26 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
             />
           </div>
         )}
+
+        {/* Fallback to Home if unknown tab somehow bypassed resolver */}
+        {!['home', 'catalog', 'offers', 'readiness', 'issues', 'monitoring', 'analytics', 'integrations', 'billing', 'report'].includes(activeTab) && (
+          <MerchantOverviewHome
+            onNavigateIssues={() => setActiveTab('issues')}
+            onNavigateProducts={() => setActiveTab('catalog')}
+            onNavigateOffers={() => setActiveTab('offers')}
+            onNavigateDiscovery={() => setActiveTab('readiness')}
+            onNavigateMonitoring={() => setActiveTab('monitoring')}
+            onNavigateReport={() => setActiveTab('report')}
+            onNavigateIntegrations={() => setActiveTab('integrations')}
+            onAddProducts={() => setIsAddModalOpen(true)}
+            issues={issues}
+            onApproveIssue={handleApproveIssue}
+            onDismissIssue={handleDismissIssue}
+            readinessScore={readinessScore}
+            onRecheckStore={runRecheckSimulation}
+            isRechecking={isRechecking}
+          />
+        )}
       </main>
 
       {/* 3. Add Products Modal */}

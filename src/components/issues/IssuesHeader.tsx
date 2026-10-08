@@ -108,10 +108,10 @@ export const IssuesHeader: React.FC<IssuesHeaderProps> = ({
                 type="button"
                 onClick={onNavigateMonitoring}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-stone-200 hover:border-orange-300 text-stone-700 hover:text-[#F97316] text-xs font-semibold transition-colors cursor-pointer shadow-3xs"
-                title="View Page 09 Monitoring Events"
+                title="View Continuous Monitoring Events"
               >
                 <Activity className="w-3.5 h-3.5 text-[#F97316]" />
-                <span>P09 Monitoring</span>
+                <span>Continuous Monitoring</span>
               </button>
             )}
 

@@ -43,7 +43,7 @@ export const OffersAndMonitoringSection: React.FC<OffersAndMonitoringSectionProp
             onClick={onNavigateOffers}
             className="text-xs text-[#F97316] hover:text-orange-700 font-bold flex items-center gap-1 cursor-pointer"
           >
-            <span>Offers Workspace (P07)</span>
+            <span>Offers Workspace</span>
             <ArrowRight className="w-3 h-3" />
           </button>
         </div>
@@ -130,7 +130,7 @@ export const OffersAndMonitoringSection: React.FC<OffersAndMonitoringSectionProp
               <h3 className="text-base font-bold text-stone-900 tracking-tight">Monitoring Activity Distribution</h3>
             </div>
             <p className="text-xs text-stone-500 mt-0.5">
-              Breakdown of 12 detected changes using Page 09 taxonomy.
+              Breakdown of 12 detected catalog changes.
             </p>
           </div>
           <button
@@ -138,7 +138,7 @@ export const OffersAndMonitoringSection: React.FC<OffersAndMonitoringSectionProp
             onClick={onNavigateMonitoring}
             className="text-xs text-[#F97316] hover:text-orange-700 font-bold flex items-center gap-1 cursor-pointer"
           >
-            <span>Live Stream (P09)</span>
+            <span>Continuous Monitoring</span>
             <ArrowRight className="w-3 h-3" />
           </button>
         </div>
