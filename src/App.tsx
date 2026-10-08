@@ -103,7 +103,7 @@ export default function App() {
           <AdminExperience
             onNavigateMerchant={() => {
               setCurrentJourney('merchant');
-              setMerchantSubTab('overview');
+              setMerchantSubTab('home');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onNavigateShopper={() => {
@@ -124,7 +124,7 @@ export default function App() {
               onStartAnalysis={handleStartAnalysis}
               onNavigateDashboard={() => {
                 setCurrentJourney('merchant');
-                setMerchantSubTab('overview');
+                setMerchantSubTab('home');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               onNavigateReport={() => {
