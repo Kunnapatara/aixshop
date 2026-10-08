@@ -117,7 +117,7 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
           <div className="h-16 flex items-center justify-between gap-2 sm:gap-4">
             
             {/* Left Zone: Brand Wordmark + EXACT 4 Primary Navigation Items */}
-            <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 min-w-0">
+            <div className="flex items-center gap-3 sm:gap-4 md:gap-6 min-w-0">
               {/* Brand Wordmark */}
               <button
                 type="button"
@@ -138,8 +138,8 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
                 </div>
               </button>
 
-              {/* Primary Merchant Navigation: EXACTLY Home | Catalog | Issues | Visibility */}
-              <nav className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-1 scrollbar-none" aria-label="Merchant Primary Navigation">
+              {/* Primary Merchant Navigation: EXACTLY Home | Catalog | Issues | Visibility (Never clipped) */}
+              <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0 py-1" aria-label="Merchant Primary Navigation">
                 {MERCHANT_PRIMARY_NAV_ITEMS.map((item) => {
                   const isActive = activeTab === item.id;
                   return (
@@ -147,7 +147,7 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
                       key={item.id}
                       type="button"
                       onClick={() => setActiveTab(item.id)}
-                      className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer whitespace-nowrap ${
                         isActive
                           ? 'bg-stone-900 text-white shadow-xs font-bold'
                           : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
@@ -162,43 +162,36 @@ export const MerchantExperience: React.FC<MerchantExperienceProps> = ({
               </nav>
             </div>
 
-            {/* Right Zone: Connected Store Chip + Add Products CTA + Account & Settings */}
+            {/* Right Zone: Primary CTA (+ Add Products) + Account & Settings (Consolidated) */}
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
               
-              {/* Store Status Chip (Visible on lg screens) */}
-              <button
-                type="button"
-                onClick={() => handleOpenAccount('connections')}
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200/80 border border-stone-200/80 text-stone-700 text-xs font-medium cursor-pointer transition-colors"
-                title="View Connected Store Settings"
-              >
-                <Store className="w-3.5 h-3.5 text-stone-500" />
-                <span className="font-semibold text-stone-900">{CANONICAL_MERCHANT.name}</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-0.5" title="Connected"></span>
-              </button>
-
               {/* Primary Merchant CTA: + Add Products */}
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center gap-1.5 px-3 sm:px-4 py-2 text-xs font-bold text-white bg-[#F97316] hover:bg-[#EA580C] rounded-xl shadow-xs hover:shadow transition-all cursor-pointer whitespace-nowrap active:scale-98"
+                className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 text-xs font-bold text-white bg-[#F97316] hover:bg-[#EA580C] rounded-xl shadow-xs hover:shadow transition-all cursor-pointer whitespace-nowrap active:scale-98"
               >
                 <Plus className="w-3.5 h-3.5 stroke-[3]" />
-                <span>Add Products</span>
+                <span className="hidden sm:inline">Add Products</span>
+                <span className="sm:hidden">Add</span>
               </button>
 
-              {/* Secondary Account Surface Trigger (Account: Connections, Subscription, Settings) */}
+              {/* Consolidated Store Account & Settings Trigger */}
               <button
                 type="button"
                 onClick={() => handleOpenAccount('connections')}
-                className="flex items-center gap-1.5 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl hover:bg-stone-100 transition-colors text-stone-700 cursor-pointer border border-stone-200/70"
+                className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl hover:bg-stone-100 transition-colors text-stone-700 cursor-pointer border border-stone-200/80"
                 aria-label="Account Settings"
-                title="Account Settings (Connections, Subscription, Settings)"
+                title={`Account & Settings: ${CANONICAL_MERCHANT.name} (Connections, Subscription, Settings)`}
               >
                 <div className="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xs">
                   AP
                 </div>
-                <span className="text-xs font-semibold text-stone-700 hidden sm:inline">Account</span>
+                <div className="flex flex-col text-left leading-tight hidden lg:flex">
+                  <span className="text-xs font-bold text-stone-900 truncate max-w-[120px]">{CANONICAL_MERCHANT.name}</span>
+                  <span className="text-[10px] text-stone-400">Settings</span>
+                </div>
+                <span className="text-xs font-semibold text-stone-700 hidden sm:inline lg:hidden">Account</span>
               </button>
 
             </div>
