@@ -29,7 +29,7 @@ export default function App() {
   const handleStartAnalysis = (url: string) => {
     setSubmittedUrl(url || 'https://shop.aeropulse.com/products/vaporstride-carbon-elite');
     setCurrentJourney('merchant');
-    setMerchantSubTab('report');
+    setMerchantSubTab('visibility');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -81,18 +81,6 @@ export default function App() {
         <div className="flex-1 flex flex-col">
           <MerchantExperience
             initialTab={merchantSubTab}
-            onNavigateShopper={() => {
-              setCurrentJourney('shopper');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onNavigateAdmin={() => {
-              setCurrentJourney('admin');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            onNavigateLanding={() => {
-              setCurrentJourney('landing');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
           />
         </div>
       )}
@@ -129,7 +117,7 @@ export default function App() {
               }}
               onNavigateReport={() => {
                 setCurrentJourney('merchant');
-                setMerchantSubTab('report');
+                setMerchantSubTab('visibility');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               onNavigatePricing={handleScrollToPricing}

@@ -11,8 +11,7 @@ import { CANONICAL_SYSTEM_KPIS } from '../data/canonicalCatalog';
 import { sampleIssuesData, sampleIssuesMetrics } from '../data/sampleIssuesData';
 import { 
   MERCHANT_MENTAL_MODEL_STAGES,
-  MERCHANT_PRIMARY_NAV_ITEMS,
-  MORE_DROPDOWN_LABEL
+  MERCHANT_PRIMARY_NAV_ITEMS
 } from '../components/merchant/merchantNavigationConfig';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -165,8 +164,15 @@ console.log('\n--- 6. CATALOG INVARIANTS ---');
 assert(CANONICAL_SYSTEM_KPIS.totalCatalogProducts === 24, 'Total catalog products remains 24');
 assert(sampleIssuesMetrics.openIssues === 8, 'Derived open issues count remains 8');
 assert(CANONICAL_SYSTEM_KPIS.discoveryReadinessPct === 79, 'Discovery readiness score baseline remains 79%');
-assert(MERCHANT_PRIMARY_NAV_ITEMS.length === 4, 'Primary nav tabs count remains 4');
-assert(MORE_DROPDOWN_LABEL === 'More', 'More dropdown label remains invariant "More"');
+assert(MERCHANT_PRIMARY_NAV_ITEMS.length === 4, 'Primary nav tabs count is exactly 4');
+const primaryNavIds = MERCHANT_PRIMARY_NAV_ITEMS.map(i => i.id);
+assert(
+  primaryNavIds.includes('home') && 
+  primaryNavIds.includes('catalog') && 
+  primaryNavIds.includes('issues') && 
+  primaryNavIds.includes('visibility'),
+  'Primary nav tabs are exactly Home, Catalog, Issues, Visibility'
+);
 
 console.log('\n======================================================');
 console.log(` RESULTS: ${passedTests} passed, ${failedTests} failed out of ${totalTests} total tests`);

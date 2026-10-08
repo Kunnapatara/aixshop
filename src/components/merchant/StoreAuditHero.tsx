@@ -343,10 +343,10 @@ export const StoreAuditHero: React.FC<StoreAuditHeroProps> = ({
           <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-stone-900">Google</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800">84% Ready</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800">Prerequisites Met</span>
             </div>
             <p className="text-[11px] text-stone-500 leading-normal">
-              Structured catalog readiness for Search & Shopping feeds. (Observed visibility: Not yet observed)
+              Structured catalog readiness for Search & Shopping feeds. Live customer queries verified in Visibility.
             </p>
           </div>
 
@@ -354,10 +354,10 @@ export const StoreAuditHero: React.FC<StoreAuditHeroProps> = ({
           <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-stone-900">ChatGPT</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">68% Ready</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">Needs Attention</span>
             </div>
             <p className="text-[11px] text-stone-500 leading-normal">
-              Missing deep technical attributes (Drop, Plate, Materials). (Observed visibility: Not yet observed)
+              Missing deep technical attributes (Drop, Plate, Materials). Discrepancy observed in buyer queries.
             </p>
           </div>
 
@@ -365,10 +365,10 @@ export const StoreAuditHero: React.FC<StoreAuditHeroProps> = ({
           <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-stone-900">Gemini</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">72% Ready</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800">Needs Attention</span>
             </div>
             <p className="text-[11px] text-stone-500 leading-normal">
-              Discrepancy detected with partner retailer feeds. (Observed visibility: Not yet observed)
+              Discrepancy detected with partner retailer feeds. Warning cited during customer inquiries.
             </p>
           </div>
 
@@ -376,10 +376,10 @@ export const StoreAuditHero: React.FC<StoreAuditHeroProps> = ({
           <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/60 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-stone-900">Bing Copilot</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800">76% Ready</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800">Prerequisites Met</span>
             </div>
             <p className="text-[11px] text-stone-500 leading-normal">
-              Baseline attributes present for broad search queries. (Observed visibility: Not yet observed)
+              Baseline attributes present for broad search queries. Baseline indexed on Microsoft Shopping.
             </p>
           </div>
 

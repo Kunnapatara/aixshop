@@ -15,7 +15,6 @@ import {
   IssueRecoveryState, 
   IssueSeverity 
 } from '../../types/issues';
-import { DashboardNavigationShell } from '../dashboard/DashboardNavigationShell';
 import { IssuesHeader } from './IssuesHeader';
 import { IssuesSummaryBar } from './IssuesSummaryBar';
 import { IssuesStateDistribution } from './IssuesStateDistribution';
@@ -327,33 +326,9 @@ export const IssuesPage: React.FC<IssuesPageProps> = ({
   }, [issues]);
 
   return (
-    <DashboardNavigationShell
-      currentActive="issues"
-      hideNavShell={hideNavShell}
-      onNavigateHome={onNavigateHome}
-      onNavigateAnalysis={onNavigateAnalysis}
-      onNavigateReport={onNavigateReport}
-      onNavigateDashboard={onNavigateOverview}
-      onNavigateWorkbench={onNavigateProducts}
-      onNavigateOffers={onNavigateOffers}
-      onNavigateDiscovery={onNavigateDiscovery}
-      onNavigateMonitoring={onNavigateMonitoring}
-      onNavigateIssues={() => {}}
-      onNavigateShopper={onNavigateShopper}
-      onNavigateIntegrations={onNavigateIntegrations}
-      onNavigateAnalytics={onNavigateAnalytics}
-      onSelectFuturePage={(title, desc, page) => {
-        setFuturePageModal({
-          isOpen: true,
-          title,
-          description: desc,
-          pageNumber: page
-        });
-      }}
-    >
-      <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col selection:bg-orange-500/20 selection:text-orange-900">
-        
-        {/* Page Header (Section 4) */}
+    <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col selection:bg-orange-500/20 selection:text-orange-900">
+      
+      {/* Page Header (Section 4) */}
         <IssuesHeader
           searchQuery={filters.searchQuery}
           onSearchChange={q => handleUpdateFilters({ searchQuery: q })}
@@ -483,20 +458,19 @@ export const IssuesPage: React.FC<IssuesPageProps> = ({
                 </p>
               </div>
               <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200 text-[11px] text-stone-600">
-                You are currently in <strong className="text-[#F97316]">Page 10 — Issues & Recovery</strong>. Downstream integration connector and channel sync surfaces will be constructed in subsequent iterations.
+                You are currently in <strong className="text-[#F97316]">Issues Queue</strong>. Downstream integration connector and channel sync surfaces will be constructed in subsequent iterations.
               </div>
               <button
                 type="button"
                 onClick={() => setFuturePageModal(prev => ({ ...prev, isOpen: false }))}
                 className="w-full py-2.5 rounded-xl bg-[#F97316] hover:bg-orange-600 text-white text-xs font-bold transition-colors cursor-pointer shadow-3xs"
               >
-                Return to Issues & Recovery
+                Return to Issues Queue
               </button>
             </div>
           </div>
         )}
 
       </div>
-    </DashboardNavigationShell>
   );
 };

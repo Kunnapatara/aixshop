@@ -9,7 +9,6 @@ import {
   WorkbenchCategory,
   RemediationPriority
 } from '../../types/workbench';
-import { DashboardNavigationShell } from '../dashboard/DashboardNavigationShell';
 import { FuturePageBoundaryModal } from '../dashboard/FuturePageBoundaryModal';
 import { WorkbenchHeader } from './WorkbenchHeader';
 import { WorkbenchSummaryBar } from './WorkbenchSummaryBar';
@@ -257,31 +256,6 @@ export const ProductsWorkbenchPage: React.FC<ProductsWorkbenchPageProps> = ({
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col pb-20">
-      {/* Merchant Top Navigation Shell */}
-      <DashboardNavigationShell
-        activeTab="products"
-        hideNavShell={hideNavShell}
-        onNavigateHome={onBackToLanding}
-        onNavigateAnalysis={onNavigateAnalysis}
-        onNavigateReport={onNavigateReport}
-        onNavigateOverview={onNavigateOverview}
-        onNavigateProducts={() => {}}
-        onNavigateOffers={onNavigateOffers}
-        onNavigateDiscovery={onNavigateDiscovery}
-        onNavigateMonitoring={onNavigateMonitoring}
-        onNavigateIssues={onNavigateIssues}
-        onNavigateShopper={onNavigateShopper}
-        onNavigateIntegrations={onNavigateIntegrations}
-        onNavigateAnalytics={onNavigateAnalytics}
-        onSelectFuturePage={(title, desc) => {
-          setFuturePageModal({
-            isOpen: true,
-            title,
-            description: desc
-          });
-        }}
-      />
-
       {/* Products Workbench Header */}
       <WorkbenchHeader
         onBackToOverview={onNavigateOverview}

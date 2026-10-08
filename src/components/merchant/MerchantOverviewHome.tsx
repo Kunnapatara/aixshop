@@ -13,10 +13,11 @@ import { IssueItem } from '../../types/issues';
 interface MerchantOverviewHomeProps {
   onNavigateIssues: () => void;
   onNavigateProducts: () => void;
-  onNavigateOffers: () => void;
-  onNavigateDiscovery: () => void;
-  onNavigateMonitoring: () => void;
-  onNavigateReport: () => void;
+  onNavigateVisibility?: () => void;
+  onNavigateOffers?: () => void;
+  onNavigateDiscovery?: () => void;
+  onNavigateMonitoring?: () => void;
+  onNavigateReport?: () => void;
   onNavigateIntegrations?: () => void;
   onAddProducts?: () => void;
   issues?: IssueItem[];
@@ -31,6 +32,7 @@ interface MerchantOverviewHomeProps {
 export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   onNavigateIssues,
   onNavigateProducts,
+  onNavigateVisibility,
   onNavigateOffers,
   onNavigateDiscovery,
   onNavigateMonitoring,
@@ -254,17 +256,17 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
           </button>
           <button
             type="button"
-            onClick={onNavigateDiscovery}
+            onClick={onNavigateVisibility || onNavigateDiscovery}
             className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
           >
-            Readiness ({readinessScore}%) →
+            Visibility Intelligence →
           </button>
           <button
             type="button"
             onClick={onNavigateIssues}
             className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
           >
-            Issues Queue ({openIssuesCount} Open) →
+            Issues ({openIssuesCount} Items to Fix) →
           </button>
         </div>
       </div>

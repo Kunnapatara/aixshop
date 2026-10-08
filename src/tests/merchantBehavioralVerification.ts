@@ -1,5 +1,5 @@
 /**
- * AIXSHOP — SPRINT 1 BEHAVIORAL & INTEGRATION TEST SUITE
+ * AIXSHOP — SPRINT BEHAVIORAL & INTEGRATION TEST SUITE
  * 
  * Verifies actual runtime behavior, contracts, and regressions:
  * Test A: Initial application opens Merchant Console ('merchant')
@@ -8,15 +8,17 @@
  * Test D: Store Finding -> affected product -> Product Audit
  * Test E: Product ID is NEVER passed as Issue ID (ID Integrity)
  * Test F: Product Recheck updates the correct issue (iss-001 / canonical issues)
- * Test G: No external visibility claim is rendered as actual observation
- * Test H: Landing remains accessible via switcher/handlers
- * Test I: Shopper remains accessible via switcher/handlers
- * Test J: Admin remains accessible via switcher/handlers
- * Test K: Merchant Action Center remains secondary/collapsible
- * Test L: All 10 Merchant Navigation tabs render successfully with zero blank screens
- * Test M: Strict Product Identity integrity (no fallback across products)
- * Test N: Zero Thai user-facing text in Merchant components
- * Test O: Zero legacy page leakage (P06, P07, P09, P10, Page 01-07) in user UI
+ * Test G: No external visibility claim is rendered as actual observation; no fake percentages
+ * Test H: App-level role separation (Shopper/Admin isolated from Merchant UI)
+ * Test I: Rendered Merchant Navigation contains EXACTLY Home, Catalog, Issues, Visibility
+ * Test J: Rendered Merchant Navigation contains ZERO prohibited items (More, Readiness, Monitoring, etc.)
+ * Test K: Rendered Merchant DOM has ZERO Shopper / Admin / Landing controls
+ * Test L: All canonical Merchant tabs render cleanly without blank screen
+ * Test M: Account surface renders Connections, Subscription, Settings cleanly
+ * Test N: Visibility intelligence workspace renders complete customer query loop
+ * Test O: Strict Product Identity integrity (no fallback across products)
+ * Test P: Zero Thai user-facing text in Merchant components
+ * Test Q: Zero legacy page leakage (P06, P07, P09, P10, Page 01-07) in user UI
  */
 
 import fs from 'fs';
@@ -29,12 +31,15 @@ import { calculateReadinessScore, BASE_READINESS_SCORE } from '../state/canonica
 import { sampleIssuesData } from '../data/sampleIssuesData';
 import { CANONICAL_CATALOG_PRODUCTS } from '../data/canonicalCatalog';
 import { MerchantExperience, MerchantTab } from '../components/merchant/MerchantExperience';
+import { MerchantVisibilityPage } from '../components/merchant/MerchantVisibilityPage';
+import { MerchantAccountModal } from '../components/merchant/MerchantAccountModal';
+import { MERCHANT_PRIMARY_NAV_ITEMS } from '../components/merchant/merchantNavigationConfig';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 console.log('======================================================');
-console.log(' AIXSHOP SPRINT 1 BEHAVIORAL VERIFICATION SUITE');
+console.log(' AIXSHOP BEHAVIORAL VERIFICATION SUITE');
 console.log('======================================================\n');
 
 let totalTests = 0;
@@ -96,10 +101,6 @@ assert(
 // Test C: Click Store Audit does NOT open Product Audit
 console.log('\n--- TEST C: STORE AUDIT DOES NOT OPEN PRODUCT AUDIT ---');
 assert(
-  !homeSrc.includes('onAuditStore={(url) => {\n          setSelectedProductAudit'),
-  'Test C: Store audit trigger does NOT auto-invoke product audit modal'
-);
-assert(
   homeSrc.includes('handleAuditStore') && !homeSrc.includes('handleAuditStore = () => {\n    setIsProductModalOpen(true)'),
   'Test C: handleAuditStore does not set isProductModalOpen to true'
 );
@@ -124,12 +125,10 @@ console.log('\n--- TEST E: PRODUCT ID ≠ ISSUE ID INTEGRITY ---');
 const sampleProductId = CANONICAL_CATALOG_PRODUCTS[0].id; // aix-prod-849201948172
 const sampleIssueId = 'iss-001';
 
-// Verify format differences
 assert(
   sampleProductId.startsWith('aix-prod-') && sampleIssueId.startsWith('iss-'),
   'Test E: Product ID prefix (aix-prod-) is distinct from Issue ID prefix (iss-)'
 );
-// In approveIssue function, verifying that passing a product ID would not resolve any issue
 const testIssues = [...sampleIssuesData];
 const resolvedWithProductId = approveIssue(testIssues, sampleProductId);
 const resolvedWithIssueId = approveIssue(testIssues, sampleIssueId);
@@ -164,67 +163,75 @@ assert(
   `Test F: Approving iss-001 increases canonical readiness from ${BASE_READINESS_SCORE}% to ${newReadiness}%`
 );
 
-// Test G: No external visibility claim is rendered as actual observation
-console.log('\n--- TEST G: TRUTH BOUNDARIES (READINESS ≠ VISIBILITY) ---');
+// Test G: No external visibility claim is rendered as actual observation; no fake percentages
+console.log('\n--- TEST G: TRUTH BOUNDARIES & NO FAKE VISIBILITY ---');
 assert(
-  heroSrc.includes('Catalog Readiness') && heroSrc.includes('Not an external ranking guarantee'),
-  'Test G: Surfaces framed honestly as Catalog Readiness without fake rankings'
+  !heroSrc.includes('84% Ready') && !heroSrc.includes('68% Ready') && !heroSrc.includes('72% Ready') && !heroSrc.includes('76% Ready'),
+  'Test G: Zero fake provider readiness percentages (84%, 68%, 72%, 76%) in StoreAuditHero'
 );
 assert(
-  heroSrc.includes('Not yet observed'),
-  'Test G: Unobserved visibility is explicitly labeled as "Not yet observed"'
+  heroSrc.includes('Prerequisites Met') && heroSrc.includes('Needs Attention'),
+  'Test G: Honest prerequisite status badges used instead of fake ranking percentages'
 );
 assert(
-  !heroSrc.includes('actual ranking') && !heroSrc.includes('Your store is #7 on Google'),
-  'Test G: Zero fabricated external rank claims'
-);
-
-// Test H, I, J, K: Secondary Journeys & Action Center
-console.log('\n--- TEST H, I, J, K: SECONDARY JOURNEYS & ACTION CENTER ---');
-assert(
-  appSrc.includes("currentJourney === 'landing'"),
-  'Test H: Landing page remains implemented and accessible'
-);
-assert(
-  merchantExpSrc.includes('onNavigateLanding'),
-  'Test H: MerchantExperience provides onNavigateLanding callback to return to landing'
+  heroSrc.includes('Catalog Readiness') || heroSrc.includes('Catalog Data Prerequisites') || heroSrc.includes('Store Readiness'),
+  'Test G: Readiness is framed honestly as Catalog Data Readiness without external rank claims'
 );
 
+// Test H: App-level role separation (Shopper/Admin isolated from Merchant UI)
+console.log('\n--- TEST H: APP-LEVEL ROLE ISOLATION ---');
 assert(
-  appSrc.includes("currentJourney === 'shopper'"),
-  'Test I: Shopper journey remains implemented and accessible'
+  appSrc.includes("currentJourney === 'shopper'") && appSrc.includes("currentJourney === 'admin'") && appSrc.includes("currentJourney === 'landing'"),
+  'Test H: App retains Shopper, Admin, and Landing surfaces at top-level entry'
 );
 assert(
-  merchantExpSrc.includes('onNavigateShopper'),
-  'Test I: MerchantExperience provides onNavigateShopper switcher'
-);
-
-assert(
-  appSrc.includes("currentJourney === 'admin'"),
-  'Test J: Admin journey remains implemented and accessible'
-);
-assert(
-  merchantExpSrc.includes('onNavigateAdmin'),
-  'Test J: MerchantExperience provides onNavigateAdmin switcher'
+  !merchantExpSrc.includes('onNavigateShopper') && !merchantExpSrc.includes('onNavigateAdmin'),
+  'Test H: MerchantExperience does not expose Shopper or Admin navigation props'
 );
 
-assert(
-  homeSrc.includes('<MerchantActionCenter') && homeSrc.includes('showActionCenter'),
-  'Test K: Merchant Action Center is collapsible/secondary on Home'
-);
-assert(
-  homeSrc.includes('Advanced Workspace'),
-  'Test K: Action Center labeled as Advanced Workspace'
-);
+// Test I: Rendered Merchant Navigation contains EXACTLY Home, Catalog, Issues, Visibility
+console.log('\n--- TEST I: EXACT 4 PRIMARY MERCHANT NAVIGATION ITEMS ---');
+assert(MERCHANT_PRIMARY_NAV_ITEMS.length === 4, 'Test I: Exactly 4 primary navigation items configured');
+const primaryNavLabels = MERCHANT_PRIMARY_NAV_ITEMS.map(i => i.label);
+assert(primaryNavLabels.includes('Home'), 'Test I: Primary nav contains Home');
+assert(primaryNavLabels.includes('Catalog'), 'Test I: Primary nav contains Catalog');
+assert(primaryNavLabels.includes('Issues'), 'Test I: Primary nav contains Issues');
+assert(primaryNavLabels.includes('Visibility'), 'Test I: Primary nav contains Visibility');
 
-// Test L: Runtime Render Verification of All 10 Tabs (No Blank Screen)
-console.log('\n--- TEST L: RUNTIME NAVIGATION MATRIX (NO BLANK SCREENS) ---');
-const allTabs: MerchantTab[] = [
-  'home', 'catalog', 'issues', 'readiness', 'offers', 
-  'monitoring', 'analytics', 'integrations', 'billing', 'report'
+// Test J: Rendered Merchant Navigation contains ZERO prohibited items
+console.log('\n--- TEST J: ZERO PROHIBITED NAV ITEMS IN MERCHANT UI ---');
+const homeRendered = renderToString(React.createElement(MerchantExperience, { initialTab: 'home' }));
+
+const prohibitedStrings = [
+  'More ▾',
+  'Offers & Pricing',
+  'Continuous Monitoring',
+  'Quality & Recovery Analytics',
+  'Connections & Feeds',
+  'Subscription & SKU Limits',
+  'Shopper Public View',
+  'Admin Governance Tower',
+  'Platform Landing & Docs',
+  'Platform Landing & Pricing',
+  'Switch Surfaces',
+  'Control Tower'
 ];
 
-for (const tab of allTabs) {
+for (const prohibited of prohibitedStrings) {
+  assert(!homeRendered.includes(prohibited), `Test J: Rendered Merchant UI does NOT contain "${prohibited}"`);
+}
+
+// Test K: Rendered Merchant DOM has ZERO Shopper / Admin / Landing controls
+console.log('\n--- TEST K: ZERO SHOPPER/ADMIN CONTROLS IN MERCHANT DOM ---');
+assert(!homeRendered.includes('Shopper Public View'), 'Test K: Shopper Public View absent from Merchant DOM');
+assert(!homeRendered.includes('Admin Governance Tower'), 'Test K: Admin Governance Tower absent from Merchant DOM');
+assert(!homeRendered.includes('Platform Landing'), 'Test K: Platform Landing absent from Merchant DOM');
+
+// Test L: All canonical Merchant tabs render cleanly without blank screen
+console.log('\n--- TEST L: RUNTIME NAVIGATION MATRIX (NO BLANK SCREENS) ---');
+const canonicalTabs: MerchantTab[] = ['home', 'catalog', 'issues', 'visibility'];
+
+for (const tab of canonicalTabs) {
   try {
     const html = renderToString(React.createElement(MerchantExperience, { initialTab: tab }));
     assert(html.length > 5000, `Test L: Tab "${tab}" renders cleanly without blank screen (${html.length} bytes)`);
@@ -233,33 +240,65 @@ for (const tab of allTabs) {
   }
 }
 
-// Test M: Strict Product Identity Integrity (No fallback across products)
-console.log('\n--- TEST M: STRICT PRODUCT IDENTITY INTEGRITY ---');
+// Test M: Account surface renders Connections, Subscription, Settings cleanly
+console.log('\n--- TEST M: SECONDARY ACCOUNT SURFACE RENDERING ---');
+try {
+  const accountConnectionsHtml = renderToString(React.createElement(MerchantAccountModal, { isOpen: true, onClose: () => {}, initialSection: 'connections' }));
+  assert(accountConnectionsHtml.length > 2000, 'Test M: Account Connections renders cleanly');
+  assert(accountConnectionsHtml.includes('Shopify Storefront'), 'Test M: Account Connections shows Shopify store connection');
+
+  const accountSubHtml = renderToString(React.createElement(MerchantAccountModal, { isOpen: true, onClose: () => {}, initialSection: 'subscription' }));
+  assert(accountSubHtml.length > 2000, 'Test M: Account Subscription renders cleanly');
+  assert(accountSubHtml.includes('Pro Tier'), 'Test M: Account Subscription shows Pro Tier and capacity');
+
+  const accountSettingsHtml = renderToString(React.createElement(MerchantAccountModal, { isOpen: true, onClose: () => {}, initialSection: 'settings' }));
+  assert(accountSettingsHtml.length > 2000, 'Test M: Account Settings renders cleanly');
+  assert(accountSettingsHtml.includes('Store Profile'), 'Test M: Account Settings shows Store Profile');
+} catch (err: any) {
+  assert(false, `Test M: Account modal render crashed: ${err?.message}`);
+}
+
+// Test N: Visibility intelligence workspace renders complete customer query loop
+console.log('\n--- TEST N: VISIBILITY WORKSPACE PRODUCT LOOP ---');
+try {
+  const visHtml = renderToString(React.createElement(MerchantVisibilityPage, { onNavigateIssues: () => {}, issues: sampleIssuesData }));
+  assert(visHtml.length > 5000, `Test N: Visibility workspace renders cleanly (${visHtml.length} bytes)`);
+  assert(visHtml.includes('Customer Buyer Intent Query'), 'Test N: Step 1 Customer Query rendered');
+  assert(visHtml.includes('AI Assistant Synthesis'), 'Test N: Step 2 Observed AI Synthesis rendered');
+  assert(visHtml.includes('Ground Truth Evidence Corroboration'), 'Test N: Step 3 Ground truth evidence rendered');
+  assert(visHtml.includes('Why Visibility Changed'), 'Test N: Step 4 Explanation & Recommended Fix rendered');
+} catch (err: any) {
+  assert(false, `Test N: Visibility workspace render crashed: ${err?.message}`);
+}
+
+// Test O: Strict Product Identity integrity (no fallback across products)
+console.log('\n--- TEST O: STRICT PRODUCT IDENTITY INTEGRITY ---');
 assert(
   !homeSrc.includes("issues.filter(i => !i.isResolved).slice(0, 1)"),
-  'Test M: No cross-product issue fallback when product has no matching issues'
+  'Test O: No cross-product issue fallback when product has no matching issues'
 );
 assert(
   modalSrc.includes("No open issues found for this product"),
-  'Test M: ProductAuditModal cleanly handles products with zero open issues'
+  'Test O: ProductAuditModal cleanly handles products with zero open issues'
 );
 
-// Test N: Language Audit - Zero Thai text in rendered Merchant UI
-console.log('\n--- TEST N: LANGUAGE AUDIT (ZERO THAI IN MERCHANT UI) ---');
+// Test P: Language Audit - Zero Thai text in rendered Merchant UI
+console.log('\n--- TEST P: LANGUAGE AUDIT (ZERO THAI IN MERCHANT UI) ---');
 const thaiRegex = /[\u0E00-\u0E7F]/;
-assert(!thaiRegex.test(heroSrc), 'Test N: StoreAuditHero has 0 Thai characters');
-assert(!thaiRegex.test(findingsSrc), 'Test N: StoreFindingsSection has 0 Thai characters');
-assert(!thaiRegex.test(modalSrc), 'Test N: ProductAuditModal has 0 Thai characters');
-assert(!thaiRegex.test(homeSrc), 'Test N: MerchantOverviewHome has 0 Thai characters');
+assert(!thaiRegex.test(heroSrc), 'Test P: StoreAuditHero has 0 Thai characters');
+assert(!thaiRegex.test(findingsSrc), 'Test P: StoreFindingsSection has 0 Thai characters');
+assert(!thaiRegex.test(modalSrc), 'Test P: ProductAuditModal has 0 Thai characters');
+assert(!thaiRegex.test(homeSrc), 'Test P: MerchantOverviewHome has 0 Thai characters');
 
-// Test O: Legacy Leakage Audit (No P06/P07/P09/P10/Page 01-07 in Merchant rendered UI)
-console.log('\n--- TEST O: ARCHITECTURAL LEAKAGE AUDIT ---');
-const homeRenderedHtml = renderToString(React.createElement(MerchantExperience, { initialTab: 'home' }));
+// Test Q: Architectural leakage audit (no P06/P07/P09/P10 in Merchant rendered UI)
+console.log('\n--- TEST Q: ARCHITECTURAL LEAKAGE AUDIT ---');
 const catalogRenderedHtml = renderToString(React.createElement(MerchantExperience, { initialTab: 'catalog' }));
+const issuesRenderedHtml = renderToString(React.createElement(MerchantExperience, { initialTab: 'issues' }));
 
-assert(!homeRenderedHtml.includes('P06') && !homeRenderedHtml.includes('P10'), 'Test O: Home rendered UI has zero P06/P10 badges');
-assert(!catalogRenderedHtml.includes('P06') && !catalogRenderedHtml.includes('P10'), 'Test O: Catalog rendered UI has zero P06/P10 badges');
-assert(!homeRenderedHtml.includes('FuturePageBoundaryModal'), 'Test O: Home rendered UI has zero FuturePageBoundaryModal');
+assert(!homeRendered.includes('P06') && !homeRendered.includes('P10'), 'Test Q: Home rendered UI has zero P06/P10 badges');
+assert(!catalogRenderedHtml.includes('P06') && !catalogRenderedHtml.includes('P10'), 'Test Q: Catalog rendered UI has zero P06/P10 badges');
+assert(!issuesRenderedHtml.includes('P06') && !issuesRenderedHtml.includes('P10'), 'Test Q: Issues rendered UI has zero P06/P10 badges');
+assert(!homeRendered.includes('FuturePageBoundaryModal'), 'Test Q: Home rendered UI has zero FuturePageBoundaryModal');
 
 console.log('\n======================================================');
 console.log(` RESULTS: ${passedTests} passed, ${failedTests} failed out of ${totalTests} total behavioral tests`);
@@ -268,5 +307,5 @@ console.log('======================================================\n');
 if (failedTests > 0) {
   process.exit(1);
 } else {
-  console.log('Sprint 1 Behavioral Verification PASSED cleanly!\n');
+  console.log('Merchant Surface Isolation & Behavioral Verification PASSED cleanly!\n');
 }

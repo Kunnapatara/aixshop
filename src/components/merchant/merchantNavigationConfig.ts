@@ -1,123 +1,90 @@
 /**
  * AIXSHOP — Canonical Merchant Navigation Configuration & Types
- * Single authoritative source of truth for merchant navigation items,
- * secondary dropdown destinations, and tab resolution.
+ * Single authoritative source of truth for merchant navigation items:
+ * Primary: Home | Catalog | Issues | Visibility
+ * Secondary Account: Connections | Subscription | Settings
  */
 
 export type MerchantTab = 
   | 'home' 
   | 'catalog' 
   | 'issues' 
-  | 'readiness' 
-  | 'offers' 
-  | 'monitoring' 
-  | 'analytics' 
-  | 'integrations' 
-  | 'billing' 
-  | 'report'
-  // Backward compatibility aliases
-  | 'overview' 
-  | 'products' 
-  | 'discovery';
+  | 'visibility';
+
+export type AccountSubSection = 'connections' | 'subscription' | 'settings';
 
 export interface MerchantNavItem {
-  id: 'home' | 'catalog' | 'issues' | 'readiness';
+  id: MerchantTab;
   label: string;
   iconName: string;
-  badgeType?: 'count' | 'percentage' | 'alert';
+  badgeType?: 'count' | 'alert';
 }
 
-export interface MerchantMoreItem {
-  id: 'offers' | 'monitoring' | 'analytics' | 'integrations' | 'billing';
+export interface AccountSectionItem {
+  id: AccountSubSection;
   label: string;
   description: string;
   iconName: string;
 }
 
 /**
- * The 4 canonical primary navigation tabs.
- * 'More ▾' is the 5th fixed primary navigation anchor.
+ * EXACTLY 4 Primary Merchant Navigation items.
+ * No 'More', No 'Readiness', No role switchers.
  */
 export const MERCHANT_PRIMARY_NAV_ITEMS: readonly MerchantNavItem[] = [
   { id: 'home', label: 'Home', iconName: 'LayoutDashboard' },
   { id: 'catalog', label: 'Catalog', iconName: 'Package', badgeType: 'count' },
   { id: 'issues', label: 'Issues', iconName: 'AlertTriangle', badgeType: 'alert' },
-  { id: 'readiness', label: 'Readiness', iconName: 'Compass', badgeType: 'percentage' },
+  { id: 'visibility', label: 'Visibility', iconName: 'Compass' },
 ] as const;
 
-/**
- * Invariant: The More dropdown button must ALWAYS display 'More',
- * even when a child tab is currently active.
- */
-export const MORE_DROPDOWN_LABEL = 'More';
-
-/**
- * Secondary operational intelligence tools housed in the 'More ▾' dropdown.
- */
-export const MERCHANT_MORE_NAV_ITEMS: readonly MerchantMoreItem[] = [
+export const MERCHANT_ACCOUNT_SECTIONS: readonly AccountSectionItem[] = [
   { 
-    id: 'offers', 
-    label: 'Offers & Pricing', 
-    description: 'Multi-seller commercial offer intelligence & price tracking',
-    iconName: 'Tag' 
-  },
-  { 
-    id: 'monitoring', 
-    label: 'Continuous Monitoring', 
-    description: 'Continuous ground-truth drift detection & regression alerts',
-    iconName: 'Activity' 
-  },
-  { 
-    id: 'analytics', 
-    label: 'Quality & Recovery Analytics', 
-    description: 'Catalog intelligence coverage & recovery curves',
-    iconName: 'BarChart3' 
-  },
-  { 
-    id: 'integrations', 
-    label: 'Connections & Feeds', 
-    description: 'Store connectors, feeds & syndication endpoints',
+    id: 'connections', 
+    label: 'Connections', 
+    description: 'Store connectors, feeds & live catalog sync endpoints',
     iconName: 'Cpu' 
   },
   { 
-    id: 'billing', 
-    label: 'Subscription & SKU Limits', 
+    id: 'subscription', 
+    label: 'Subscription', 
     description: 'Merchant plan tier, quotas & catalog limits',
     iconName: 'CreditCard' 
+  },
+  { 
+    id: 'settings', 
+    label: 'Settings', 
+    description: 'Store profile, verified domains & audit schedules',
+    iconName: 'Settings' 
   },
 ] as const;
 
 /**
  * Resolves any tab string or alias into a canonical MerchantTab.
+ * Strict canonical resolution mapping:
+ * - 'overview' -> 'home'
+ * - 'products' -> 'catalog'
+ * - 'discovery' -> 'visibility'
+ * - 'readiness' -> 'visibility'
+ * - 'offers' -> 'catalog'
+ * - 'monitoring' / 'analytics' / 'report' -> 'visibility'
  */
 export function resolveMerchantTab(tab?: string): MerchantTab {
   if (!tab) return 'home';
-  if (tab === 'overview') return 'home';
-  if (tab === 'products') return 'catalog';
-  if (tab === 'discovery') return 'readiness';
-  
-  const validTabs: MerchantTab[] = [
-    'home', 
-    'catalog', 
-    'issues', 
-    'readiness', 
-    'offers', 
-    'monitoring', 
-    'analytics', 
-    'integrations', 
-    'billing', 
-    'report'
-  ];
-  
-  return validTabs.includes(tab as MerchantTab) ? (tab as MerchantTab) : 'home';
-}
-
-/**
- * Checks if a tab is one of the secondary tools under More.
- */
-export function isMoreSecondaryTab(tab: MerchantTab): boolean {
-  const normalized = resolveMerchantTab(tab);
-  return ['offers', 'monitoring', 'analytics', 'integrations', 'billing'].includes(normalized);
+  if (tab === 'home' || tab === 'overview') return 'home';
+  if (tab === 'catalog' || tab === 'products' || tab === 'offers') return 'catalog';
+  if (tab === 'issues') return 'issues';
+  if (
+    tab === 'visibility' || 
+    tab === 'discovery' || 
+    tab === 'readiness' || 
+    tab === 'monitoring' || 
+    tab === 'analytics' || 
+    tab === 'report'
+  ) {
+    return 'visibility';
+  }
+  return 'home';
 }
 
 /**
