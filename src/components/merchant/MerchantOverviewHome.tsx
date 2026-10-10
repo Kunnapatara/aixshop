@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { 
-  ArrowRight
+  ArrowRight,
+  Package,
+  AlertTriangle,
+  Tag,
+  CheckCircle2,
+  Compass,
+  Layers,
+  Sparkles,
+  ExternalLink
 } from 'lucide-react';
 import { CANONICAL_SYSTEM_KPIS, CANONICAL_CATALOG_PRODUCTS, CANONICAL_MERCHANT } from '../../data/canonicalCatalog';
 import { sampleIssuesData } from '../../data/sampleIssuesData';
-import { MerchantActionCenter } from './MerchantActionCenter';
 import { StoreAuditHero } from './StoreAuditHero';
+import { MerchantActionCenter } from './MerchantActionCenter';
 import { StoreFindingsSection } from './StoreFindingsSection';
 import { ProductAuditModal } from './ProductAuditModal';
 import { IssueItem } from '../../types/issues';
@@ -13,12 +21,7 @@ import { IssueItem } from '../../types/issues';
 interface MerchantOverviewHomeProps {
   onNavigateIssues: () => void;
   onNavigateProducts: () => void;
-  onNavigateVisibility?: () => void;
-  onNavigateOffers?: () => void;
-  onNavigateDiscovery?: () => void;
-  onNavigateMonitoring?: () => void;
-  onNavigateReport?: () => void;
-  onNavigateIntegrations?: () => void;
+  onNavigateVisibility: () => void;
   onAddProducts?: () => void;
   issues?: IssueItem[];
   onApproveIssue?: (issueId: string, customValue?: string) => void;
@@ -33,11 +36,6 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
   onNavigateIssues,
   onNavigateProducts,
   onNavigateVisibility,
-  onNavigateOffers,
-  onNavigateDiscovery,
-  onNavigateMonitoring,
-  onNavigateReport,
-  onNavigateIntegrations,
   onAddProducts,
   issues = sampleIssuesData,
   onApproveIssue,
@@ -53,25 +51,8 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
     name: CANONICAL_CATALOG_PRODUCTS[0].name,
     issueIds: ['iss-001']
   });
-  const [isAuditingStore, setIsAuditingStore] = useState(false);
-  const [showActionCenter, setShowActionCenter] = useState(false);
 
   const openIssuesCount = issues.filter(i => !i.isResolved && i.recoveryState !== 'Resolved').length;
-
-  // Store Audit Trigger (Runs real store audit / preview simulation without opening product modal)
-  const handleAuditStore = (url?: string) => {
-    setIsAuditingStore(true);
-    if (onRecheckStore) {
-      onRecheckStore();
-    }
-    setTimeout(() => {
-      setIsAuditingStore(false);
-      const resultEl = document.getElementById('audit-result-banner');
-      if (resultEl) {
-        resultEl.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 750);
-  };
 
   // Product Audit Trigger (ONLY called when merchant clicks "Audit Product →" on an affected product)
   // ID Integrity: Strictly maps product ID to its own matching open issue IDs.
@@ -84,84 +65,207 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
     setIsProductModalOpen(true);
   };
 
-  const scrollToFindings = () => {
-    const el = document.getElementById('store-findings-section');
+  const scrollToNeedsAttention = () => {
+    const el = document.getElementById('needs-attention-section');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const scrollToActionCenter = () => {
-    setShowActionCenter(true);
-    setTimeout(() => {
-      const el = document.getElementById('action-center-section');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 50);
+  // Store Audit handler: runs catalog recheck; does NOT open Product Audit modal
+  const handleAuditStore = (url?: string) => {
+    if (onRecheckStore) {
+      onRecheckStore();
+    }
   };
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
-      {/* 1. STORE-FIRST AUDIT HERO (Primary Entry Point) */}
+      {/* 1. STORE STATUS & PRIMARY QUESTION: What needs your attention? (Sections 5A & 5B) */}
       <StoreAuditHero
-        readinessScore={readinessScore}
         openIssuesCount={openIssuesCount}
+        readinessScore={readinessScore}
         onAuditStore={handleAuditStore}
-        onStartFixing={scrollToFindings}
-        onRecheckStore={handleAuditStore}
-        isRechecking={isAuditingStore || isRechecking}
+        onStartFixing={scrollToNeedsAttention}
+        onRecheckStore={onRecheckStore}
+        isRechecking={isRechecking}
       />
 
-      {/* 2. STORE AUDIT RESULT SUMMARY BANNER */}
-      <div 
-        id="audit-result-banner"
-        className="p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-stone-900 to-stone-800 text-white shadow-sm border border-stone-800 flex flex-col md:flex-row md:items-center justify-between gap-6"
-      >
-        <div className="space-y-1.5">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-[11px] font-bold uppercase tracking-widest text-orange-400">
-              Store Audit Result
+      {/* 2. STRATEGIC PILLARS: Priority Actions & Catalog Health (Sections 6 & 7) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
+        
+        {/* Column 1: Priority Actions (Section 6) */}
+        <div className="lg:col-span-7 p-4 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 shadow-xs flex flex-col justify-between space-y-4 sm:space-y-5">
+          <div className="space-y-1">
+            <span className="text-[11px] font-bold text-orange-600 uppercase tracking-wider block">
+              Priority actions
             </span>
-            <span className="text-xs text-stone-400 font-mono">
-              · {CANONICAL_MERCHANT.domain}
-            </span>
+            <h2 className="text-lg font-extrabold text-stone-900 tracking-tight">
+              Actions Requiring Attention
+            </h2>
+            <p className="text-xs text-stone-500">
+              Derived from product specification and offer audits across your catalog.
+            </p>
           </div>
 
-          <div className="flex flex-wrap items-baseline gap-3 pt-1">
-            <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-              Store Readiness {readinessScore}%
-            </h3>
-            <span className="text-xs sm:text-sm text-stone-300 font-medium">
-              — {openIssuesCount} items to address (3 must fix first)
-            </span>
+          <div className="space-y-3">
+            {/* Action Item 1 */}
+            <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-stone-50 border border-stone-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-orange-200 transition-colors">
+              <div className="space-y-1">
+                <div className="text-xs font-bold text-stone-900 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                  <span>4 products are missing key specifications</span>
+                </div>
+                <p className="text-[11px] text-stone-600 leading-normal">
+                  Shoppers asking technical queries receive incomplete answers from AI answer engines.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleInspectProduct(CANONICAL_CATALOG_PRODUCTS[0].id, CANONICAL_CATALOG_PRODUCTS[0].name)}
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold transition-all shrink-0 cursor-pointer w-full sm:w-auto"
+              >
+                <span>Fix products →</span>
+              </button>
+            </div>
+
+            {/* Action Item 2 */}
+            <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-stone-50 border border-stone-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-orange-200 transition-colors">
+              <div className="space-y-1">
+                <div className="text-xs font-bold text-stone-900 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                  <span>3 offers have incomplete commercial information</span>
+                </div>
+                <p className="text-[11px] text-stone-600 leading-normal">
+                  Store pricing and promotions conflict with third-party merchant listings.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={onNavigateIssues}
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold transition-all shrink-0 cursor-pointer w-full sm:w-auto"
+              >
+                <span>Review offers →</span>
+              </button>
+            </div>
+
+            {/* Action Item 3 */}
+            <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-stone-50 border border-stone-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-orange-200 transition-colors">
+              <div className="space-y-1">
+                <div className="text-xs font-bold text-stone-900 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                  <span>5 product descriptions lack structured attribute tags</span>
+                </div>
+                <p className="text-[11px] text-stone-600 leading-normal">
+                  Structured attribute tags help shopping systems understand and match catalog items.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={onNavigateIssues}
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold transition-all shrink-0 cursor-pointer w-full sm:w-auto"
+              >
+                <span>Review issues →</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Column 2: Catalog Health & Visibility Status (Sections 7, 8, 9, 10) */}
+        <div className="lg:col-span-5 space-y-5 sm:space-y-6 flex flex-col justify-between">
+          
+          {/* Card A: Catalog Health (Section 7) */}
+          <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-stone-200/80 shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">
+                  Catalog health
+                </span>
+                <h3 className="text-base font-extrabold text-stone-900">
+                  {CANONICAL_SYSTEM_KPIS.totalCatalogProducts} Products Total
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={onNavigateProducts}
+                className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 cursor-pointer"
+              >
+                <span>Review catalog →</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-rose-50/70 border border-rose-100">
+                <div className="text-lg font-black text-rose-900">12</div>
+                <div className="text-[10px] font-semibold text-rose-700">Need attention</div>
+              </div>
+              <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-emerald-50/70 border border-emerald-100">
+                <div className="text-lg font-black text-emerald-900">8</div>
+                <div className="text-[10px] font-semibold text-emerald-700">Good shape</div>
+              </div>
+              <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-stone-100 border border-stone-200/60">
+                <div className="text-lg font-black text-stone-800">4</div>
+                <div className="text-[10px] font-semibold text-stone-600">Need review</div>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-stone-500 leading-normal">
+              Internal catalog completeness: <strong className="text-stone-800 font-semibold">{readinessScore}%</strong>. Based on current structured data quality across products and active offers.
+            </p>
           </div>
 
-          <p className="text-xs text-stone-400 max-w-2xl leading-relaxed">
-            Store-level integrity and catalog specifications evaluated across {CANONICAL_SYSTEM_KPIS.totalCatalogProducts} products. Actionable findings are grouped by priority to resolve at the source.
-          </p>
+          {/* Card B: Visibility Status (Sections 8, 9, 10) */}
+          <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-stone-900 text-white shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-orange-400 block">
+                  Visibility
+                </span>
+                <h3 className="text-base font-bold text-white">
+                  Customer Search Observations
+                </h3>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-800 text-stone-300 border border-stone-700">
+                Not yet observed
+              </span>
+            </div>
+
+            <p className="text-xs text-stone-300 leading-relaxed">
+              AIXSHOP has not yet completed a live visibility check for this store. 4 customer buyer intent queries are available to preview in the Visibility workspace.
+            </p>
+
+            <button
+              type="button"
+              onClick={onNavigateVisibility}
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition-all cursor-pointer shadow-xs"
+            >
+              <span>View visibility →</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
         </div>
 
-        <div className="flex items-center gap-3 shrink-0 self-start md:self-center">
-          <button
-            type="button"
-            onClick={scrollToFindings}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#F97316] hover:bg-[#EA580C] text-white text-xs sm:text-sm font-bold shadow-xs hover:shadow transition-all cursor-pointer"
-          >
-            <span>View Issues to Fix</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
       </div>
 
-      {/* 3. FINDINGS GROUPED BY ACTION PRIORITY: Must Fix | Improve | Healthy */}
-      <div id="store-findings-section">
+      {/* 3. GUIDED ACTION CENTER & REVIEW WORKFLOW */}
+      <div id="action-center-section">
+        <MerchantActionCenter
+          issues={issues}
+          onApproveIssue={onApproveIssue}
+          onDismissIssue={onDismissIssue}
+          onInspectIssue={onInspectIssue}
+          onNavigateCatalog={onNavigateProducts}
+          readinessScore={readinessScore}
+        />
+      </div>
+
+      {/* 4. FINDINGS GROUPED BY ACTION PRIORITY: Must Fix | Improve | Healthy (Section 15) */}
+      <div id="needs-attention-section">
         <StoreFindingsSection
           issues={issues}
           onInspectProduct={handleInspectProduct}
-          onOpenActionCenter={scrollToActionCenter}
           onResolveIssue={(id) => onApproveIssue && onApproveIssue(id)}
         />
       </div>
@@ -185,91 +289,6 @@ export const MerchantOverviewHome: React.FC<MerchantOverviewHomeProps> = ({
           }
         }}
       />
-
-      {/* 5. GUIDED ACTION CENTER WORKSPACE (Secondary Guided Resolution) */}
-      <div id="action-center-section" className="border border-stone-200/80 rounded-3xl bg-white overflow-hidden shadow-xs">
-        <div 
-          onClick={() => setShowActionCenter(!showActionCenter)}
-          className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer hover:bg-stone-50/60 transition-colors"
-        >
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-800">
-                Advanced Workspace
-              </span>
-              <span className="text-xs text-stone-400 font-medium">·</span>
-              <span className="text-xs font-semibold text-stone-700">
-                Guided Review & Diff Verification
-              </span>
-            </div>
-            <h3 className="text-base font-bold text-stone-900">
-              Merchant Action Center
-            </h3>
-            <p className="text-xs text-stone-500">
-              For managers who want to inspect side-by-side evidence diffs, arbitrate discrepancies, and commit verified values item by item.
-            </p>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              type="button"
-              className="px-4 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
-            >
-              {showActionCenter ? 'Collapse Action Center ▲' : 'Open Action Center ▼'}
-            </button>
-          </div>
-        </div>
-
-        {showActionCenter && (
-          <div className="p-6 pt-0 border-t border-stone-100 animate-in fade-in">
-            <MerchantActionCenter
-              issues={issues}
-              onApproveIssue={onApproveIssue}
-              onDismissIssue={onDismissIssue}
-              onInspectIssue={onInspectIssue || ((iss) => onNavigateIssues())}
-              onNavigateCatalog={onNavigateProducts}
-              onNavigateReadiness={onNavigateDiscovery}
-              onNavigateIntegrations={onNavigateIntegrations}
-              onAddProducts={onAddProducts || onNavigateProducts}
-              readinessScore={readinessScore}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* 6. ADVANCED WORKSPACE SHORTCUTS */}
-      <div className="p-6 rounded-3xl bg-white border border-stone-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider">
-            Operational Workspaces
-          </h4>
-          <p className="text-xs text-stone-500">
-            Jump directly to catalog management, continuous monitoring, or technical feeds.
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={onNavigateProducts}
-            className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
-          >
-            Catalog ({CANONICAL_SYSTEM_KPIS.totalCatalogProducts} Products) →
-          </button>
-          <button
-            type="button"
-            onClick={onNavigateVisibility || onNavigateDiscovery}
-            className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
-          >
-            Visibility Intelligence →
-          </button>
-          <button
-            type="button"
-            onClick={onNavigateIssues}
-            className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition-colors cursor-pointer"
-          >
-            Issues ({openIssuesCount} Items to Fix) →
-          </button>
-        </div>
-      </div>
 
     </div>
   );

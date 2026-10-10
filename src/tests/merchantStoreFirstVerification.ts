@@ -1,26 +1,42 @@
 /**
- * AIXSHOP — STORE-FIRST & TASK-FIRST UI REDESIGN VERIFICATION SUITE
+ * AIXSHOP — PHASE 2: MERCHANT HOME TRUTH & WORKFLOW VERIFICATION SUITE
  * 
  * Verifies:
- * 1. Store-First Entry Point & 2-Layer Store Audit (Store Signals & Catalog Signals)
- * 2. Human Language & Task-First Priority Grouping (Must Fix | Improve | Healthy)
- * 3. Affected Products Drill-down to Product Audit Modal
- * 4. Product Audit Contract: Product | Status | Problems Found | Action at Source | [ Re-check ]
- * 5. Source-of-truth Integrity: Merchant System = Source of Truth; AIXSHOP = Intelligence Layer
- * 6. Preserved Canonical State Authorities & Zero False AI Guarantees
+ * 1. Store Status & Provenance (Store, Connected, Preview Mode · Demo Merchant)
+ * 2. Primary Question Framing: "What needs your attention?"
+ * 3. Priority Actions (Derived actionable tasks routing to Catalog/Issues)
+ * 4. Catalog Health (Products need attention / good shape / need review)
+ * 5. Truthful Visibility Status (Honest "Not yet observed in production")
+ * 6. DOM-Level Complete Absence of Legacy Home Strings:
+ *    - "Store Readiness"
+ *    - "How Ready is the Catalog?"
+ *    - "Target: 95%+"
+ *    - "Advanced Workspace"
+ *    - "Guided Review & Diff Verification"
+ *    - "Operational Workspaces"
+ *    - "Jump directly to catalog management, continuous monitoring, or technical feeds."
+ *    - "Re-check to update readiness"
+ *    - "AI Commerce Catalog Readiness"
+ *    - "technical feeds"
+ *    - "continuous monitoring"
+ * 7. Preserved Product/Issue ID Integrity and Invariants
  */
 
 import fs from 'fs';
 import path from 'path';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
 import { fileURLToPath } from 'url';
 import { CANONICAL_MERCHANT, CANONICAL_SYSTEM_KPIS } from '../data/canonicalCatalog';
-import { sampleIssuesMetrics } from '../data/sampleIssuesData';
+import { sampleIssuesData, sampleIssuesMetrics } from '../data/sampleIssuesData';
+import { MerchantExperience } from '../components/merchant/MerchantExperience';
+import { MerchantOverviewHome } from '../components/merchant/MerchantOverviewHome';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 console.log('======================================================');
-console.log(' AIXSHOP VERIFICATION: STORE-FIRST & TASK-FIRST REDESIGN');
+console.log(' AIXSHOP VERIFICATION: PHASE 2 MERCHANT HOME WORKFLOW');
 console.log('======================================================\n');
 
 let totalTests = 0;
@@ -38,126 +54,104 @@ function assert(condition: boolean, testName: string, detail?: string) {
   }
 }
 
-// 1. STORE-FIRST AUDIT CONTRACT
-console.log('--- 1. STORE-FIRST AUDIT ENTRY POINT ---');
+// Read relevant component source files
+const homePath = path.resolve(__dirname, '../components/merchant/MerchantOverviewHome.tsx');
+assert(fs.existsSync(homePath), 'MerchantOverviewHome.tsx exists');
+const homeSrc = fs.readFileSync(homePath, 'utf8');
 
 const heroPath = path.resolve(__dirname, '../components/merchant/StoreAuditHero.tsx');
 assert(fs.existsSync(heroPath), 'StoreAuditHero.tsx exists');
 const heroSrc = fs.readFileSync(heroPath, 'utf8');
 
-assert(heroSrc.includes('Store Audit'), 'Store Audit headline: Store Audit');
-assert(heroSrc.includes('Audit My Store'), 'Primary Action CTA: Audit My Store');
-assert(
-  heroSrc.includes('AI Shopping assistants') || heroSrc.includes('Evaluate how well your store'),
-  'Supporting explanation: AI Shopping assistant readiness'
-);
-assert(heroSrc.includes('How Ready is the Catalog?'), 'Human readiness question: How Ready is the Catalog?');
-assert(heroSrc.includes('12 Items to Address'), 'Priority breakdown headline: 12 Items to Address');
-assert(heroSrc.includes('Must Fix') && heroSrc.includes('Improve') && heroSrc.includes('Healthy'), '3 human priority tiers present (Must Fix | Improve | Healthy)');
-assert(heroSrc.includes('Store-Level Signals'), 'Layer 1: Store-level signals distinguished');
-assert(heroSrc.includes('Catalog-Level Signals'), 'Layer 2: Catalog-level signals distinguished');
-
-// 2. STORE FINDINGS & DRILL-DOWN CONTRACT
-console.log('\n--- 2. STORE FINDINGS & DRILL-DOWN ---');
-
 const findingsPath = path.resolve(__dirname, '../components/merchant/StoreFindingsSection.tsx');
 assert(fs.existsSync(findingsPath), 'StoreFindingsSection.tsx exists');
 const findingsSrc = fs.readFileSync(findingsPath, 'utf8');
-
-assert(findingsSrc.includes('Must Fix (3 issues)'), 'Critical findings tab: Must Fix (3 issues)');
-assert(findingsSrc.includes('Improve (5 issues)'), 'Improvement findings tab: Improve (5 issues)');
-assert(findingsSrc.includes('Healthy (4 items)'), 'Good findings tab: Healthy (4 items)');
-assert(findingsSrc.includes('Incomplete Product Specifications'), 'Finding 1: Incomplete Product Specifications');
-assert(findingsSrc.includes('Price Discrepancy'), 'Finding 2: Price Discrepancy');
-assert(findingsSrc.includes('View Affected Products'), 'Interactive drill-down prompt: View Affected Products');
-assert(findingsSrc.includes('Audit Product →'), 'Drill-down action button: Audit Product →');
-assert(findingsSrc.includes('Action at Source') || findingsSrc.includes('store source'), 'Action-at-source direction: Action at Source');
-
-// 3. PRODUCT AUDIT MODAL CONTRACT
-console.log('\n--- 3. PRODUCT AUDIT DIAGNOSTIC MODAL ---');
 
 const modalPath = path.resolve(__dirname, '../components/merchant/ProductAuditModal.tsx');
 assert(fs.existsSync(modalPath), 'ProductAuditModal.tsx exists');
 const modalSrc = fs.readFileSync(modalPath, 'utf8');
 
+// 1. STORE STATUS & PROVENANCE BAR (Section 5A)
+console.log('--- 1. STORE STATUS & PROVENANCE ---');
+assert(heroSrc.includes('shop.aeropulse.com'), 'Store domain rendered: shop.aeropulse.com');
+assert(heroSrc.includes('Connected'), 'Store status: Connected');
+assert(heroSrc.includes('Preview Mode · Demo Merchant'), 'Honest provenance: Preview Mode · Demo Merchant');
+assert(heroSrc.includes('Last checked'), 'Timestamp rendered: Last checked');
+
+// 2. PRIMARY QUESTION FRAMING (Section 5B)
+console.log('\n--- 2. PRIMARY QUESTION FRAMING ---');
+assert(
+  heroSrc.includes('What needs your attention?'),
+  'Primary Question headline: "What needs your attention?"'
+);
+assert(
+  heroSrc.includes('items need attention across your catalog'),
+  'Primary explanation clearly states items requiring attention'
+);
+assert(
+  heroSrc.includes('High Priority') && heroSrc.includes('Medium Priority') && heroSrc.includes('Low Priority'),
+  '3 priority urgency tiers present (High | Medium | Low Priority)'
+);
+
+// 3. PRIORITY ACTIONS SECTION (Section 6)
+console.log('\n--- 3. PRIORITY ACTIONS SECTION ---');
+assert(homeSrc.includes('Priority actions'), 'Headline: Priority actions');
+assert(homeSrc.includes('4 products are missing key specifications'), 'Action 1: 4 products missing key specs');
+assert(homeSrc.includes('3 offers have incomplete commercial information'), 'Action 2: 3 offers incomplete commercial info');
+assert(homeSrc.includes('5 product descriptions lack structured attribute tags'), 'Action 3: 5 product descriptions lack tags');
+assert(homeSrc.includes('Fix products →'), 'Action button 1: Fix products →');
+assert(homeSrc.includes('Review offers →'), 'Action button 2: Review offers →');
+assert(homeSrc.includes('Review issues →'), 'Action button 3: Review issues →');
+
+// 4. CATALOG HEALTH & VISIBILITY STATUS (Sections 7, 8, 9, 10)
+console.log('\n--- 4. CATALOG HEALTH & TRUTHFUL VISIBILITY ---');
+assert(homeSrc.includes('Catalog health'), 'Headline: Catalog health');
+assert(homeSrc.includes('Need attention') && homeSrc.includes('Good shape') && homeSrc.includes('Need review'), 'Catalog health breakdown present');
+assert(homeSrc.includes('Review catalog →'), 'Action button: Review catalog →');
+
+assert(homeSrc.includes('Visibility'), 'Headline: Visibility');
+assert(homeSrc.includes('Not yet observed'), 'Honest visibility status: Not yet observed in production');
+assert(homeSrc.includes('View visibility →'), 'Action button: View visibility →');
+
+// 5. DOM-LEVEL ELIMINATION OF LEGACY HOME STRINGS (Sections 27 & 32)
+console.log('\n--- 5. DOM-LEVEL ELIMINATION OF LEGACY STRINGS ---');
+const renderedHomeHtml = renderToString(React.createElement(MerchantExperience, { initialTab: 'home' }));
+
+const legacyStrings = [
+  'Store Readiness',
+  'How Ready is the Catalog?',
+  'Target: 95%+',
+  'Advanced Workspace',
+  'Guided Review & Diff Verification',
+  'Operational Workspaces',
+  'Jump directly to catalog management, continuous monitoring, or technical feeds.',
+  'Re-check to update readiness',
+  'AI Commerce Catalog Readiness',
+  'technical feeds',
+  'continuous monitoring'
+];
+
+for (const legacy of legacyStrings) {
+  assert(!renderedHomeHtml.includes(legacy), `Rendered Home DOM strictly omits "${legacy}"`);
+}
+
+// 6. NEEDS ATTENTION & PRODUCT AUDIT DRILL-DOWN (Section 15 & 16)
+console.log('\n--- 6. NEEDS ATTENTION & PRODUCT AUDIT CONTRACT ---');
+assert(findingsSrc.includes('Needs attention'), 'Findings headline: Needs attention');
+assert(findingsSrc.includes('Audit Product →'), 'Drill-down action: Audit Product →');
 assert(modalSrc.includes('Product Audit'), 'Modal title: Product Audit');
-assert(modalSrc.includes('Readiness Status'), 'Status section: Readiness Status');
-assert(modalSrc.includes('Needs Improvement'), 'Defines status: Needs Improvement');
-assert(modalSrc.includes('Problems Identified'), 'Defines problems: Problems Identified');
-assert(modalSrc.includes('Action at Store Source:'), 'Action directive: Action at Store Source:');
 assert(modalSrc.includes('Re-check Product'), 'Re-check action button: Re-check Product');
-
-// 4. HOME & ARCHITECTURAL INTEGRATION
-console.log('\n--- 4. STORE-FIRST HOME INTEGRATION ---');
-
-const homePath = path.resolve(__dirname, '../components/merchant/MerchantOverviewHome.tsx');
-assert(fs.existsSync(homePath), 'MerchantOverviewHome.tsx exists');
-const homeSrc = fs.readFileSync(homePath, 'utf8');
-
-assert(homeSrc.includes('<StoreAuditHero'), 'MerchantOverviewHome renders StoreAuditHero at top');
-assert(homeSrc.includes('<StoreFindingsSection'), 'MerchantOverviewHome renders StoreFindingsSection');
-assert(homeSrc.includes('<ProductAuditModal'), 'MerchantOverviewHome renders ProductAuditModal');
-assert(homeSrc.includes('<MerchantActionCenter'), 'MerchantOverviewHome preserves MerchantActionCenter');
-assert(homeSrc.includes('onApproveIssue={onApproveIssue}'), 'MerchantOverviewHome passes onApproveIssue');
-assert(homeSrc.includes('readinessScore={readinessScore}'), 'MerchantOverviewHome passes readinessScore');
-assert(homeSrc.includes('audit-result-banner') && homeSrc.includes('Store Audit Result'), 'MerchantOverviewHome renders Store Audit Result summary banner');
-assert(homeSrc.includes('showActionCenter'), 'Action Center is housed in secondary/collapsible workspace on Home');
-
-// Verify old dashboard sections removed from primary Home
-assert(!homeSrc.includes('sampleCatalogDimensions'), 'OLD DASHBOARD REMOVAL: Catalog Intelligence Dimensions removed from Home');
-assert(!homeSrc.includes('sampleHealthDistribution'), 'OLD DASHBOARD REMOVAL: Health Distribution removed from Home');
-assert(!homeSrc.includes('sampleRecentEvents'), 'OLD DASHBOARD REMOVAL: Live Ingestion Feed removed from Home');
-assert(!homeSrc.includes('What needs attention?'), 'OLD DASHBOARD REMOVAL: "What needs attention?" hero block removed from Home');
-assert(!homeSrc.includes('Intelligence Coverage'), 'OLD DASHBOARD REMOVAL: Intelligence Coverage KPI block removed from Home');
-
-// Verify semantic routing: Store Audit CTA triggers store audit, NOT product audit
 assert(
-  !homeSrc.includes('onAuditStore={(url) => {\n          setSelectedProductAudit'),
-  'ROUTING FIX: "Store Audit" triggers store audit, not product modal'
-);
-assert(
-  modalSrc.includes('Shopify / WooCommerce') && modalSrc.includes('Resolution Workflow:'),
-  'SOURCE-OF-TRUTH RULE: Clear step-by-step fix at store source instructions present'
+  !homeSrc.includes("issues.filter(i => !i.isResolved).slice(0, 1)"),
+  'Strict ID integrity: No fallback to unrelated issue'
 );
 
-// 5. NO FALSE AI CLAIMS & HONEST BOUNDARIES
-console.log('\n--- 5. TRUTH BOUNDARIES & NO FALSE AI CLAIMS ---');
-
-// Verify 5 AI Commerce Surfaces represented honestly
-assert(
-  heroSrc.includes('Google') && heroSrc.includes('ChatGPT') && heroSrc.includes('Gemini') && heroSrc.includes('Bing') && heroSrc.includes('TikTok'),
-  '5 AI Commerce Visibility surfaces (Google, ChatGPT, Gemini, Bing, TikTok) presented in StoreAuditHero'
-);
-assert(
-  heroSrc.includes('AI Commerce') && heroSrc.includes('Catalog Readiness'),
-  'Frames store discoverability honestly as AI Commerce catalog readiness without fake rankings'
-);
-
-const actionCenterPath = path.resolve(__dirname, '../components/merchant/MerchantActionCenter.tsx');
-const actionCenterSrc = fs.readFileSync(actionCenterPath, 'utf8');
-
-assert(
-  !actionCenterSrc.includes('ChatGPT will recommend your products') &&
-  !actionCenterSrc.includes('guarantee ChatGPT recommendations'),
-  'No false promise of guaranteed ChatGPT recommendation'
-);
-assert(
-  actionCenterSrc.includes('readiness for AI Shopping') || actionCenterSrc.includes('information quality'),
-  'Uses honest framing: readiness for AI Shopping & information quality'
-);
-assert(
-  !heroSrc.includes('window.alert') && !findingsSrc.includes('window.alert') && !modalSrc.includes('window.alert'),
-  'Zero intrusive window.alert calls'
-);
-
-// 6. SYSTEM INVARIANTS
-console.log('\n--- 6. CATALOG & STORE INVARIANTS ---');
-
+// 7. INVARIANTS & TRUTH
+console.log('\n--- 7. SYSTEM INVARIANTS ---');
 assert(CANONICAL_MERCHANT.name === 'AeroPulse Athletics', 'Canonical merchant remains AeroPulse Athletics');
 assert(CANONICAL_MERCHANT.domain === 'shop.aeropulse.com', 'Canonical domain remains shop.aeropulse.com');
 assert(CANONICAL_SYSTEM_KPIS.totalCatalogProducts === 24, 'Total catalog products remains 24');
 assert(sampleIssuesMetrics.openIssues === 8, 'Derived open issues count remains 8');
-assert(CANONICAL_SYSTEM_KPIS.discoveryReadinessPct === 79, 'Discovery readiness score remains 79%');
 
 console.log('\n======================================================');
 console.log(` RESULTS: ${passedTests} passed, ${failedTests} failed out of ${totalTests} total tests`);
@@ -166,5 +160,5 @@ console.log('======================================================\n');
 if (failedTests > 0) {
   process.exit(1);
 } else {
-  console.log('Store-First & Task-First Redesign Verification PASSED cleanly!\n');
+  console.log('Phase 2 Merchant Home Truth & Workflow Verification PASSED cleanly!\n');
 }

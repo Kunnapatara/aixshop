@@ -163,19 +163,19 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
   ];
 
   return (
-    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-xs space-y-6">
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-stone-200/80 shadow-xs space-y-5 sm:space-y-6 overflow-hidden">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 pb-5">
         <div>
           <span className="text-xs font-bold text-orange-600 uppercase tracking-wider block">
-            Store Findings
+            Needs attention
           </span>
           <h2 className="text-lg sm:text-xl font-extrabold text-stone-900 tracking-tight mt-0.5">
-            Diagnostic Issues & Source Actions
+            Catalog Issues & Source Actions
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 font-normal">
-            Grouped by priority — resolve at store source (Shopify, WooCommerce, Catalog) and re-check to update readiness.
+            Grouped by priority — resolve at store source (Shopify, WooCommerce, Catalog), then re-check to confirm.
           </p>
         </div>
 
@@ -191,45 +191,45 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
         )}
       </div>
 
-      {/* 3 Priority Tabs */}
-      <div className="flex items-center gap-2 border-b border-stone-200/70 pb-3">
+      {/* 3 Priority Tabs — Responsive 3-column on mobile */}
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-2 sm:flex sm:items-center border-b border-stone-200/70 pb-3">
         <button
           type="button"
           onClick={() => setActivePriorityTab('critical')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer text-center ${
             activePriorityTab === 'critical'
               ? 'bg-rose-600 text-white shadow-xs'
               : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
           }`}
         >
-          <AlertCircle className="w-3.5 h-3.5" />
-          <span>Must Fix (3 issues)</span>
+          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+          <span className="leading-tight">Must Fix <span className="opacity-80 text-[10px] sm:text-xs font-normal sm:font-bold">(3<span className="hidden sm:inline"> issues</span>)</span></span>
         </button>
 
         <button
           type="button"
           onClick={() => setActivePriorityTab('improvement')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer text-center ${
             activePriorityTab === 'improvement'
               ? 'bg-amber-600 text-white shadow-xs'
               : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
           }`}
         >
-          <AlertTriangle className="w-3.5 h-3.5" />
-          <span>Improve (5 issues)</span>
+          <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+          <span className="leading-tight">Improve <span className="opacity-80 text-[10px] sm:text-xs font-normal sm:font-bold">(5<span className="hidden sm:inline"> issues</span>)</span></span>
         </button>
 
         <button
           type="button"
           onClick={() => setActivePriorityTab('good')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer text-center ${
             activePriorityTab === 'good'
               ? 'bg-emerald-600 text-white shadow-xs'
               : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
           }`}
         >
-          <CheckCircle2 className="w-3.5 h-3.5" />
-          <span>Healthy (4 items)</span>
+          <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+          <span className="leading-tight">Healthy <span className="opacity-80 text-[10px] sm:text-xs font-normal sm:font-bold">(4<span className="hidden sm:inline"> items</span>)</span></span>
         </button>
       </div>
 
@@ -279,7 +279,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                       <Wrench className="w-4 h-4 text-orange-600 shrink-0 mt-0.5" />
                       <div className="text-xs text-orange-950">
                         <strong className="block text-orange-900 font-bold mb-0.5">Action at Source:</strong>
-                        {finding.recommendedAction} — After updating in your Shopify or WooCommerce admin, click Re-check to update readiness.
+                        {finding.recommendedAction} — After updating in your Shopify or WooCommerce admin, click Re-check to verify changes.
                       </div>
                     </div>
 
@@ -294,11 +294,11 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                           {finding.productsAffected.map((prod) => (
                             <div 
                               key={prod.id} 
-                              className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between gap-3 hover:border-orange-300 transition-colors"
+                              className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-orange-300 transition-colors"
                             >
                               <div className="space-y-1">
                                 <div className="text-xs font-bold text-stone-900 flex items-center gap-1.5">
-                                  <Package className="w-3.5 h-3.5 text-stone-500" />
+                                  <Package className="w-3.5 h-3.5 text-stone-500 shrink-0" />
                                   <span>{prod.name}</span>
                                 </div>
                                 <div className="text-[11px] text-rose-700 flex flex-wrap gap-1">
@@ -319,7 +319,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                                     onInspectProduct(prod.id, prod.name);
                                   }
                                 }}
-                                className="px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-black text-white text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
+                                className="w-full sm:w-auto text-center px-3 py-1.5 rounded-lg bg-stone-900 hover:bg-black text-white text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
                               >
                                 Audit Product →
                               </button>
@@ -382,7 +382,7 @@ export const StoreFindingsSection: React.FC<StoreFindingsSectionProps> = ({
                       <Wrench className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                       <div className="text-xs text-amber-950">
                         <strong className="block text-amber-900 font-bold mb-0.5">Action at Source:</strong>
-                        {finding.recommendedAction} — After updating in your Shopify or WooCommerce admin, click Re-check to update readiness.
+                        {finding.recommendedAction} — After updating in your Shopify or WooCommerce admin, click Re-check to verify changes.
                       </div>
                     </div>
 
